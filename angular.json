@@ -33,16 +33,23 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
+              "src/favicon.png",
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/global.scss"
+
             ],
             "scripts": []
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -93,11 +100,11 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/favicon.ico",
+              "src/favicon.png",
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/global.scss"
             ],
             "scripts": []
           }

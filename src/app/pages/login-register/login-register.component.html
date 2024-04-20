@@ -1,0 +1,70 @@
+<shared-header></shared-header>
+<div class="wrapper">
+  <div class="container">
+    <div class="forms-container">
+      <div class="form-control signup-form">
+        <form [formGroup]="signUpForm" (ngSubmit)="OnSignUpSubmit()">
+          <h2>Registrarse</h2>
+          <input type="email" formControlName="email" placeholder="Correo electrónico" />
+          <span class="form-text text-danger" *ngIf="isValidField('email', signUpForm)">{{ getFieldError('email', signUpForm) }}</span>
+
+          <input type="password" formControlName="password" placeholder="Contraseña"/>
+          <span class="form-text text-danger" *ngIf="isValidField('password', signUpForm)">{{ getFieldError('password', signUpForm) }}</span>
+
+          <input type="password" formControlName="repeatPassword" placeholder="Repetir contraseña"/>
+          <span class="form-text text-danger" *ngIf="isSignUpFormSubmitted && signUpForm.hasError('notEqual', 'repeatPassword')">{{ getFieldError('repeatPassword', signUpForm) }}</span>
+
+          <button id="btnRegistrar" type="submit">Registrarse</button>
+        </form>
+      </div>
+      <div class="form-control signin-form">
+        <form [formGroup]="signInForm" (ngSubmit)="OnSignInSubmit()">
+          <h2>Iniciar sesión</h2>
+          <input type="email" formControlName="email" placeholder="Correo electrónico" />
+          <span class="form-text text-danger" *ngIf="isValidField('email', signInForm)">{{ getFieldError('email', signInForm) }}</span>
+          <input type="password" formControlName="password" placeholder="Contraseña" />
+          <span class="form-text text-danger" *ngIf="isValidField('password', signInForm)">{{ getFieldError('password', signInForm) }}</span>
+          <button id="btnLogin" type="submit">Iniciar sesión</button>
+        </form>
+        <p id="newPassword" class="mt-3" style="cursor: pointer;">Recuperar contraseña</p>
+        <div class="password-recovery-form" style="display:none;">
+          <form [formGroup]="passwordRecoveryForm" (ngSubmit)="OnRecoverPasswordSubmit()">
+            <input type="email" formControlName="email" placeholder="Correo electrónico" />
+            <span class="form-text text-danger" *ngIf="isValidField('email', passwordRecoveryForm)">{{ getFieldError('email', passwordRecoveryForm) }}</span>
+            <button id="btnRecoverPass" type="submit">Solicitar nueva contraseña</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="intros-container">
+      <div class="intro-control signin-intro">
+        <div class="intro-control__inner">
+          <button id="signup-btn">¿No tienes cuenta? Registrate.</button>
+        </div>
+      </div>
+      <div class="intro-control signup-intro">
+        <div class="intro-control__inner">
+          <button id="signin-btn">¿Ya tienes cuenta? Inicia sesión.</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<h2>Form Valid: {{ signUpForm.valid }} </h2>
+<h2>Form Status: {{ signUpForm.status }} </h2>
+<h2>Form Pending: {{ signUpForm.pending }} </h2>
+<h2>Form errors</h2>
+<pre>{{ signUpForm.errors | json }}</pre>
+
+<h5>Email</h5>
+<pre>{{ signUpForm.controls['email'].errors | json }}</pre>
+
+
+
+<h5>Password</h5>
+<pre>{{ signUpForm.value.password | json }}</pre>
+
+<h5>Confirmar</h5>
+<pre>{{ signUpForm.controls['repeatPassword'].errors| json }}</pre>
+<pre>{{signUpForm.hasError('notEqual', 'repeatPassword')}}</pre>
+<shared-footer></shared-footer>

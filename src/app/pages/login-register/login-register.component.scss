@@ -1,0 +1,217 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--primary-light);
+  font-size: 14px;
+}
+
+.container {
+  width: 760px;
+  height: 480px;
+  position: relative;
+  margin: 50px auto;
+  padding: 0;
+  overflow: hidden;
+  background-image: url('../../../assets/form/form.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.container .forms-container {
+  position: relative;
+  width: 50%;
+  text-align: center;
+}
+
+.container .forms-container .form-control {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 480px;
+  transition: all 0.5s ease-in;
+  border-radius: 0;
+}
+
+.container .forms-container .form-control h2 {
+  font-size: 2rem;
+}
+
+.container .forms-container .form-control form {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 30px;
+}
+.container .forms-container .form-control form input {
+  margin: 10px 0px;
+  border: none;
+  padding: 15px;
+  background-color: #efefef;
+  border-radius: 5px;
+}
+
+.container .forms-container .form-control form button {
+  border: none;
+  padding: 15px;
+  margin-top: 5px;
+  background-color: black;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.container .forms-container .form-control form button:hover {
+  box-shadow: inset 0px 1px 17px 3px rgba(255, 255, 255, 0.60);
+}
+
+.container .forms-container .form-control.signup-form {
+  opacity: 0;
+  z-index: 1;
+  left: 200%;
+}
+.container .forms-container .form-control.signin-form {
+  opacity: 1;
+  z-index: 2;
+  left: 0%;
+}
+.container .intros-container {
+  position: relative;
+  left: 50%;
+  width: 50%;
+  text-align: center;
+}
+.container .intros-container .intro-control {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 480px;
+  color: #fff;
+  transition: all 0.5s ease-in;
+}
+.container .intros-container .intro-control .intro-control__inner {
+  margin: 0px 30px;
+}
+.container .intros-container .intro-control button {
+  border: none;
+  padding: 15px 30px;
+  background-color: black;
+  border-radius: 50px;
+  color: #fff;
+  margin: 10px 0px;
+  cursor: pointer;
+  transition:all 0.3s ease-in;
+}
+.container .intros-container .intro-control button:focus,
+.container .intros-container .intro-control button:hover {
+  box-shadow: inset 0px 1px 17px 3px rgba(255, 255, 255, 0.60);
+}
+
+.container .intros-container .intro-control.signin-intro {
+  opacity: 1;
+  z-index: 2;
+}
+.container .intros-container .intro-control.signup-intro {
+  opacity: 0;
+  z-index: 1;
+}
+
+.change .forms-container .form-control.signup-form {
+  opacity: 1;
+  z-index: 2;
+  transform: translateX(-100%);
+}
+.change .forms-container .form-control.signup-form button {
+  background-color: black;
+}
+.change .forms-container .form-control.signin-form {
+  opacity: 0;
+  z-index: 1;
+  transform: translateX(-100%);
+}
+.change .intros-container .intro-control {
+  transform: translateX(-100%);
+}
+.change .intros-container .intro-control #signin-btn {
+  background-color: black;
+}
+.change .intros-container .intro-control.signin-intro {
+  opacity: 0;
+  z-index: 1;
+}
+.change .intros-container .intro-control.signup-intro {
+  opacity: 1;
+  z-index: 2;
+}
+
+@media screen and (max-width: 576px) {
+  .container {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-image: none;
+    margin: 50px;
+    justify-content: center;
+  }
+  .container .forms-container {
+    width: 100%;
+    height: 480px;
+  }
+
+  .container .forms-container .form-control h2 {
+    color: white;
+    backdrop-filter: blur(10px);
+    padding: 0 5px;
+    text-align: center;
+  }
+
+  .container .forms-container .form-control.signup-form{
+    left: 0%;
+    background-image: url('../../../assets/form/form.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .container .forms-container .form-control.signin-form {
+    left: 0%;
+    background-image: url('../../../assets/form/form.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .container .intros-container {
+    order: 2;
+    width: 100%;
+    left: 0%;
+    height: 70px;
+  }
+  .container .intros-container .intro-control {
+    height: auto;
+    background-color: white;
+  }
+
+  .container .intros-container .intro-control button{
+    padding: 10px 10px;
+  }
+
+  .change .forms-container .form-control.signup-form {
+    transform: translateX(0%);
+  }
+  .change .forms-container .form-control.signin-form {
+    transform: translateX(0%);
+  }
+  .change .intros-container .intro-control {
+    transform: translateX(0%);
+  }
+}
+
+.invalid{
+  border: 2px solid red !important;
+}

@@ -1,0 +1,487 @@
+$c-lannister__main: #901510;
+$c-lannister__sec: #f1b62c;
+$lannister__sigil: '../../../../assets/icon/words/lannister.png';
+
+$c-arryn__main: #151c53;
+$c-arryn__sec: #d1cebb;
+$arryn__sigil: '../../../../assets/icon/words/arryn.png';
+
+$c-baratheon__main: #fdce20;
+$c-baratheon__sec: #000;
+$baratheon__sigil: '../../../../assets/icon/words/baratheon.png';
+
+$c-stark__main: #ece6db;
+$c-stark__sec: #989898;
+$stark__sigil: '../../../../assets/icon/words/stark.png';
+
+$c-tully__main: #00173d;
+$c-tully__sec: #af1d1e;
+$c-tully__third: #c7c5c6;
+$tully__sigil: '../../../../assets/icon/words/tully.png';
+
+$c-tyrell__main: #006600;
+$c-tyrell__sec: #f1b62e;
+$tyrell__sigil: '../../../../assets/icon/words/tyrell.png';
+
+$c-greyjoy__main: #000;
+$c-greyjoy__sec: #fecc37;
+$greyjoy__sigil: '../../../../assets/icon/words/greyjoy.png';
+
+$c-martell__main: #faa703;
+$c-martell__sec: #e12812;
+$martell__sigil: '../../../../assets/icon/words/martell.png';
+
+$c-targaryen__main: #000;
+$c-targaryen__sec: #d13a1b;
+$targaryen__sigil: '../../../../assets/icon/words/targaryen.png';
+
+
+$houses-names: lannister, arryn, baratheon, stark, tully, tyrell, greyjoy, martell, targaryen;
+$houses-color-main: $c-lannister__main, $c-arryn__main, $c-baratheon__main, $c-stark__main, $c-tully__main, $c-tyrell__main, $c-greyjoy__main, $c-martell__main, $c-targaryen__main;
+$houses-color-sec: $c-lannister__sec, $c-arryn__sec, $c-baratheon__sec, $c-stark__sec, $c-tully__sec, $c-tyrell__sec, $c-greyjoy__sec, $c-martell__sec, $c-targaryen__sec;
+$houses-sigils: $lannister__sigil, $arryn__sigil, $baratheon__sigil, $stark__sigil, $tully__sigil, $tyrell__sigil, $greyjoy__sigil, $martell__sigil, $targaryen__sigil;
+$houses-texture-positions: center, center, center, center, center, center, center, center, center;
+$houses-style: zip($houses-names, $houses-color-main, $houses-color-sec, $houses-sigils, $houses-texture-positions);
+
+.section4 {
+  position: relative;
+  background-color: var(--primary-light);
+
+  h2 {
+    text-transform: uppercase;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .great-houses {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    min-width: 320px;
+    max-width: 1100px;
+
+    .house {
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      margin-top: .5rem;
+      overflow: hidden;
+      position: relative;
+      text-align: center;
+      vertical-align: center;
+      height: 10rem;
+      z-index: 2;
+
+      &:after {
+        box-shadow: inset 0 0 8px rgba(0, 0, 0, .8);
+        content: '';
+        display: block;
+        pointer-events: none;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+      }
+
+      .house__name {
+        font-size: 1.25rem;
+        font-weight: 400;
+        text-align: right;
+        margin: 0;
+      }
+
+      .house__motto {
+        margin: .5em 0 0;
+
+        span {
+          display: inline-block;
+          line-height: .8;
+        }
+
+        .line {
+          display: block;
+        }
+      }
+    }
+  }
+
+  button {
+    padding: 10px;
+    background-color: var(--primary-dark);
+    border-radius: 20px;
+    text-align: center;
+    color: var(--primary-light-light);
+    text-transform: uppercase;
+    margin: 55px 0px 70px 0px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: var(--primary-light-light);
+      color:var(--primary-dark)
+    }
+  }
+
+}
+
+/* ------------------------------------------------------------
+  Layout
+------------------------------------------------------------ */
+.house__name {
+  width: 100%;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  transition: all .4s ease-in;
+  z-index: 1;
+
+  span {
+    position: absolute;
+    right: 1em;
+    z-index: 2;
+  }
+}
+
+.house__motto {
+  flex: 1;
+  padding: 1rem 0;
+}
+
+.house:hover {
+  .house__name {
+    left: -100%;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .great-houses {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 90%;
+  }
+
+  .house {
+    margin: .5rem 1%;
+    width: 48%;
+  }
+
+  .house__name {
+
+
+    span {
+      bottom: 5%;
+      right: 5%;
+    }
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .house {
+    width: 31.33333333%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .great-houses {
+    flex-direction: column;
+  }
+}
+
+
+@each $house in $houses-style {
+  .is--#{nth($house, 1)} {
+    background-color: #{nth($house, 3)};
+    background-position: #{nth($house, 5)};
+    color: #{nth($house, 2)};
+
+    .house__name {
+      background-color: #{nth($house, 2)};
+      background-image: url(#{nth($house, 4)});
+
+    &:before,
+    &:after {
+      background: #{nth($house, 2)};
+    }
+  }
+}
+}
+
+/* Lannister
+---------------------------------------- */
+.is--lannister {
+  .house__name {
+    background-position: center left;
+    color: #fff;
+  }
+
+  .house__motto {
+    span {
+
+      &:nth-of-type(1),
+      &:nth-of-type(3) {
+        font-size: 3rem;
+        font-weight: bold;
+      }
+
+      &:nth-of-type(1) {
+        margin-bottom: .1em;
+        text-indent: -3.5rem;
+      }
+
+      &:nth-of-type(2) {
+        font-size: 1.5rem;
+        position: relative;
+        top: .2em;
+        vertical-align: top;
+        text-indent: 2rem;
+      }
+    }
+  }
+}
+
+/* Arryn ---------------------------------------- */
+.is--arryn {
+  .house__name {
+    background-position: center left;
+    color: #fff;
+  }
+
+  .house__motto {
+    margin-top: 0;
+
+    span {
+
+      &:nth-of-type(2),
+      &:nth-of-type(4) {
+        font-weight: bold;
+      }
+
+      &:nth-of-type(2) {
+        font-size: 3rem;
+      }
+
+      &:nth-of-type(4) {
+        font-size: 2.25rem;
+      }
+
+      &:nth-of-type(1),
+      &:nth-of-type(3) {
+        margin: .25em 0 .3em;
+      }
+    }
+  }
+}
+
+/* Baratheon ---------------------------------------- */
+.is--baratheon {
+  .house__name {
+    background-position: center left;
+    color: #000;
+  }
+
+  .house__motto {
+    .line {
+      margin-bottom: .5em;
+
+      span:nth-of-type(1) {
+        font-size: 3.25rem;
+        font-weight: bold;
+      }
+
+      span:nth-of-type(2) {
+        vertical-align: baseline;
+      }
+    }
+
+    span:nth-of-type(2) {
+      font-size: 1.5rem;
+      margin: 0 .1em;
+      position: relative;
+      top: .1em;
+      vertical-align: top;
+    }
+
+    span:nth-of-type(3) {
+      font-size: 2.75rem;
+      font-weight: bold;
+    }
+  }
+}
+
+/* Stark ---------------------------------------- */
+.is--stark {
+  .house__name {
+    background-position: center left;
+    color: #000;
+  }
+
+  .house__motto {
+    span {
+
+      &:nth-of-type(1),
+      &:nth-of-type(3) {
+        font-weight: bold;
+      }
+
+      &:nth-of-type(1) {
+        font-size: 3rem;
+        margin-bottom: .15em;
+      }
+
+      &:nth-of-type(2) {
+        font-size: 1.5rem;
+        vertical-align: top;
+        margin: 0 .15em;
+        position: relative;
+        top: .1em;
+      }
+
+      &:nth-of-type(3) {
+        font-size: 2.5rem;
+      }
+    }
+  }
+}
+
+/* Tully ---------------------------------------- */
+.is--tully {
+  .house__name {
+    background-position: center left;
+    color: #fff;
+  }
+
+  .house__motto {
+    span {
+      font-weight: bold;
+      margin-bottom: .25rem;
+
+      &:nth-of-type(1) {
+        font-size: 2.3rem;
+      }
+
+      &:nth-of-type(2) {
+        font-size: 3rem;
+      }
+
+      &:nth-of-type(3) {
+        font-size: 2.3rem;
+      }
+    }
+  }
+}
+
+/* Tyrell ----------------------------------------- */
+.is--tyrell {
+  .house__name {
+    background-position: center left;
+    color: #fff;
+  }
+
+  .house__motto {
+    span {
+      &:nth-of-type(1) {
+        font-size: 2.65rem;
+        margin-bottom: .15em;
+      }
+
+      &:nth-of-type(2) {
+        font-size: 3rem;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+/* Greyjoy ----------------------------------------- */
+.is--greyjoy {
+  .house__name {
+    background-position: center left;
+    color: #fff;
+  }
+
+  .house__motto {
+    span {
+      &:nth-of-type(1) {
+        font-size: 2rem;
+      }
+
+      &:nth-of-type(2) {
+        font-size: 2.75rem;
+        font-weight: bold;
+        letter-spacing: -.05em;
+        margin: .1em;
+      }
+
+      &:nth-of-type(3) {
+        font-size: 2rem;
+      }
+    }
+  }
+}
+
+/* Martell ----------------------------------------- */
+.is--martell {
+  .house__name {
+    background-position: center left;
+    color: #000;
+  }
+
+  .house__motto {
+    span {
+
+      &:nth-of-type(1),
+      &:nth-of-type(3) {
+        font-weight: bold;
+      }
+
+      &:nth-of-type(1) {
+        font-size: 2rem;
+      }
+
+      &:nth-of-type(2) {
+        font-size: 2.6rem;
+        margin: .12em 0 .15em;
+      }
+
+      &:nth-of-type(3) {
+        font-size: 1.9rem;
+      }
+    }
+  }
+}
+
+/* Targaryen ----------------------------------------- */
+.is--targaryen {
+  .house__name {
+    background-position: center left;
+    color: #fff;
+  }
+
+  .house__motto {
+    span {
+
+      &:nth-of-type(1),
+      &:nth-of-type(3) {
+        font-weight: bold;
+      }
+
+      &:nth-of-type(1) {
+        font-size: 3.25rem;
+        letter-spacing: .1em;
+      }
+
+      &:nth-of-type(2) {
+        font-size: 1.25rem;
+        margin: .15em 0 .2em;
+      }
+
+      &:nth-of-type(3) {
+        font-size: 3.25rem;
+        letter-spacing: .1em;
+      }
+    }
+  }
+}

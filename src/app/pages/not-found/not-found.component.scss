@@ -1,0 +1,37 @@
+.error{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: 30em;
+  margin: 50px auto;
+}
+
+.button {
+  font-weight: 300;
+  color: black;
+  font-size: 1.2em;
+  text-decoration: none;
+  border: 1px solid black;
+  padding: .5em;
+  border-radius: 3px;
+  transition: all .3s linear;
+  margin: 0 auto;
+}
+
+.button:hover {
+  background-color: black;
+  color: #fff;
+}
+
+p {
+  font-size: 2em;
+  text-align: center;
+  font-weight: bold;
+}
+
+h1 {
+  text-align: center;
+  font-size: 15em;
+  font-weight: 100;
+}

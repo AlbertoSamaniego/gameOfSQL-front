@@ -1,0 +1,38 @@
+header{
+  background-color: var(--primary-dark);
+  position: relative;
+  z-index: 1000;
+
+  .contenedor{
+    padding: 1rem;
+    height: auto;
+  }
+
+  button{
+    background-color: var(--primary-light-light);
+    color: var(--primary-dark);
+    transition: all 0.3s ease;
+    border: 0;
+
+    &:hover{
+      background-color: var(--primary-dark);
+      color: var(--primary-light-light);
+      border: 1px solid var(--primary-light-light);
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  header {
+    .contenedor {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    button {
+      margin-top: 1rem;
+    }
+  }
+}
+
+

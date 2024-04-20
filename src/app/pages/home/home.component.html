@@ -1,0 +1,116 @@
+<shared-header></shared-header>
+<div>
+  <section class="section1">
+    <div class="banner">
+      <ng-template ngFor let-config [ngForOf]="snowFlakes">
+        <snow-flake [depth]="config.depth" [speed]="config.speed" [style.left.vw]="config.left"></snow-flake>
+      </ng-template>
+      <div class="info">
+        <h1>Una nueva forma de aprender SQL</h1>
+        <p>Sumérgete en el intrincado mundo de Juego de Tronos donde pondrás a prueba tus conocimientos de SQL. ¡Únete
+          al ejército norteño y comienza tu viaje hacia el dominio de SQL mientras exploras el universo de Canción de
+          Hielo y Fuego!</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section2">
+    <div class="card-container">
+      <div class="card">
+        <img src="../../../../assets/img/banner/learn.png" alt="Aprende">
+        <div class="card-content">
+          <h4>APRENDE</h4>
+          <p>Vive aventuras emocionantes en las tierras de Poniente, donde un fallo tiene sus consecuencias. Cada final
+            desbloquea un emblema único.</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="../../../../assets/img/banner/practice.png" alt="Practica">
+        <div class="card-content">
+          <h4>PRACTICA</h4>
+          <p>Aumenta tu nivel de conocimiento sobre DDL y DML mientras encaras a los Lannister mediante sentencias
+            SELECT, UPDATE, DELETE, CREATE VIEW, ... ¡y mucho más!</p>
+        </div>
+      </div>
+      <div class="card">
+        <img src="../../../../assets/img/banner/innovate.png" alt="Innova">
+        <div class="card-content">
+          <h4>INNOVA</h4>
+          <p>Con tus nuevas habilidades en SQL, estarás preparado para enfrentar desafíos profesionales y contribuir de
+            manera significativa en proyectos que requieran el manejo eficiente de datos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section3">
+    <div class="marquee">
+      <div>
+        <span>CADA PARTIDA ... ¡¡UNA AVENTURA ÚNICA!!</span>
+        <span>CADA PARTIDA ... ¡¡UNA AVENTURA ÚNICA!!</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section4">
+    <div class="great-houses">
+      <h2>Sumérgete en el universo de Juego de Tronos mientras aprendes SQL junto con las casas más icónicas de Poniente
+      </h2>
+      <article class="house is--targaryen">
+        <h2 class="house__name"><span>Targaryen</span></h2>
+        <p class="house__motto"><span>Fuego</span> <span class="line">y</span> <span>sangre</span></p>
+      </article>
+
+      <article class="house is--baratheon">
+        <h2 class="house__name"><span>Baratheon</span></h2>
+        <p class="house__motto"><span class="line"><span>nuestra</span> <span>es</span></span> <span>la</span>
+          <span>furia</span>
+        </p>
+      </article>
+
+      <article class="house is--tully">
+        <h2 class="house__name"><span>Tully</span></h2>
+        <p class="house__motto"><span class="line">Familia</span> <span class="line">deber</span> <span>honor</span></p>
+      </article>
+
+      <article class="house is--lannister">
+        <h2 class="house__name"><span>Lannister</span></h2>
+        <p class="house__motto"><span class="line">Oye</span> <span>mi</span> <span>rugido</span></p>
+      </article>
+
+      <article class="house is--tyrell">
+        <h2 class="house__name"><span>Tyrell</span></h2>
+        <p class="house__motto"><span class="line">Creciendo</span> <span>fuerte</span></p>
+      </article>
+
+      <article class="house is--stark">
+        <h2 class="house__name"><span>Stark</span></h2>
+        <p class="house__motto"><span class="line">El invierno</span> <span>se</span> <span>acerca</span></p>
+      </article>
+
+      <article class="house is--arryn">
+        <h2 class="house__name"><span>Arryn</span></h2>
+        <p class="house__motto"><span class="line">Tan</span> <span class="line">alto</span> <span class="line">como
+            el</span>
+          <span class="line">honor</span>
+        </p>
+      </article>
+
+      <article class="house is--martell">
+        <h2 class="house__name"><span>Martell</span></h2>
+        <p class="house__motto"><span class="line">Nunca</span> <span class="line">doblegado,</span> <span
+            class="line">nunca roto</span></p>
+      </article>
+
+      <article class="house is--greyjoy">
+        <h2 class="house__name"><span>Greyjoy</span></h2>
+        <p class="house__motto"><span>Nosotros</span> <span class="line">no</span> <span>sembramos</span></p>
+      </article>
+    </div>
+    <div class="button-container d-flex justify-content-center">
+      <button class="center-button" routerLink="/login-register">¡Empieza ahora!</button>
+    </div>
+
+  </section>
+</div>
+<shared-footer></shared-footer>
