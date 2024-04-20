@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValidatorsService } from '../../shared/services/validators.service';
-import { EmailValidator } from '../../shared/validators/email-validator.service';
+import { UserService } from '../../shared/services/user-service.service';
+import { User } from '../../shared/interfaces/user.interface';
 
 @Component({
   selector: 'app-login-register',
@@ -12,7 +13,7 @@ export class LoginRegisterComponent {
 
   //Rules validations for the form sign in
   public signInForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required]/* , [this.emailValidator]  */],
+    email: ['', [Validators.required]],
     password: ['', [Validators.required]],
   });
 
@@ -33,9 +34,10 @@ export class LoginRegisterComponent {
   public isSignUpFormSubmitted: boolean = false;
   public isSignInFormSubmitted: boolean = false;
   public isPasswordRecoveryFormSubmitted: boolean = false;
+  public users: User[] = [];
 
 
-  constructor(private fb: FormBuilder, private validatorsService: ValidatorsService, private emailValidator: EmailValidator) { }
+  constructor(private fb: FormBuilder, private validatorsService: ValidatorsService, private registeredUsersService: UserService) { }
 
   ngOnInit(): void {
     const signupBtn: HTMLElement | null = document.getElementById("signup-btn");
@@ -98,25 +100,74 @@ export class LoginRegisterComponent {
     return null;
   }
 
-  OnSignUpSubmit() {
+  async getUsers(): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.registeredUsersService.getUsers().subscribe({
+        next: (users) => {
+          this.users = users;
+          console.log('Users:', this.users);
+          resolve();
+        },
+        error: (error) => {
+          console.error('Error fetching users:', error);
+          reject(error);
+        }
+      });
+    });
+  }
+
+  isRegisteredUser(email: string): boolean {
+    return this.users.some(user => user.email === email);
+  }
+
+  isCredentialsValid(email: string, password: string): boolean {
+    return this.users.some(user => user.email === email && user.password === password);
+  }
+
+  async OnSignUpSubmit() {
     console.log('submited from: ', this.signUpForm.value, this.signUpForm.invalid);
     this.signUpForm.markAllAsTouched();
     this.isSignUpFormSubmitted = true;
+    if(!this.signUpForm.invalid) {
+      await this.getUsers();
+      //Check if the user is already registered
+      if (this.isRegisteredUser(this.signUpForm.value.email)) {
+        console.log('El usuario ya está registrado');
+      } else {
+        console.log('El usuario no está registrado');
+      }
+    };
   }
 
-  OnSignInSubmit() {
+  async OnSignInSubmit() {
     console.log('submited from: ', this.signInForm.value, this.signInForm.invalid);
     this.signInForm.markAllAsTouched();
     this.isSignInFormSubmitted = true;
+    if(!this.signInForm.invalid) {
+      await this.getUsers();
+      //Check if the user is on the database
+      if (this.isCredentialsValid(this.signInForm.value.email, this.signInForm.value.password)) {
+        console.log('2',this.users);
+        console.log('Las credenciales son válidas');
+      } else {
+        console.log('2',this.users);
+        console.log('Las credenciales no son válidas');
+      }
+    }
   }
 
-  OnRecoverPasswordSubmit() {
+  async OnRecoverPasswordSubmit() {
     console.log('submited from: ', this.passwordRecoveryForm.value, this.passwordRecoveryForm.invalid);
     this.passwordRecoveryForm.markAllAsTouched();
     this.isPasswordRecoveryFormSubmitted = true;
+    await this.getUsers();
+    //Check if the user is already registered
+    if (this.isRegisteredUser(this.passwordRecoveryForm.value.email)) {
+      console.log('El usuario ya está registrado');
+    } else {
+      console.log('El usuario no está registrado');
+    }
   }
-
-
 }
 
 

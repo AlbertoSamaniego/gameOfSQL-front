@@ -7,7 +7,7 @@ import { User } from '../interfaces/user.interface';
 @Injectable({ providedIn: 'root' })
 export class EmailValidator implements AsyncValidator{
 
-  private userRegitered = 'https://game-of-sql.ddev.site/es/api/users';
+  private userRegitered = 'https://game-of-sql.ddev.site/api/users';
   //'https://game-of-sql.ddev.site/es/api/users?q=${email}';
 
   constructor(private http: HttpClient) { }
@@ -19,5 +19,5 @@ export class EmailValidator implements AsyncValidator{
     }));
   }
 
-  
+
 }

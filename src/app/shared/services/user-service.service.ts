@@ -6,13 +6,13 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UserServiceService {
+export class UserService {
 
-  private blogUrl = 'https://game-of-sql.ddev.site/es/api/users';
+  private regiteredUsersUrl = 'https://game-of-sql.ddev.site/api/users';
 
   constructor(private http: HttpClient) { }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.blogUrl);
+    return this.http.get<User[]>(this.regiteredUsersUrl);
   }
 }
