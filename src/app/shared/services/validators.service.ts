@@ -3,8 +3,6 @@ import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angu
 
 @Injectable({ providedIn: 'root' })
 export class ValidatorsService {
-  public emailPattern: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
-  public passwordPattern: string = "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,}";
 
   constructor() { }
 

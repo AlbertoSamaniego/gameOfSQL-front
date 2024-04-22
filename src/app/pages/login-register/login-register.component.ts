@@ -3,6 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValidatorsService } from '../../shared/services/validators.service';
 import { UserService } from '../../shared/services/user-service.service';
 import { User } from '../../shared/interfaces/user.interface';
+import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { passwordPattern, emailPattern } from '../../shared/constants/patterns';
+import { formMessages } from '../../shared/constants/error-messages';
 
 @Component({
   selector: 'app-login-register',
@@ -19,8 +23,8 @@ export class LoginRegisterComponent {
 
   //Rules validations for the form sign up
   public signUpForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.pattern(this.validatorsService.emailPattern)]],
-    password: ['', [Validators.required, Validators.pattern(this.validatorsService.passwordPattern)]],
+    email: ['', [Validators.required, Validators.pattern(emailPattern)]],
+    password: ['', [Validators.required, Validators.pattern(passwordPattern)]],
     repeatPassword: ['', [Validators.required]],
   }, {
     validators: [this.validatorsService.isFieldOneEquealFieldTwo('password', 'repeatPassword')]
@@ -35,9 +39,15 @@ export class LoginRegisterComponent {
   public isSignInFormSubmitted: boolean = false;
   public isPasswordRecoveryFormSubmitted: boolean = false;
   public users: User[] = [];
+  public errorMessage: string = '';
 
 
-  constructor(private fb: FormBuilder, private validatorsService: ValidatorsService, private registeredUsersService: UserService) { }
+  constructor(
+    private fb: FormBuilder,
+    private validatorsService: ValidatorsService,
+    private registeredUsersService: UserService,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
     const signupBtn: HTMLElement | null = document.getElementById("signup-btn");
@@ -74,6 +84,22 @@ export class LoginRegisterComponent {
   }
 
   getFieldError(field: string, form: FormGroup): string | null {
+    const fieldMessage = formMessages.find((message) => message.name === field);
+    if (!fieldMessage) return null;
+
+    const errors = form.controls[field].errors || {};
+
+    for (const error of fieldMessage.errors) {
+      if (errors[error.type]) {
+        return error.message;
+      }
+    }
+
+    return null;
+  }
+
+  /**
+   * getFieldError(field: string, form: FormGroup): string | null {
     if (!form.controls[field]) return null;
     const errors = form.controls[field].errors || {};
 
@@ -93,12 +119,17 @@ export class LoginRegisterComponent {
             return 'Las contraseñas no coinciden';
           }
           break;
+        case 'emailExists':
+          return 'El correo electrónico ya está registrado';
+        case 'invalidCredentials':
+          return 'Credenciales inválidas';
         default:
           return null;
       }
     }
     return null;
   }
+   */
 
   async getUsers(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -128,13 +159,20 @@ export class LoginRegisterComponent {
     console.log('submited from: ', this.signUpForm.value, this.signUpForm.invalid);
     this.signUpForm.markAllAsTouched();
     this.isSignUpFormSubmitted = true;
-    if(!this.signUpForm.invalid) {
+    if (!this.signUpForm.invalid) {
       await this.getUsers();
       //Check if the user is already registered
       if (this.isRegisteredUser(this.signUpForm.value.email)) {
         console.log('El usuario ya está registrado');
+        this.errorMessage = 'El correo electrónico ya está registrado';
       } else {
         console.log('El usuario no está registrado');
+        //Register the user
+        await firstValueFrom(this.registeredUsersService.addUser(this.signUpForm.value.email, this.signUpForm.value.password));
+        //Save the user in the local storage
+        localStorage.setItem('user', JSON.stringify(this.signUpForm.value.email));
+        //Redirect to the home page
+        this.router.navigate(['/game/home-game']);
       }
     };
   }
@@ -143,15 +181,20 @@ export class LoginRegisterComponent {
     console.log('submited from: ', this.signInForm.value, this.signInForm.invalid);
     this.signInForm.markAllAsTouched();
     this.isSignInFormSubmitted = true;
-    if(!this.signInForm.invalid) {
+    if (!this.signInForm.invalid) {
       await this.getUsers();
       //Check if the user is on the database
       if (this.isCredentialsValid(this.signInForm.value.email, this.signInForm.value.password)) {
-        console.log('2',this.users);
+        console.log('2', this.users);
         console.log('Las credenciales son válidas');
+        //Save the user in the local storage
+        localStorage.setItem('user', JSON.stringify(this.signInForm.value.email));
+        //Redirect to the home page
+        this.router.navigate(['/game/home-game']);
       } else {
-        console.log('2',this.users);
+        console.log('2', this.users);
         console.log('Las credenciales no son válidas');
+        this.errorMessage = 'Credenciales inválidas';
       }
     }
   }

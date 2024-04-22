@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { canActivate } from './shared/guard/authentication/auth.guard';
+import { canActivateGame, canActivateHome } from './shared/guard/authentication/auth.guard';
 
 const routes: Routes = [
   {
@@ -10,17 +10,19 @@ const routes: Routes = [
   },
   {
     path: 'home',
+    canActivate: [canActivateHome],
     loadChildren: () =>
       import('./pages/home/home.module').then(m => m.HomeModule)
   },
   {
     path: 'login-register',
+    canActivate: [canActivateHome],
     loadChildren: () =>
       import('./pages/login-register/login-register.module').then(m => m.LoginRegisterModule)
   },
   {
     path: 'game',
-    canActivate: [canActivate],
+    canActivate: [canActivateGame],
     loadChildren: () =>
       import('./pages/game/game.module').then(m => m.GameModule)
   },

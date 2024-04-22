@@ -7,6 +7,7 @@
           <h2>Registrarse</h2>
           <input type="email" formControlName="email" placeholder="Correo electrónico" />
           <span class="form-text text-danger" *ngIf="isValidField('email', signUpForm)">{{ getFieldError('email', signUpForm) }}</span>
+          <span class="form-text text-danger" *ngIf="isSignUpFormSubmitted">{{ errorMessage }}</span>
 
           <input type="password" formControlName="password" placeholder="Contraseña"/>
           <span class="form-text text-danger" *ngIf="isValidField('password', signUpForm)">{{ getFieldError('password', signUpForm) }}</span>
@@ -22,8 +23,11 @@
           <h2>Iniciar sesión</h2>
           <input type="email" formControlName="email" placeholder="Correo electrónico" />
           <span class="form-text text-danger" *ngIf="isValidField('email', signInForm)">{{ getFieldError('email', signInForm) }}</span>
+
           <input type="password" formControlName="password" placeholder="Contraseña" />
           <span class="form-text text-danger" *ngIf="isValidField('password', signInForm)">{{ getFieldError('password', signInForm) }}</span>
+          <span class="form-text text-danger" *ngIf="isSignInFormSubmitted">{{ errorMessage }}</span>
+
           <button id="btnLogin" type="submit">Iniciar sesión</button>
         </form>
         <p id="newPassword" class="mt-3" style="cursor: pointer;">Recuperar contraseña</p>
@@ -31,6 +35,7 @@
           <form [formGroup]="passwordRecoveryForm" (ngSubmit)="OnRecoverPasswordSubmit()">
             <input type="email" formControlName="email" placeholder="Correo electrónico" />
             <span class="form-text text-danger" *ngIf="isValidField('email', passwordRecoveryForm)">{{ getFieldError('email', passwordRecoveryForm) }}</span>
+
             <button id="btnRecoverPass" type="submit">Solicitar nueva contraseña</button>
           </form>
         </div>
