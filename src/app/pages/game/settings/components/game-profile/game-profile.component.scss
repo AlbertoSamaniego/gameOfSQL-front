@@ -1,0 +1,75 @@
+#game-profile {
+
+  .shield{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 50px 0 50px 0;
+
+    .previous{
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: none;
+      border: none;
+      background-image: url('../../../../../../assets/game/icon-settings/previous.png');
+      background-position: center;
+      background-size: cover;
+    }
+
+    .next{
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: none;
+      border: none;
+      background-image: url('../../../../../../assets/game/icon-settings/next.png');
+      background-position: center;
+      background-size: cover;
+    }
+
+    .user-shield{
+      width: 130px;
+      height: 130px;
+      background-color: red;
+    }
+  }
+
+  .character {
+    display: grid;
+    grid-auto-flow:column;
+    grid-template-rows:50px 50px;
+    grid-gap:20px;
+    margin: 50px;
+
+    input {
+      background: none;
+      border: none;
+      border-bottom: 2px solid var(--primary-light-light);
+      color: var(--primary-light-light);
+
+      &::placeholder {
+        color: var(--primary-light-light);
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .save {
+    display: flex;
+    justify-content: center;
+
+    button {
+      padding: 5px 20px;
+      border: none;
+      border-radius: 20px;
+      color: var(--primary-light-light);
+      background-color: var(--accent-light-light);
+    }
+  }
+}
+
+

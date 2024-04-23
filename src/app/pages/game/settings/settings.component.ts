@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
+  currentSection: string = 'game-profile';
 
+  showSection(section: string) {
+    this.currentSection = section;
+  }
 }

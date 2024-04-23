@@ -7,8 +7,12 @@ import { User } from '../../../shared/interfaces/user.interface';
   styleUrl: './home-game.component.scss'
 })
 export class HomeGameComponent {
-  users: User[] = [];
 
   constructor() { }
+
+  OnClickCloseSession() {
+    // Close session
+    localStorage.clear();
+  }
 
 }

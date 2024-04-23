@@ -1,1 +1,127 @@
-<p>information works!</p>
+<div class="background">
+  <div class="content">
+    <button type="button"></button>
+    <h1 class="text-center">DISEÑO DE LA BASE DE DATOS</h1>
+    <div class="row m-5">
+      <ul>
+        <li>
+          <strong>Tabla Reino:</strong>
+          Almacena información básica sobre los reinos, como su nombre y religión.
+        </li>
+        <li>
+          <strong>Tabla Fortaleza:</strong>
+          Describe las fortalezas dentro de un reino, con detalles como la guarnición, fortificación y el reino al que pertenece.
+        </li>
+        <li>
+          <strong>Tabla Clan:</strong>
+          Representa los clanes dentro de un reino, con información sobre su líder, nombre, número de miembros y agresividad.
+        </li>
+        <li>
+          <strong>Tabla Casa:</strong>
+          Define las casas nobles dentro de un reino, con detalles como el lema, porcentaje de lealtad, y el número de diferentes tipos de unidades militares que poseen.
+        </li>
+        <li>
+          <strong>Tabla Personaje:</strong>
+          Contiene información sobre los personajes presentes en el mundo, incluyendo su nombre, estado (vivo, muerto o prisionero), habilidades y a qué casa pertenecen.
+        </li>
+        <li>
+          <strong>Tabla Ejército:</strong>
+          Describe los ejércitos presentes en el mundo, con información sobre su organización, composición y liderazgo.
+        </li>
+        <li>
+          <strong>Tabla Forma:</strong>
+          Establece la relación entre los ejércitos y las casas nobles a las que están afiliados.
+        </li>
+        <li>
+          <strong>Tabla Batalla:</strong>
+          Registra información sobre las batallas que tienen lugar, incluyendo las fuerzas involucradas, ubicación y resultado.
+        </li>
+        <li>
+          <strong>Tablas Específicas de Batallas:</strong>
+          Estas tablas especializadas como batalla_campal, emboscada y asedio contienen detalles específicos sobre ciertos tipos de batallas y sus características.
+        </li>
+        <li>
+          <strong>Tabla Objeto:</strong>
+          Almacena información sobre objetos que pueden ser poseídos por los personajes.
+        </li>
+        <li>
+          <strong>Tabla Trama:</strong>
+          Define tramas que ocurren en el mundo, con detalles sobre su progreso y objetivos.
+        </li>
+        <li>
+          <strong>Tabla Participa:</strong>
+          Establece la relación entre los personajes y las tramas en las que participan.
+        </li>
+        <li>
+          <strong>Tablas Específicas de Tramas:</strong>
+          Como complot_asesinato, desercion y amotinamiento, estas tablas especializadas representan diferentes tipos de tramas y sus detalles específicos.
+        </li>
+      </ul>
+    </div>
+    <div class="row m-5">
+      <img src="../../../../assets/game/info/uml.png" alt="Diagrama UML"  class="img-fluid">
+    </div>
+    <div class="row m-5">
+      <ul>
+        <li>
+          <strong>Reino (id, nombre, religion): </strong>
+          Cada registro en esta tabla representa un reino con un identificador único, nombre y religión.
+        </li>
+        <li>
+          <strong>Fortaleza (id, nombre, guarnicion, fortificacion, id_reino): </strong>
+          Esta tabla almacena información sobre las fortalezas, con detalles como su nombre, tamaño de guarnición, nivel de fortificación y la clave externa que vincula cada fortaleza a un reino específico.
+        </li>
+        <li>
+          <strong>Clan (id, lider, nombre, hombres, agresividad, id_reino, id_clan_supremo): </strong>
+          Describe los clanes dentro de un reino, con detalles sobre su líder, nombre, número de miembros, agresividad y su afiliación al reino y al clan supremo si lo tienen.
+        </li>
+        <li>
+          <strong>Casa (id, nombre, lema, porcentaje_lealtad, infanteria_ligera, infanteria_pesada, arqueros, caballeria, id_reino): </strong>
+          Define las casas nobles dentro de un reino, con detalles sobre su nombre, lema, nivel de lealtad, y la composición de sus fuerzas militares.
+        </li>
+        <li>
+          <strong>Personaje (id, nombre, estado, habilidad, id_casa): </strong>
+
+          Contiene información sobre los personajes del mundo, incluyendo su estado (vivo, muerto o prisionero), habilidades y la casa noble a la que pertenecen.
+        </li>
+        <li>
+          <strong>Ejército (id, organizacion, infanteria_ligera, infanteria_pesada, arqueros, caballeria, maquinas_asedio, en_activo, id_lider): </strong>
+          Esta tabla describe los ejércitos presentes en el mundo, con detalles sobre su organización, composición y liderazgo.
+        </li>
+        <li>
+          <strong>Forma (id_ejercito, id_casa): </strong>
+          Establece la relación entre los ejércitos y las casas nobles a las que están afiliados.
+        </li>
+        <li>
+          <strong>Batalla (id, fuerza_atacante, fuerza_defensor, nombre, año, ubicacion, resultado, id_ejercito_atacante, id_ejercito_defensor): </strong>
+          Registra información sobre las batallas que tienen lugar, incluyendo las fuerzas involucradas, ubicación y resultado.
+        </li>
+        <li>
+          <strong>Objeto (id, nombre, descripcion, id_dueño): </strong>
+          Almacena información sobre objetos que pueden ser poseídos por los personajes.
+        </li>
+        <li>
+          <strong>Trama (identificador, descripcion, porcentaje_progreso, id_objetivo): </strong>
+          Define tramas que ocurren en el mundo, con detalles sobre su progreso y objetivos.
+        <li>
+          <strong>Participa (id_personaje, id_trama): </strong>
+          Establece la relación entre los personajes y las tramas en las que participan.
+        <li>
+          <strong>Complot_Asesinato (id_trama): </strong>
+          Representa un tipo específico de trama que involucra deserción de fuerzas.
+        </li>
+        <li>
+          <strong>Desercion (id_trama): </strong>
+          Representa un tipo específico de trama que involucra un amotinamiento con un beneficiario específico.
+        </li>
+        <li>
+          <strong>Amotinamiento (id_trama, id_beneficiario): </strong>
+          Representa un tipo específico de trama que involucra un amotinamiento con un beneficiario específico.
+        </li>
+      </ul>
+    </div>
+    <div class="row m-5">
+      <img src="../../../../assets/game/info/er.png" alt="Diagrama relacional"  class="img-fluid">
+    </div>
+  </div>
+</div>
