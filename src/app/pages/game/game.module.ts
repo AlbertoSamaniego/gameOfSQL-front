@@ -10,6 +10,6 @@ import { SharedModule } from '../../shared/shared.module';
     CommonModule,
     GameRoutingModule,
     SharedModule
-  ]
+  ],
 })
 export class GameModule { }

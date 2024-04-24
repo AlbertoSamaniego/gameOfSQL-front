@@ -4,7 +4,6 @@ import { HomeGameComponent } from './home-game.component';
 import { HomeGameRoutingModule } from './home-game-routing.module';
 
 
-
 @NgModule({
   declarations: [
     HomeGameComponent
@@ -12,6 +11,6 @@ import { HomeGameRoutingModule } from './home-game-routing.module';
   imports: [
     CommonModule,
     HomeGameRoutingModule
-  ]
+  ],
 })
 export class HomeGameModule { }

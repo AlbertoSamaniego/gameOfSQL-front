@@ -1,28 +1,26 @@
-<div class="background">
-  <div class="content">
-    <button type="button" class="close"></button>
-    <h1 class="text-center">CONFIGURACIÓN GENERAL</h1>
-    <div class="wrapp m-5">
-      <div class="menu">
-        <ul>
-          <li>
-            <button type="button" class="game-profile" (click)="showSection('game-profile')"></button>
-          </li>
-          <li>
-            <button type="button" class="game-config" (click)="showSection('game-config')"></button>
-          </li>
-          <li>
-            <button type="button" class="user-archievement" (click)="showSection('user-archievement')"></button>
-          </li>
-          <li>
-            <button type="button" class="account-config" (click)="showSection('account-config')"></button>
-          </li>
-        </ul>
-      </div>
-      <app-game-profile *ngIf="currentSection === 'game-profile'"></app-game-profile>
-      <app-game-config *ngIf="currentSection === 'game-config'"></app-game-config>
-      <app-user-archievements *ngIf="currentSection === 'user-archievement'"></app-user-archievements>
-      <app-account-settings *ngIf="currentSection === 'account-config'"></app-account-settings>
+<div class="content">
+  <button type="button" class="close" routerLink="/game/home-game"></button>
+  <h1 class="text-center">CONFIGURACIÓN GENERAL</h1>
+  <div class="wrapp m-5">
+    <div class="menu">
+      <ul>
+        <li>
+          <button type="button" class="game-profile" (click)="showSection('game-profile')"></button>
+        </li>
+        <li>
+          <button type="button" class="game-config" (click)="showSection('game-config')"></button>
+        </li>
+        <li>
+          <button type="button" class="user-archievement" (click)="showSection('user-archievement')"></button>
+        </li>
+        <li>
+          <button type="button" class="account-config" (click)="showSection('account-config')"></button>
+        </li>
+      </ul>
     </div>
+    <app-game-profile *ngIf="currentSection === 'game-profile'"></app-game-profile>
+    <app-game-config *ngIf="currentSection === 'game-config'"></app-game-config>
+    <app-user-archievements *ngIf="currentSection === 'user-archievement'"></app-user-archievements>
+    <app-account-settings *ngIf="currentSection === 'account-config'"></app-account-settings>
   </div>
 </div>

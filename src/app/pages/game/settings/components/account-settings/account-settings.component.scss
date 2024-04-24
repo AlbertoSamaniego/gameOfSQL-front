@@ -1,0 +1,67 @@
+#account-settings {
+  color: var(--primary-light-light);
+
+  .content {
+    width: 60%;
+    max-width: 500px;
+    margin: 50px auto;
+    background-color: var(--accent-shade);
+  }
+
+  .change-password,
+  .change-email,
+  .reboot,
+  .delete {
+    cursor: pointer;
+    padding: 0.75rem;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      color: var(--primary-light);
+      box-shadow: 0 0 10px var(--primary-light);
+    }
+  }
+
+  #form-email,
+  #form-pass,
+  #form-reboot,
+  #form-delete {
+    padding: 20px 20px;
+    margin: 10px 0 10px 0;
+    background-color: var(--accent-light);
+
+    input {
+      background-color: var(--accent-light);
+      color: var(--primary-light-light);
+      border: none;
+      margin: 8px 8px 8px 0;
+      border-bottom: 2px solid var(--primary-light-light);
+
+      &::placeholder {
+        color: var(--primary-light-light);
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    button {
+      background: none;
+      border: 2px solid var(--primary-dark);
+      border-radius: 20px;
+      color: var(--primary-light-light);
+      margin: 8px 8px 8px 0;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        background-color: var(--primary-dark);
+        color: var(--accent-light-light);
+      }
+    }
+  }
+
+  #form-reboot, #form-delete {
+    max-width: 14.5em;
+  }
+}

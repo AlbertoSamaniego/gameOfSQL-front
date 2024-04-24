@@ -1,0 +1,101 @@
+#game-config {
+  color: var(--primary-light-light);
+
+  form {
+    padding: 50px;
+
+    .sound-off {
+      width: 25px;
+      height: 25px;
+      background-image: url('../../../../../../assets/game/icon-settings/sound-off.png');
+      background-position: center;
+      background-size: cover;
+    }
+
+    .sound-on {
+      width: 35px;
+      height: 25px;
+      background-position: center;
+      background-size: cover;
+      background-image: url('../../../../../../assets/game/icon-settings/sound-on.png');
+    }
+
+    input[type="radio"] {
+      accent-color: #B9540C;
+      width: 15px;
+      height: 15px;
+    }
+
+    input[type="range"] {
+      /* removing default appearance */
+      -webkit-appearance: none;
+      appearance: none;
+      /* creating a custom design */
+      width: 100%;
+      cursor: pointer;
+      outline: none;
+      /*  slider progress trick  */
+      overflow: hidden;
+      border-radius: 16px;
+    }
+
+    /* Track: webkit browsers */
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 15px;
+      background: var(--primary-light-light);
+      border-radius: 16px;
+    }
+
+    /* Track: Mozilla Firefox */
+    input[type="range"]::-moz-range-track {
+      height: 15px;
+      background: var(--primary-light-light);
+      border-radius: 16px;
+    }
+
+    /* Thumb: webkit */
+    input[type="range"]::-webkit-slider-thumb {
+      /* removing default appearance */
+      -webkit-appearance: none;
+      appearance: none;
+      /* creating a custom design */
+      height: 15px;
+      width: 15px;
+      background-color: var(--primary-light-light);
+      border-radius: 50%;
+      border: 2px solid #B9540C;
+      /*  slider progress trick  */
+      box-shadow: -407px 0 0 400px #B9540C;
+    }
+
+
+    /* Thumb: Firefox */
+    input[type="range"]::-moz-range-thumb {
+      height: 15px;
+      width: 15px;
+      background-color: #fff;
+      border-radius: 50%;
+      border: 1px solid #B9540C;
+      ;
+      /*  slider progress trick  */
+      box-shadow: -407px 0 0 400px #B9540C;
+      ;
+    }
+
+    .save {
+      button {
+        padding: 5px 20px;
+        border: none;
+        border-radius: 20px;
+        color: var(--primary-light-light);
+        background-color: var(--accent-light-light);
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+          background-color: var(--accent-light);
+        }
+      }
+    }
+  }
+}
+

@@ -1,13 +1,3 @@
-.background {
-  width: 100%;
-  height: 100vh;
-  background-image: url('../../../../assets/game/background.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-}
-
 .content {
   border: 5px solid var(--accent-dark);
   background-color: rgba(195, 141, 95, 0.8);
@@ -23,6 +13,7 @@
     background-image: url('../../../../assets/game/close.png');
     background-position: center;
     background-size: cover;
+    border: none;
   }
 
   h1{

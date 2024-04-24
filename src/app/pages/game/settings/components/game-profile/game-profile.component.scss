@@ -15,6 +15,11 @@
       background-image: url('../../../../../../assets/game/icon-settings/previous.png');
       background-position: center;
       background-size: cover;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        filter: brightness(0) invert(1);
+      }
     }
 
     .next{
@@ -26,6 +31,11 @@
       background-image: url('../../../../../../assets/game/icon-settings/next.png');
       background-position: center;
       background-size: cover;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        filter: brightness(0) invert(1);
+      }
     }
 
     .user-shield{
@@ -68,6 +78,11 @@
       border-radius: 20px;
       color: var(--primary-light-light);
       background-color: var(--accent-light-light);
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        background-color: var(--accent-light);
+      }
     }
   }
 }

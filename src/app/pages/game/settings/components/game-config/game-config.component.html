@@ -1,3 +1,54 @@
 <section id="game-config">
+  <form action="" class="row">
+    <div class="labels col-sm-5 d-flex flex-column">
+      <label for="day/night" class="mb-3">EFECTO DIA/NOCHE</label>
+      <label for="full-screen" class="mb-3">PANTALLA COMPLETA</label>
+      <label for="music-volume" class="mb-3">VOLUMEN DE LA MUSICA</label>
+      <label for="sound-effect" class="mb-3">EFECTO DE SONIDO</label>
+      <label for="point-size" class="mb-3">TAMAÑO DE LOS PUNTOS</label>
+    </div>
 
+    <div class="inputs col-sm-7">
+      <div class="input d-flex justify-content-around mb-3">
+        <div>
+          <input type="radio" name="day/night" id="day"> SÍ
+        </div>
+        <div>
+          <input type="radio" name="day/night" id="night" checked> NO
+        </div>
+      </div>
+      <div class="input d-flex justify-content-around mb-3">
+        <div>
+          <input type="radio" name="full-screen" id="full-screen"> SÍ
+        </div>
+        <div>
+          <input type="radio" name="full-screen" id="full-screen-no" checked> NO
+        </div>
+      </div>
+      <div class="input d-flex align-items-center mb-3">
+        <div class="sound-off"></div>
+        <input type="range" name="music-volume" id="music-volume" min="0" max="100" step="1" value="30">
+        <div class="sound-on"></div>
+      </div>
+      <div class="input d-flex mb-3 align-items-center">
+        <div class="sound-off"></div>
+        <input type="range" name="sound-effect" id="sound-effect" min="0" max="100" step="1" value="50">
+        <div class="sound-on"></div>
+      </div>
+      <div class="input d-flex mb-3 d-flex justify-content-between">
+        <div>
+          <input type="radio" name="point-size" id="small"> PEQUEÑO
+        </div>
+        <div>
+          <input type="radio" name="point-size" id="medium" checked> MEDIANO
+        </div>
+        <div>
+          <input type="radio" name="point-size" id="big"> GRANDE
+        </div>
+      </div>
+    </div>
+    <div class="save d-flex justify-content-center mt-3">
+      <button type="submit">GUARDAR</button>
+    </div>
+  </form>
 </section>

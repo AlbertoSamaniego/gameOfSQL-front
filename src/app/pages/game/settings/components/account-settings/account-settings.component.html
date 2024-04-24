@@ -1,3 +1,36 @@
 <section id="account-settings">
-
+  <div class="content d-flex flex-column justify-content-center align-items-center">
+    <div class="change-email d-flex flex-column w-100 text-center" (click)="displayForm('form-email')">
+      Cambiar correo eletrónico
+    </div>
+    <form id="form-email" action="" class="d-none flex-column">
+      <input type="email" name="email" placeholder="Correo actual">
+      <input type="email" name="new-email" placeholder="Nuevo correo">
+      <input type="email" name="confirm-email" placeholder="Confirmar correo">
+      <button type="submit">Cambiar correo</button>
+    </form>
+    <div class="change-password d-flex flex-column w-100 text-center" (click)="displayForm('form-pass')">
+      <p class="mb-0">Cambiar contraseña</p>
+    </div>
+    <form id="form-pass" action="" class="flex-column d-none">
+      <input type="password" name="password" placeholder="Contraseña actual">
+      <input type="password" name="new-password" placeholder="Nueva contraseña">
+      <input type="password" name="confirm-password" placeholder="Confirmar contraseña">
+      <button type="submit">Cambiar contraseña</button>
+    </form>
+    <div class="reboot d-flex flex-column w-100 text-center" (click)="displayForm('form-reboot')">
+      <p class="mb-0">Reiniciar cuenta</p>
+    </div>
+    <form id="form-reboot" action="" class="d-none flex-column">
+      <label for="">¿Estás seguro que quieres borrar tu cuenta? Esta acción no se puede deshacer.</label>
+      <button type="submit">Si, estoy seguro</button>
+    </form>
+    <div class="delete d-flex flex-column w-100 text-center" (click)="displayForm('form-delete')">
+      <p class="mb-0">Borrar cuenta</p>
+    </div>
+    <form id="form-delete" action="" class="d-none flex-column">
+      <p>¿Estás seguro que quieres borrar tu cuenta? Esta acción no se puede deshacer.</p>
+      <button type="submit">Si, estoy seguro</button>
+    </form>
+  </div>
 </section>
