@@ -1,8 +1,8 @@
 <div class="main-menu">
   <div class="user-shield"></div>
-  <button type="button" routerLink="/game/map">Iniciar partida</button>
-  <button type="button" routerLink="/game/rules">Guía del usuario</button>
-  <button type="button" routerLink="/game/information">Información</button>
-  <button type="button" routerLink="/game/settings">Configuración</button>
+  <button type="button" routerLink="/game/map" (click)="OnClickPlay()">Iniciar partida</button>
+  <button type="button" routerLink="/game/rules" (click)="OnClickPlay()">Guía del usuario</button>
+  <button type="button" routerLink="/game/information" (click)="OnClickPlay()">Información</button>
+  <button type="button" routerLink="/game/settings" (click)="OnClickPlay()">Configuración</button>
   <button type="button" routerLink="/home" (click)="OnClickCloseSession()">Cerrar sesión</button>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AudioService } from '../../../shared/services/audio-service.service';
 
 @Component({
   selector: 'app-settings',
@@ -10,7 +11,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   private imgElement!: HTMLElement;
 
-  constructor(private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2, private audioService: AudioService) { }
 
   ngOnInit(): void {
     this.imgElement = this.renderer.createElement('img');
@@ -23,6 +24,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.renderer.setStyle(this.imgElement, 'z-index', '-1');
     document.body.style.background = 'none';
     document.body.appendChild(this.imgElement);
+    this.audioService.reproducirMusicaDeFondo();
   }
 
   ngOnDestroy(): void {
@@ -32,6 +34,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   showSection(section: string) {
+    this.audioService.reproducirAudio('click-sound');
     this.currentSection = section;
+  }
+
+  OnClickPlay() {
+    this.audioService.reproducirAudio('click-sound');
   }
 }

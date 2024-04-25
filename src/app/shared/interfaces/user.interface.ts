@@ -1,13 +1,10 @@
-import { Archievement } from "./archievement.interface";
-import { Shield } from "./shield.interface";
-
 export interface User {
   email: string;
   password: string;
-  name_character?: string;
-  nickname_character?: string;
-  name_house?: string;
-  words_house?: string;
-  shield?: Shield;
-  archievements?: Archievement[];
+  name_character: string | null;
+  nickname_character: string | null;
+  name_house: string | null;
+  words_house: string | null;
+  shield: string | null;
+  archievements: string[] | null;
 }

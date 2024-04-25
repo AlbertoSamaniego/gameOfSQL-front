@@ -2,7 +2,7 @@ import { User } from './../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {regiteredUsersUrl, addUserUrl} from '../constants/end-points';
+import {regiteredUsersUrl, addUserUrl, loggedUser} from '../constants/end-points';
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +19,19 @@ export class UserService {
     const newUser = {
       type: [{target_id: 'registered_user'}],
       field_email: [{value: email}],
-      field_password: [{value: password}]
+      field_password: [{value: password}],
     };
     const params = { _format: 'json'};
     return this.http.post<User>(addUserUrl, newUser, { params });
   }
+
+  getDataRegisteredUser(email: string): Observable<User[]> {
+    const cleanEmail = email.replace(/['"]+/g, '');
+    const url = `${loggedUser}${cleanEmail}`;
+
+    return this.http.get<User[]>(url);
+  }
+
+
 }
+

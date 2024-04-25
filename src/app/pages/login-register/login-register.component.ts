@@ -40,6 +40,7 @@ export class LoginRegisterComponent {
   public isPasswordRecoveryFormSubmitted: boolean = false;
   public users: User[] = [];
   public errorMessage: string = '';
+  public loggedUser: User | null = null;
 
 
   constructor(
@@ -97,39 +98,6 @@ export class LoginRegisterComponent {
 
     return null;
   }
-
-  /**
-   * getFieldError(field: string, form: FormGroup): string | null {
-    if (!form.controls[field]) return null;
-    const errors = form.controls[field].errors || {};
-
-    for (const key of Object.keys(errors)) {
-      switch (key) {
-        case 'required':
-          return 'Campo obligatorio';
-        case 'pattern':
-          if (field === 'email') {
-            return 'Correo electrónico inválido';
-          } else if (field === 'password') {
-            return 'La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y tener al menos 6 caracteres';
-          }
-          break;
-        case 'notEqual':
-          if (field === 'repeatPassword') {
-            return 'Las contraseñas no coinciden';
-          }
-          break;
-        case 'emailExists':
-          return 'El correo electrónico ya está registrado';
-        case 'invalidCredentials':
-          return 'Credenciales inválidas';
-        default:
-          return null;
-      }
-    }
-    return null;
-  }
-   */
 
   async getUsers(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -209,6 +177,7 @@ export class LoginRegisterComponent {
       console.log('El usuario ya está registrado');
     } else {
       console.log('El usuario no está registrado');
+      //TODO: Send an email to the user with the new password
     }
   }
 }
