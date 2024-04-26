@@ -1,3 +1,13 @@
 <section id="user-archievement">
-  
+  <div class="container">
+    <div class="grid-container">
+      <div *ngFor="let archievement of archievements" id="{{archievement.id}}" class="archievement">
+        <div class="img" [style.backgroundImage]="'url(' + archievement.image + ')'"></div>
+        <div class="text">
+          <h5>{{archievement.title}}</h5>
+          <p>{{archievement.description}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>

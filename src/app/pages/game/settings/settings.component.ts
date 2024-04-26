@@ -14,16 +14,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   constructor(private renderer: Renderer2, private audioService: AudioService) { }
 
   ngOnInit(): void {
-    this.imgElement = this.renderer.createElement('img');
-    this.renderer.setAttribute(this.imgElement, 'src', '../../../../assets/game/fondo-main-menu.jpeg');
-    this.renderer.setStyle(this.imgElement, 'position', 'fixed');
-    this.renderer.setStyle(this.imgElement, 'top', '0');
-    this.renderer.setStyle(this.imgElement, 'left', '0');
-    this.renderer.setStyle(this.imgElement, 'width', '100%');
-    this.renderer.setStyle(this.imgElement, 'height', 'auto');
-    this.renderer.setStyle(this.imgElement, 'z-index', '-1');
-    document.body.style.background = 'none';
-    document.body.appendChild(this.imgElement);
+    this.loadImage();
     this.audioService.reproducirMusicaDeFondo();
   }
 
@@ -40,5 +31,18 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   OnClickPlay() {
     this.audioService.reproducirAudio('click-sound');
+  }
+
+  loadImage() {
+    this.imgElement = this.renderer.createElement('img');
+    this.renderer.setAttribute(this.imgElement, 'src', '../../../../assets/game/fondo-main-menu.jpeg');
+    this.renderer.setStyle(this.imgElement, 'position', 'fixed');
+    this.renderer.setStyle(this.imgElement, 'top', '0');
+    this.renderer.setStyle(this.imgElement, 'left', '0');
+    this.renderer.setStyle(this.imgElement, 'width', '100%');
+    this.renderer.setStyle(this.imgElement, 'height', 'auto');
+    this.renderer.setStyle(this.imgElement, 'z-index', '-1');
+    document.body.style.background = 'none';
+    document.body.appendChild(this.imgElement);
   }
 }

@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { AudioService } from '../../../shared/services/audio-service.service';
 import { User } from '../../../shared/interfaces/user.interface';
-import { UserService } from '../../../shared/services/user-service.service';
+import { AuthService } from '../../../shared/services/auth-service.service';
+import { endpoints } from '../../../shared/constants/end-points';
 
 @Component({
   selector: 'app-home-game',
@@ -11,35 +12,19 @@ import { UserService } from '../../../shared/services/user-service.service';
 export class HomeGameComponent implements OnInit, OnDestroy {
 
   private imgElement!: HTMLElement;
-  private currentUser: User = {} as User;
+  public currentUser: User = {} as User;
 
-  constructor(private renderer: Renderer2, private audioService: AudioService, private userService: UserService) { }
+  constructor(
+    private renderer: Renderer2,
+    private audioService: AudioService,
+    private authService: AuthService,
+  ) { }
 
-  ngOnInit(): void {
-    this.imgElement = this.renderer.createElement('img');
-    this.renderer.setAttribute(this.imgElement, 'src', '../../../../assets/game/fondo-main-menu.jpeg');
-    this.renderer.setStyle(this.imgElement, 'width', '100%');
-    this.renderer.setStyle(this.imgElement, 'height', 'auto');
-    this.renderer.appendChild(document.body, this.imgElement);
-    this.audioService.reproducirMusicaDeFondo();
-
-    const userEmail = localStorage.getItem('user')?.toString();
-
-    if (userEmail) {
-      this.userService.getDataRegisteredUser(userEmail).subscribe({
-        next: (userData: User[]) => {
-          if (userData.length > 0) {
-            this.currentUser = userData[0];
-            console.log(this.currentUser);
-          }
-        },
-        error: (error: any) => {
-          console.error('Error al obtener los datos del usuario:', error);
-        }
-      });
-    }
+   ngOnInit() {
+    this.loadImage();
+    this.getUserByEmail();
+    this.currentUser =  this.authService.getCurrentUser;
   }
-
 
   ngOnDestroy(): void {
     if (this.imgElement && this.imgElement.parentNode === document.body) {
@@ -50,10 +35,49 @@ export class HomeGameComponent implements OnInit, OnDestroy {
   OnClickCloseSession() {
     this.audioService.detenerMusicaDeFondo();
     localStorage.clear();
+    this.authService.setCurrentUser(null);
   }
 
   OnClickPlay() {
     this.audioService.reproducirAudio('click-sound');
+  }
+
+  loadImage() {
+    this.imgElement = this.renderer.createElement('img');
+    this.renderer.setAttribute(this.imgElement, 'src', '../../../../assets/game/fondo-main-menu.jpeg');
+    this.renderer.setStyle(this.imgElement, 'width', '100%');
+    this.renderer.setStyle(this.imgElement, 'height', 'auto');
+    this.renderer.appendChild(document.body, this.imgElement);
+    //this.audioService.reproducirMusicaDeFondo();
+  }
+
+  async getUserByEmail() {
+    const userEmail = localStorage.getItem('user')?.toString();
+
+    if (userEmail) {
+      try {
+        const user = await this.authService.getUserByEmail(userEmail);
+        if (user) {
+          this.currentUser = user;
+          this.addShieldToDOM(this.getNameShieldImage());
+        } else {
+          console.log('No se encontró ningún usuario para el correo electrónico proporcionado.');
+        }
+      } catch (error) {
+        console.error('Error al actualizar el usuario:', error);
+      }
+    }
+  }
+
+  getNameShieldImage(): string {
+    return this.currentUser.url_shield?.replace('sites/default/files/2024-04/', '')?.replace('/', '') || '';
+  }
+
+  addShieldToDOM(shieldName: string) {
+    const shieldDiv = document.getElementById('user-shield');
+    if(shieldDiv){
+      shieldDiv.style.backgroundImage = `url('${endpoints.urlImageShield}${shieldName}')`;
+    }
   }
 
 }

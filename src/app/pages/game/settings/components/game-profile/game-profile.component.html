@@ -1,15 +1,15 @@
 <section id="game-profile">
   <form action="">
     <div class="shield">
-      <button type="button" class="previous"></button>
-      <div class="user-shield"></div>
-      <button type="button" class="next"></button>
+      <button type="button" class="previous" id="previous" (click)="showPreviousShield()"></button>
+      <div class="user-shield" id="user-shield"></div>
+      <button type="button" class="next" id="next" (click)="showNextShield()"></button>
     </div>
     <div class="character">
       <input type="text" name="name" id="name" placeholder="Nombre">
       <input type="text" name="nickname" id="nickname" placeholder="Apodo">
       <input type="text" name="house" id="house" placeholder="Casa">
-      <input type="text" name="words" id="words" placeholder="Lema">
+      <input type="text" name="words" id="motto" placeholder="Lema">
     </div>
     <div class="save">
       <button type="submit">GUARDAR</button>

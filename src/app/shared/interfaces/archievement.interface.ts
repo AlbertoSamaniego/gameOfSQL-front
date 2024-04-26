@@ -1,5 +1,5 @@
 export interface Archievement {
-  uuid: string;
+  id: string;
   title: string;
   description: string;
   image: string;

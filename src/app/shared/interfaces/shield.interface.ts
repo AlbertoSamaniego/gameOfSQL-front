@@ -1,6 +1,6 @@
 export interface Shield{
-  uuid: string;
-  house: string;
+  id: string;
+  title: string;
   isPremium: boolean;
   image: string;
 }

@@ -1,10 +1,10 @@
 export interface User {
   email: string;
   password: string;
-  name_character: string | null;
-  nickname_character: string | null;
-  name_house: string | null;
-  words_house: string | null;
-  shield: string | null;
-  archievements: string[] | null;
+  character_name: string;
+  character_nickname: string;
+  house_name: string;
+  house_motto: string;
+  url_shield: string;
+  archievements_id: string[];
 }

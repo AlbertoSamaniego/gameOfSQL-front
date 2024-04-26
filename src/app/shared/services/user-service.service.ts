@@ -2,7 +2,7 @@ import { User } from './../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {regiteredUsersUrl, addUserUrl, loggedUser} from '../constants/end-points';
+import { endpoints } from '../constants/end-points';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(regiteredUsersUrl);
+    return this.http.get<User[]>(endpoints.regiteredUsersUrl);
   }
 
   addUser(email: string, password: string): Observable<User>{
@@ -22,12 +22,12 @@ export class UserService {
       field_password: [{value: password}],
     };
     const params = { _format: 'json'};
-    return this.http.post<User>(addUserUrl, newUser, { params });
+    return this.http.post<User>(endpoints.addUserUrl, newUser, { params });
   }
 
   getDataRegisteredUser(email: string): Observable<User[]> {
     const cleanEmail = email.replace(/['"]+/g, '');
-    const url = `${loggedUser}${cleanEmail}`;
+    const url = `${endpoints.loggedUser}${cleanEmail}`;
 
     return this.http.get<User[]>(url);
   }

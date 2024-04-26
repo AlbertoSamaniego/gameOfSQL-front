@@ -104,11 +104,9 @@ export class LoginRegisterComponent {
       this.registeredUsersService.getUsers().subscribe({
         next: (users) => {
           this.users = users;
-          console.log('Users:', this.users);
           resolve();
         },
         error: (error) => {
-          console.error('Error fetching users:', error);
           reject(error);
         }
       });
@@ -124,17 +122,14 @@ export class LoginRegisterComponent {
   }
 
   async OnSignUpSubmit() {
-    console.log('submited from: ', this.signUpForm.value, this.signUpForm.invalid);
     this.signUpForm.markAllAsTouched();
     this.isSignUpFormSubmitted = true;
     if (!this.signUpForm.invalid) {
       await this.getUsers();
       //Check if the user is already registered
       if (this.isRegisteredUser(this.signUpForm.value.email)) {
-        console.log('El usuario ya está registrado');
         this.errorMessage = 'El correo electrónico ya está registrado';
       } else {
-        console.log('El usuario no está registrado');
         //Register the user
         await firstValueFrom(this.registeredUsersService.addUser(this.signUpForm.value.email, this.signUpForm.value.password));
         //Save the user in the local storage
@@ -146,29 +141,23 @@ export class LoginRegisterComponent {
   }
 
   async OnSignInSubmit() {
-    console.log('submited from: ', this.signInForm.value, this.signInForm.invalid);
     this.signInForm.markAllAsTouched();
     this.isSignInFormSubmitted = true;
     if (!this.signInForm.invalid) {
       await this.getUsers();
       //Check if the user is on the database
       if (this.isCredentialsValid(this.signInForm.value.email, this.signInForm.value.password)) {
-        console.log('2', this.users);
-        console.log('Las credenciales son válidas');
         //Save the user in the local storage
         localStorage.setItem('user', JSON.stringify(this.signInForm.value.email));
         //Redirect to the home page
         this.router.navigate(['/game/home-game']);
       } else {
-        console.log('2', this.users);
-        console.log('Las credenciales no son válidas');
         this.errorMessage = 'Credenciales inválidas';
       }
     }
   }
 
   async OnRecoverPasswordSubmit() {
-    console.log('submited from: ', this.passwordRecoveryForm.value, this.passwordRecoveryForm.invalid);
     this.passwordRecoveryForm.markAllAsTouched();
     this.isPasswordRecoveryFormSubmitted = true;
     await this.getUsers();
