@@ -6,4 +6,9 @@ export const endpoints = {
   shieldsUrl: 'https://game-of-sql.ddev.site/api/shields/',
   archievementsUrl: 'https://game-of-sql.ddev.site/api/archievements/',
   urlImageArchievement: 'https://game-of-sql.ddev.site/themes/custom/game_of_sql/images/logro/',
+  updateUserUrl: 'https://game-of-sql.ddev.site/node/',
+  updatePasswordUrl: 'https://game-of-sql.ddev.site/node/',
+  deleteUserUrl: 'https://game-of-sql.ddev.site/node/',
+  rebootUserUrl: 'https://game-of-sql.ddev.site/node/',
+
 };

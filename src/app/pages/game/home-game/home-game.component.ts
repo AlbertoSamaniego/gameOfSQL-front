@@ -20,10 +20,12 @@ export class HomeGameComponent implements OnInit, OnDestroy {
     private authService: AuthService,
   ) { }
 
-   ngOnInit() {
+   async ngOnInit() {
     this.loadImage();
-    this.getUserByEmail();
+    await this.getUserByEmail();
     this.currentUser =  this.authService.getCurrentUser;
+    console.log(this.currentUser);
+
   }
 
   ngOnDestroy(): void {
@@ -48,7 +50,7 @@ export class HomeGameComponent implements OnInit, OnDestroy {
     this.renderer.setStyle(this.imgElement, 'width', '100%');
     this.renderer.setStyle(this.imgElement, 'height', 'auto');
     this.renderer.appendChild(document.body, this.imgElement);
-    //this.audioService.reproducirMusicaDeFondo();
+    this.audioService.reproducirMusicaDeFondo();
   }
 
   async getUserByEmail() {

@@ -6,6 +6,7 @@ import { GameProfileComponent } from './components/game-profile/game-profile.com
 import { GameConfigComponent } from './components/game-config/game-config.component';
 import { UserArchievementsComponent } from './components/user-archievements/user-archievements.component';
 import { AccountSettingsComponent } from './components/account-settings/account-settings.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -15,11 +16,13 @@ import { AccountSettingsComponent } from './components/account-settings/account-
     GameProfileComponent,
     GameConfigComponent,
     UserArchievementsComponent,
-    AccountSettingsComponent
+    AccountSettingsComponent,
   ],
   imports: [
     CommonModule,
-    SettingsRoutingModule
+    SettingsRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
 })
 export class SettingsModule { }

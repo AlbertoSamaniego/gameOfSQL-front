@@ -126,15 +126,11 @@ export class LoginRegisterComponent {
     this.isSignUpFormSubmitted = true;
     if (!this.signUpForm.invalid) {
       await this.getUsers();
-      //Check if the user is already registered
       if (this.isRegisteredUser(this.signUpForm.value.email)) {
-        this.errorMessage = 'El correo electrónico ya está registrado';
+        this.errorMessage = 'El usuario ya está registrado. Ingrese otras credenciales';
       } else {
-        //Register the user
         await firstValueFrom(this.registeredUsersService.addUser(this.signUpForm.value.email, this.signUpForm.value.password));
-        //Save the user in the local storage
-        localStorage.setItem('user', JSON.stringify(this.signUpForm.value.email));
-        //Redirect to the home page
+        await this.storeIdUser(this.signUpForm.value.email);
         this.router.navigate(['/game/home-game']);
       }
     };
@@ -145,11 +141,8 @@ export class LoginRegisterComponent {
     this.isSignInFormSubmitted = true;
     if (!this.signInForm.invalid) {
       await this.getUsers();
-      //Check if the user is on the database
       if (this.isCredentialsValid(this.signInForm.value.email, this.signInForm.value.password)) {
-        //Save the user in the local storage
-        localStorage.setItem('user', JSON.stringify(this.signInForm.value.email));
-        //Redirect to the home page
+        await this.storeIdUser(this.signInForm.value.email)
         this.router.navigate(['/game/home-game']);
       } else {
         this.errorMessage = 'Credenciales inválidas';
@@ -161,13 +154,18 @@ export class LoginRegisterComponent {
     this.passwordRecoveryForm.markAllAsTouched();
     this.isPasswordRecoveryFormSubmitted = true;
     await this.getUsers();
-    //Check if the user is already registered
     if (this.isRegisteredUser(this.passwordRecoveryForm.value.email)) {
       console.log('El usuario ya está registrado');
     } else {
       console.log('El usuario no está registrado');
       //TODO: Send an email to the user with the new password
     }
+  }
+
+  async storeIdUser( email: string) {
+    await this.getUsers();
+    const user = this.users.find(user => user.email === email);
+    localStorage.setItem('user', JSON.stringify(user?.user_id));
   }
 }
 

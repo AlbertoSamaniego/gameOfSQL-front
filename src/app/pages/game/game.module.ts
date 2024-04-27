@@ -9,7 +9,7 @@ import { SharedModule } from '../../shared/shared.module';
   imports: [
     CommonModule,
     GameRoutingModule,
-    SharedModule
+    SharedModule,
   ],
 })
 export class GameModule { }

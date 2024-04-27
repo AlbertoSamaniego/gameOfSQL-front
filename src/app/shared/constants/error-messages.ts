@@ -33,8 +33,34 @@ export const formMessages = [
         message: 'La contraseña es obligatoria'
       },
       {
-        type: 'passwordMismatch',
+        type: 'notEqual',
         message: 'Las contraseñas no coinciden'
+      },
+    ]
+  },
+  {
+    name: 'newEmail',
+    errors: [
+      {
+        type: 'required',
+        message: 'El correo es obligatorio'
+      },
+      {
+        type: 'pattern',
+        message: 'El email debe de ser válido'
+      },
+    ]
+  },
+  {
+    name: 'confirmEmail',
+    errors: [
+      {
+        type: 'required',
+        message: 'La correo es obligatoria'
+      },
+      {
+        type: 'notEqual',
+        message: 'Los correos no coinciden'
       },
     ]
   },
@@ -48,6 +74,19 @@ export const formMessages = [
       {
         type: 'pattern',
         message: 'La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un número y tener al menos 6 caracteres'
+      },
+    ]
+  },
+  {
+    name: 'confirmPassword',
+    errors: [
+      {
+        type: 'required',
+        message: 'La contraseña es obligatoria'
+      },
+      {
+        type: 'notEqual',
+        message: 'Las contraseñas no coinciden'
       },
     ]
   }
