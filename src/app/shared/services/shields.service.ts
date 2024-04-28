@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Shield } from '../interfaces/shield.interface';
 import { HttpClient } from '@angular/common/http';
 import { endpoints } from '../constants/end-points';
@@ -7,8 +7,18 @@ import { endpoints } from '../constants/end-points';
 @Injectable({providedIn: 'root'})
 export class ShieldsService {
   constructor( private http: HttpClient ) { }
-  //get shields
-  getShields(): Observable<Shield[]> {
-    return this.http.get<Shield[]>(endpoints.shieldsUrl);
+  //return non-premium shields and premium shields that user has whose id is in the array
+  getShields(premiumShields: string[]): Observable<Shield[]> {
+    return this.http.get<Shield[]>(endpoints.shieldsUrl).pipe(
+      map((shields) => {
+        return shields.filter((shield) => {
+          return shield.isPremium === '0' || premiumShields.includes(shield.id);
+        });
+      })
+    );
+  }
+
+  getShieldById(id: string): Observable<Shield> {
+    return this.http.get<Shield>(`${endpoints.shieldById}${id}`);
   }
 }

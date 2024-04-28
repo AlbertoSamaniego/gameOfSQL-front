@@ -37,11 +37,7 @@ export class UserService {
       field_email: [{ value: email }],
       type: [{ target_id: 'registered_user' }],
     };
-    console.log(newUser);
-
     const params = { _format: 'json' };
-    console.log(`${endpoints.updateUserUrl}/${id}`);
-
     return this.http.patch<User>(`${endpoints.updateUserUrl}/${id}`, newUser, { params });
   }
 
@@ -88,7 +84,7 @@ export class UserService {
       ],
       "field_shield": [
         {
-          "value": "https://game-of-sql.ddev.site/themes/custom/game_of_sql/images/escudos/cerwyn.png"
+          "target_id": "33"
         }
       ],
       "type": [
@@ -101,6 +97,20 @@ export class UserService {
     return this.http.patch<User>(`${endpoints.rebootUserUrl}/${id}`, newUser, { params });
   }
 
+  updateCharacter(user: User): Observable<User> {
+    const newUser = {
+      "field_character_name": [{ "value": `${user.character_name}` }],
+      "field_character_nickname": [{ "value": `${user.character_nickname}` }],
+      "field_house_name": [{ "value": `${user.house_name}` }],
+      "field_house_motto": [{ "value": `${user.house_motto}` }],
+      "field_shield": [{ "target_id": `${user.url_shield}` }],
+      "type": [{ "target_id": 'registered_user' }],
+    };
+    console.log(newUser);
+
+    const params = { _format: 'json' };
+    return this.http.patch<User>(`${endpoints.updateUserUrl}/${user.user_id}`, newUser, { params });
+  }
 
 }
 

@@ -8,4 +8,5 @@ export interface User {
   house_motto: string;
   url_shield: string;
   archievements_id: string[];
+  premium_shields: string[];
 }

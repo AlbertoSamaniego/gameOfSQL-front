@@ -4,6 +4,10 @@ import { User } from '../../../../../shared/interfaces/user.interface';
 import { Shield } from '../../../../../shared/interfaces/shield.interface';
 import { ShieldsService } from '../../../../../shared/services/shields.service';
 import { endpoints } from '../../../../../shared/constants/end-points';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ValidatorsService } from '../../../../../shared/services/validators.service';
+import { formMessages } from '../../../../../shared/constants/error-messages';
+import { UserService } from '../../../../../shared/services/user-service.service';
 
 @Component({
   selector: 'app-game-profile',
@@ -16,29 +20,42 @@ export class GameProfileComponent implements OnInit {
   public shields: Shield[] = [];
   public urlShields: string[] = [];
   public indexShield!: number;
+  public characterForm: FormGroup = this.fb.group({
+    name: ['', [Validators.required]],
+    house: ['', [Validators.required]],
+    nickname: ['', [Validators.required]],
+    motto: ['', [Validators.required]]
+  });
 
-  constructor(private authService: AuthService, private shieldService: ShieldsService) { }
+  constructor(
+    private authService: AuthService,
+    private shieldService: ShieldsService,
+    private fb: FormBuilder,
+    private validatorsService: ValidatorsService,
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
     this.currentUser = this.authService.getCurrentUser;
-    this.addCharacterToDOM(this.currentUser.character_name, this.currentUser.house_name, this.currentUser.character_nickname, this.currentUser.house_motto)
+    this.setCharacterFormValues(this.currentUser.character_name, this.currentUser.house_name, this.currentUser.character_nickname, this.currentUser.house_motto);
     this.initShields();
+    setTimeout(() => {
+      console.log(this.shields);
+
+    }, 1000);
   }
 
-  addCharacterToDOM(name: string, house: string, nickname: string, motto: string) {
-    const nameElement = document.getElementById('name') as HTMLInputElement;
-    const houseElement = document.getElementById('house') as HTMLInputElement;
-    const nicknameElement = document.getElementById('nickname') as HTMLInputElement;
-    const mottoElement = document.getElementById('motto') as HTMLInputElement;
-
-    nameElement.value = name;
-    houseElement.value = house;
-    nicknameElement.value = nickname;
-    mottoElement.value = motto;
+  setCharacterFormValues(name: string, house: string, nickname: string, motto: string) {
+    this.characterForm.patchValue({
+      name: name,
+      house: house,
+      nickname: nickname,
+      motto: motto
+    });
   }
 
   initShields() {
-    this.shieldService.getShields().subscribe((shields) => {
+    this.shieldService.getShields(this.currentUser.premium_shields).subscribe((shields) => {
       this.shields = shields;
       this.shields.forEach((shield) => {
         const filename: string = shield.image.split("/").pop()!;
@@ -81,6 +98,45 @@ export class GameProfileComponent implements OnInit {
 
   filterNameShieldImage(fullUrl: string): string {
     return fullUrl.replace('sites/default/files/2024-04/', '')?.replace('/', '') || '';
+  }
+
+  updateCharacter() {
+    //Update the user with the values of the form
+    this.currentUser.character_name = this.characterForm.get('name')?.value;
+    this.currentUser.house_name = this.characterForm.get('house')?.value;
+    this.currentUser.character_nickname = this.characterForm.get('nickname')?.value;
+    this.currentUser.house_motto = this.characterForm.get('motto')?.value;
+    this.currentUser.url_shield = this.shields[this.indexShield].id.toString();
+    //Update the user in the database
+    if (this.characterForm.invalid) {
+      this.characterForm.markAllAsTouched();
+      return;
+    }
+    this.userService.updateCharacter(this.currentUser).subscribe({
+      next: (user) => {
+        this.authService.setCurrentUser(user);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+
+  }
+
+  isValidField(field: string, form: FormGroup): boolean | null {
+    return this.validatorsService.isValidField(field, form);
+  }
+
+  getFieldError(field: string, form: FormGroup): string | null {
+    const fieldMessage = formMessages.find((message) => message.name === field);
+    if (!fieldMessage) return null;
+    const errors = form.controls[field].errors || {};
+    for (const error of fieldMessage.errors) {
+      if (errors[error.type]) {
+        return error.message;
+      }
+    }
+    return null;
   }
 
 }

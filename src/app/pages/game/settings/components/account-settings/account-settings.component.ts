@@ -129,7 +129,6 @@ export class AccountSettingsComponent implements OnInit{
   }
 
   rebootAccount(): void {
-
       this.userService.rebootUser(this.currentUser.user_id).subscribe({
         next: (userData: User) => {
           this.authService.setCurrentUser(userData);

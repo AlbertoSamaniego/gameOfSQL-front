@@ -78,6 +78,42 @@ export const formMessages = [
     ]
   },
   {
+    name: 'name',
+    errors: [
+      {
+        type: 'required',
+        message: 'El nombre es obligatorio'
+      },
+    ]
+  },
+  {
+    name: 'nickname',
+    errors: [
+      {
+        type: 'required',
+        message: 'El apodo es obligatorio'
+      },
+    ]
+  },
+  {
+    name: 'house',
+    errors: [
+      {
+        type: 'required',
+        message: 'El nombre de la casa es obligatorio'
+      },
+    ]
+  },
+  {
+    name: 'motto',
+    errors: [
+      {
+        type: 'required',
+        message: 'Las palabras de las casa son obligatorias'
+      },
+    ]
+  },
+  {
     name: 'confirmPassword',
     errors: [
       {
