@@ -48,7 +48,7 @@ export class HomeGameComponent implements OnInit, OnDestroy {
     this.imgElement = this.renderer.createElement('img');
     this.renderer.setAttribute(this.imgElement, 'src', '../../../../assets/game/fondo-main-menu.jpeg');
     this.renderer.setStyle(this.imgElement, 'width', '100%');
-    this.renderer.setStyle(this.imgElement, 'height', 'auto');
+    this.renderer.setStyle(this.imgElement, 'height', '100vh');
     this.renderer.appendChild(document.body, this.imgElement);
     this.audioService.reproducirMusicaDeFondo();
   }

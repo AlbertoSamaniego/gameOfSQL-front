@@ -87,6 +87,11 @@ export class UserService {
           "target_id": "33"
         }
       ],
+      "field_premium_shields":[
+        {
+          "value": []
+        }
+      ],
       "type": [
         {
           "target_id": "registered_user"

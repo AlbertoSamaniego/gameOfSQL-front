@@ -57,7 +57,7 @@
         </li>
       </ul>
     </div>
-    <div class="m-5">
+    <div class="m-5 container__img-holder" (click)="displayImageUml()">
       <img src="../../../../assets/game/info/uml.png" alt="Diagrama UML"  class="img-fluid">
     </div>
     <div class="row m-5">
@@ -119,7 +119,11 @@
         </li>
       </ul>
     </div>
-    <div class="m-5">
+    <div class="m-5 container__img-holder" (click)="displayImageEr()">
       <img src="../../../../assets/game/info/er.png" alt="Diagrama relacional"  class="img-fluid">
     </div>
+  </div>
+
+  <div class="img-popup" (click)="closePopup()">
+    <img src="" alt="Popup Image" (click)="stopPropagation($event)">
   </div>

@@ -6,17 +6,29 @@
       <button type="button" class="next" id="next" (click)="showNextShield()"></button>
     </div>
     <div class="character">
-      <input type="text" formControlName="name" id="name" placeholder="Nombre">
-      <span class="form-text text-danger" *ngIf="isValidField('name', characterForm)">{{ getFieldError('name', characterForm) }}</span>
+      <div>
+        <input type="text" formControlName="name" id="name" placeholder="Nombre">
+        <span class="form-text text-danger" *ngIf="isValidField('name', characterForm)">{{ getFieldError('name',
+          characterForm) }}</span>
+      </div>
 
-      <input type="text" formControlName="nickname" id="nickname" placeholder="Apodo">
-      <span class="form-text text-danger" *ngIf="isValidField('nickname', characterForm)">{{ getFieldError('nickname', characterForm) }}</span>
+      <div>
+        <input type="text" formControlName="nickname" id="nickname" placeholder="Apodo">
+        <span class="form-text text-danger" *ngIf="isValidField('nickname', characterForm)">{{ getFieldError('nickname',
+          characterForm) }}</span>
+      </div>
 
-      <input type="text" formControlName="house" id="house" placeholder="Casa">
-      <span class="form-text text-danger" *ngIf="isValidField('house', characterForm)">{{ getFieldError('house', characterForm) }}</span>
+      <div>
+        <input type="text" formControlName="house" id="house" placeholder="Casa">
+        <span class="form-text text-danger" *ngIf="isValidField('house', characterForm)">{{ getFieldError('house',
+          characterForm) }}</span>
+      </div>
 
-      <input type="text" formControlName="motto" id="motto" placeholder="Lema">
-      <span class="form-text text-danger" *ngIf="isValidField('motto', characterForm)">{{ getFieldError('motto', characterForm) }}</span>
+      <div>
+        <input type="text" formControlName="motto" id="motto" placeholder="Lema">
+        <span class="form-text text-danger" *ngIf="isValidField('motto', characterForm)">{{ getFieldError('motto',
+          characterForm) }}</span>
+      </div>
     </div>
     <div class="save">
       <button type="submit">GUARDAR</button>

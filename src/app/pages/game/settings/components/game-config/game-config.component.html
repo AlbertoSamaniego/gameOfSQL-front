@@ -1,6 +1,6 @@
 <section id="game-config">
   <form [formGroup]="configGameForm" (ngSubmit)="updateGameConfig()" class="row">
-    <div class="labels col-sm-5 d-flex flex-column">
+    <div class="labels col-5 d-flex flex-column">
       <label for="day/night" class="mb-3">EFECTO DIA/NOCHE</label>
       <label for="full-screen" class="mb-3">PANTALLA COMPLETA</label>
       <label for="music-volume" class="mb-3">VOLUMEN DE LA MUSICA</label>
@@ -8,42 +8,42 @@
       <label for="point-size" class="mb-3">TAMAÑO DE LOS PUNTOS</label>
     </div>
 
-    <div class="inputs col-sm-7">
+    <div class="inputs col-7">
       <div class="input d-flex justify-content-around mb-3">
         <div>
-          <input type="radio" formControlName="day" name="day/night" id="day"> SÍ
+          <input type="radio" formControlName="dayNight" name="dayNight" id="day" value="true"> SÍ
         </div>
         <div>
-          <input type="radio" formControlName="night" name="day/night" id="night" checked> NO
+          <input type="radio" formControlName="dayNight" name="dayNight" id="night" value="false" checked> NO
         </div>
       </div>
       <div class="input d-flex justify-content-around mb-3">
         <div>
-          <input type="radio" formControlName="fullScreen" name="full-screen" id="full-screen"> SÍ
+          <input type="radio" formControlName="fullScreen" name="fullScreen" id="full-screen" value="true"> SÍ
         </div>
         <div>
-          <input type="radio" formControlName="noFullScreen" name="full-screen" id="full-screen-no" checked> NO
+          <input type="radio" formControlName="fullScreen" name="fullScreen" id="full-screen-no" value="false" checked> NO
         </div>
       </div>
       <div class="input d-flex align-items-center mb-3">
         <div class="sound-off"></div>
-        <input formControlName="musicVolume" type="range" name="music-volume" id="music-volume" min="0" max="100" step="1" value="30">
+        <input formControlName="musicVolume" type="range" name="musicVolume" id="music-volume" min="0" max="100" step="1" value="30">
         <div class="sound-on"></div>
       </div>
       <div class="input d-flex mb-3 align-items-center">
         <div class="sound-off"></div>
-        <input formControlName="soundEffect" type="range" name="sound-effect" id="sound-effect" min="0" max="100" step="1" value="50">
+        <input formControlName="soundEffect" type="range" name="soundEffect" id="sound-effect" min="0" max="100" step="1" value="50">
         <div class="sound-on"></div>
       </div>
       <div class="input d-flex mb-3 d-flex justify-content-between">
         <div>
-          <input formControlName="smallPoints" type="radio" name="point-size" id="small"> PEQUEÑO
+          <input formControlName="pointSize" type="radio" name="pointSize" id="small" value="small"> PEQUEÑO
         </div>
         <div>
-          <input formControlName="mediumPoints" type="radio" name="point-size" id="medium" checked> MEDIANO
+          <input formControlName="pointSize" type="radio" name="pointSize" id="medium" value="medium" checked> MEDIANO
         </div>
         <div>
-          <input formControlName="bigPoints" type="radio" name="point-size" id="big"> GRANDE
+          <input formControlName="pointSize" type="radio" name="pointSize" id="big" value="big"> GRANDE
         </div>
       </div>
     </div>

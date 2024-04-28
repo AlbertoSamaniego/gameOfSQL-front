@@ -7,6 +7,7 @@ import { emailPattern, passwordPattern } from '../../../../../shared/constants/p
 import { ValidatorsService } from '../../../../../shared/services/validators.service';
 import { formMessages } from '../../../../../shared/constants/error-messages';
 import { Router } from '@angular/router';
+import { GameConfigService } from '../../../../../shared/services/game-config.service';
 
 @Component({
   selector: 'app-account-settings',
@@ -42,6 +43,7 @@ export class AccountSettingsComponent implements OnInit{
     private fb: FormBuilder,
     private registeredUsersService: UserService,
     private router: Router,
+    private gameConfigService: GameConfigService
   ) { }
 
   ngOnInit() {
@@ -125,10 +127,9 @@ export class AccountSettingsComponent implements OnInit{
       });
       localStorage.clear();
       this.router.navigate(['/home']);
-
   }
 
-  rebootAccount(): void {
+  rebootAccount() {
       this.userService.rebootUser(this.currentUser.user_id).subscribe({
         next: (userData: User) => {
           this.authService.setCurrentUser(userData);
@@ -137,8 +138,7 @@ export class AccountSettingsComponent implements OnInit{
           console.log(error);
         }
       });
-      this.router.navigate(['/game/home-game']);
-
+      this.gameConfigService.rebootGameConfig();
   }
 
   isValidField(field: string, form: FormGroup): boolean | null {

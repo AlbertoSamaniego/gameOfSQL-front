@@ -1,7 +1,5 @@
-import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2, ElementRef } from '@angular/core';
 import { AudioService } from '../../../shared/services/audio-service.service';
-import { User } from '../../../shared/interfaces/user.interface';
-import { AuthService } from '../../../shared/services/auth-service.service';
 
 @Component({
   selector: 'app-information',
@@ -10,12 +8,15 @@ import { AuthService } from '../../../shared/services/auth-service.service';
 })
 export class InformationComponent implements OnInit, OnDestroy {
   private imgElement!: HTMLElement;
-  public currentUser: User = {} as User;
+  private imgPopup!: HTMLElement | null;
+  private popupImage!: HTMLImageElement | null;
 
-  constructor(private renderer: Renderer2, private audioService: AudioService,) { }
+  constructor(private renderer: Renderer2, private audioService: AudioService, private elementRef: ElementRef) { }
 
   ngOnInit() {
     this.loadImage();
+    this.imgPopup = this.elementRef.nativeElement.querySelector('.img-popup');
+    this.popupImage = this.elementRef.nativeElement.querySelector('.img-popup img');
   }
 
   ngOnDestroy(): void {
@@ -39,5 +40,30 @@ export class InformationComponent implements OnInit, OnDestroy {
     this.renderer.setStyle(this.imgElement, 'z-index', '-1');
     document.body.style.background = 'none';
     document.body.appendChild(this.imgElement);
+  }
+
+  displayImageUml() {
+    if (this.imgPopup && this.popupImage) {
+      this.popupImage.src = '../../../../assets/game/info/uml.png';
+      this.imgPopup.classList.add('opened');
+    }
+  }
+
+  displayImageEr() {
+    if (this.imgPopup && this.popupImage) {
+      this.popupImage.src = '../../../../assets/game/info/er.png';
+      this.imgPopup.classList.add('opened');
+    }
+  }
+
+  closePopup() {
+    if (this.imgPopup && this.popupImage) {
+      this.imgPopup.classList.remove('opened');
+      this.popupImage.src = '';
+    }
+  }
+
+  stopPropagation(event: Event) {
+    event.stopPropagation();
   }
 }
