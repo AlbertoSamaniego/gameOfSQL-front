@@ -37,6 +37,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/leaflet/dist/leaflet.css",
               "src/global.scss"
 
             ],
@@ -104,6 +105,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/leaflet/dist/leaflet.css",
               "src/global.scss"
             ],
             "scripts": []

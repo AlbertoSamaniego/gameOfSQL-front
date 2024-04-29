@@ -1,1 +1,16 @@
-<p>map works!</p>
+<div class="map-container">
+  <div class="map-frame">
+    <div id="map"></div>
+  </div>
+</div>
+
+<div class="modal" [class.active]="modalActive">
+  <div class="modal-content">
+    <p>¿Estás seguro de que deseas salir?</p>
+    <span>{{resGPT}}</span>
+    <div class="modal-buttons">
+      <button (click)="confirmExit()">Sí</button>
+      <button (click)="cancelExit()">No</button>
+    </div>
+  </div>
+</div>

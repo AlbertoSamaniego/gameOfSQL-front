@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit, Renderer2, ElementRef } from '@angular/core';
 import { AudioService } from '../../../shared/services/audio-service.service';
+import { informationUml } from '../../../shared/constants/information-uml';
+import { informationEr } from '../../../shared/constants/information-er';
 
 @Component({
   selector: 'app-information',
@@ -10,8 +12,15 @@ export class InformationComponent implements OnInit, OnDestroy {
   private imgElement!: HTMLElement;
   private imgPopup!: HTMLElement | null;
   private popupImage!: HTMLImageElement | null;
+  public infoUml = informationUml;
+  public infoEr = informationEr;
 
-  constructor(private renderer: Renderer2, private audioService: AudioService, private elementRef: ElementRef) { }
+
+  constructor(
+    private renderer: Renderer2,
+    private audioService: AudioService,
+    private elementRef: ElementRef,
+  ) { }
 
   ngOnInit() {
     this.loadImage();
@@ -44,14 +53,14 @@ export class InformationComponent implements OnInit, OnDestroy {
 
   displayImageUml() {
     if (this.imgPopup && this.popupImage) {
-      this.popupImage.src = '../../../../assets/game/info/uml.png';
+      this.popupImage.src = '../../../../assets/game/info/uml.jpg';
       this.imgPopup.classList.add('opened');
     }
   }
 
   displayImageEr() {
     if (this.imgPopup && this.popupImage) {
-      this.popupImage.src = '../../../../assets/game/info/er.png';
+      this.popupImage.src = '../../../../assets/game/info/er.jpg';
       this.imgPopup.classList.add('opened');
     }
   }
