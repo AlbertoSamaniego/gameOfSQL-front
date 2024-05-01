@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, Renderer2, ElementRef } from '@angular/core';
 import { AudioService } from '../../../shared/services/audio-service.service';
-import { informationUml } from '../../../shared/constants/information-uml';
+import { informationUml  } from '../../../shared/constants/information-uml';
 import { informationEr } from '../../../shared/constants/information-er';
 
 @Component({

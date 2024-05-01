@@ -12,6 +12,7 @@
 
 #map {
   height: 100%;
+  width: 100%;
 }
 
 .modal {
@@ -35,6 +36,9 @@
   background-color: white;
   padding: 20px;
   border-radius: 5px;
+  border: 2px solid var(--accent-dark);
+  background-color: var(--accent-light);
+  color: var(--primary-dark);
 }
 
 .modal-buttons {
@@ -47,4 +51,13 @@
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  background-color: var(--primary-light-light);
+  color: var(--primary-dark);
+  border: 2px solid transparent;
+
+  &:hover {
+    background-color: var(--accent-shade);
+    color: var(--primary-light-light);
+    border: 2px solid #C38D5F;
+  }
 }
