@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { chatGPTService } from '../../../shared/services/chatGPT.service';
 import { User } from '../../../shared/interfaces/user.interface';
 import { AuthService } from '../../../shared/services/auth-service.service';
+import { PointsService } from '../../../shared/services/points.service';
+import { Point } from '../../../shared/interfaces/point.inteface';
 
 @Component({
   selector: 'app-map',
@@ -19,24 +21,38 @@ export class MapComponent implements AfterViewInit {
   private imageHeight!: number;
   public modalActive: boolean = false;
   public resGPT = '';
+  public points: Point[] = [];
 
   constructor(
     private configService: GameConfigService,
     private router: Router,
     private gpt: chatGPTService,
     private authService: AuthService,
+    private pointsOfInterestService: PointsService,
   ) { }
 
   ngAfterViewInit(): void {
     console.log(this.configService.getGameConfig());
     this.loadImageAndInitMap();
-    this.gpt.getChatResponse('Hello buddy').subscribe((res: any) => {
+    this.loadPointsOfInterest();
+    /* this.gpt.getChatResponse('Hello buddy').subscribe((res: any) => {
       console.log('res-->', res);
       this.resGPT = res.choices[0].message.content;
       console.log(this.resGPT);
-    });
+    }); */
     this.currentUser = this.authService.getCurrentUser;
-    console.log(this.currentUser);
+  }
+
+  loadPointsOfInterest() {
+    this.pointsOfInterestService.getPointsOfInterest().subscribe(points => {
+      points.forEach(point => {
+        if (point.coordinates) {
+          const coordinates = point.coordinates.split(',').map(coord => parseFloat(coord.trim()));
+          const marker = L.marker(coordinates as L.LatLngExpression).addTo(this.map);
+          marker.bindPopup(`<b>${point.title}</b>`);
+        }
+      });
+    });
   }
 
   loadImageAndInitMap(): void {
@@ -57,41 +73,11 @@ export class MapComponent implements AfterViewInit {
       minZoom: -2,
       maxZoom: 1,
       zoomSnap: 0.1,
-
     });
-
     const bounds: L.LatLngBoundsLiteral = [[0, 0], [this.imageHeight, this.imageWidth]];
-
     L.imageOverlay('../../../assets/game/map/map-layer.jpg', bounds).addTo(this.map);
-
     this.map.setMaxBounds(bounds);
     this.map.fitBounds(bounds);
-
-    var greenIcon = L.icon({
-      iconUrl: '../../../assets/game/map/point-icon.png',
-
-      iconSize:     [38, 95], // size of the icon
-      shadowSize:   [50, 64], // size of the shadow
-      iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-      shadowAnchor: [4, 62],  // the same for the shadow
-      popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-  });
-
-    var marker = L.marker([3184, 1104], {icon: greenIcon}).addTo(this.map);
-    marker.bindPopup("<b>Hello World!</b><br>This is a customizable popup.").openPopup();
-
-    var tooltipMarker = L.marker([0, 0], { opacity: 0 }).addTo(this.map);
-
-    // Event listener for mousemove
-    this.map.on('mousemove', function (e) {
-       var latlng = e.latlng;
-       tooltipMarker.setLatLng(latlng);
-       tooltipMarker.bindTooltip('Coordinates: ' + latlng.lat.toFixed(6) + ', ' + latlng.lng.toFixed(6), {
-          permanent: true,
-          direction: 'bottom'
-       }).openTooltip();
-    });
-
   }
 
   @HostListener('document:keydown', ['$event'])

@@ -1,1 +1,29 @@
-<p>chatbot works!</p>
+<div class="container">
+  <div class="shield"></div>
+  <div class="title text-center d-flex align-items-center justify-content-center">dsfsdfds</div>
+  <div class="content d-flex justify-content-between">
+    <div class="left d-flex flex-column ">
+      <div class="question w-100 mb-2">
+        <p class="m-0 p-2">fsdfsdf</p>
+      </div>
+      <div class="answer">
+        <textarea name="" id="" class="w-100" placeholder="Inserta el código SQL aquí..."></textarea>
+      </div>
+      <div class="buttons d-flex justify-content-between align-items-center mt-2">
+        <div class="hints d-flex">
+          <div class="hint-link hint-link-1"></div>
+          <div class="hint-link hint-link-2"></div>
+          <div class="hint-link hint-link-3"></div>
+        </div>
+        <div class="submit">
+          <button>¡LISTO!</button>
+        </div>
+      </div>
+    </div>
+    <div class="right ml-2 container__img-holder" (click)="displayImageEr()"></div>
+  </div>
+</div>
+
+<div class="img-popup" (click)="closePopup()">
+  <img src="" alt="Popup Image" (click)="stopPropagation($event)">
+</div>

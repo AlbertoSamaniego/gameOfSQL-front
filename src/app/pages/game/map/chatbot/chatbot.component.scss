@@ -1,0 +1,143 @@
+.container {
+  position: absolute;
+  top: 30%;
+  left: 35%;
+  width: 50em;
+  height: 20em;
+  z-index: 999;
+  margin: -80px 0 0 -150px;
+  border: 5px solid var(--accent-dark);
+  background-color: var(--accent-light-light);
+  color: var(--primary-dark);
+
+  .shield {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    float: left;
+    float: left;
+    left: -65px;
+    top: -50px;
+    background-color: var(--accent-light);
+  }
+
+  .title {
+    position: relative;
+    width: 300px;
+    height: 50px;
+    margin: auto;
+    top: -26px;
+    background-color: var(--accent-light);
+  }
+
+  .left {
+    width: 45%;
+
+    .question {
+      background-color: var(--accent-light);
+      border: 2px solid var(--accent-dark);
+    }
+
+    .hints {
+      justify-content: space-between;
+      width: 170px;
+    }
+
+    .hint-link {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-dark);
+      background-image: url('../../../../../assets/game/map/hint-link.png');
+      background-position: center;
+      background-size: cover;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        background-color: var(--accent-dark);
+      }
+    }
+
+    .answer textarea {
+      height: 150px;
+      overflow-y: scroll;
+      resize: none;
+      background-color: var(--primary-dark);
+      color: var(--primary-light-light);
+    }
+
+    .submit button {
+      padding: 3px 5px;
+      background-color: var(--primary-light-light);
+      color: var(--primary-dark);
+      font-size: 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+      border: 2px solid transparent;
+
+      &:hover {
+        background-color: var(--accent-shade);
+        color: var(--primary-light-light);
+        border: 2px solid #C38D5F;
+      }
+    }
+  }
+
+  .right{
+    width: 45%;
+    background-image: url('../../../../../assets/game/info/er.jpg');
+    background-position: center;
+    background-size: cover;
+  }
+}
+
+
+.img-popup {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(255, 255, 255, .5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  z-index: 10000;
+}
+
+.img-popup img {
+  max-width: 80vw;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(-100px);
+  -webkit-transform: translateY(-100px);
+  -moz-transform: translateY(-100px);
+  -ms-transform: translateY(-100px);
+  -o-transform: translateY(-100px);
+}
+
+.opened {
+  display: flex;
+}
+
+.opened img {
+  animation: animatepopup 1s ease-in-out .8s;
+  -webkit-animation: animatepopup .3s ease-in-out forwards;
+}
+
+@keyframes animatepopup {
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    -webkit-transform: translateY(0);
+    -moz-transform: translateY(0);
+    -ms-transform: translateY(0);
+    -o-transform: translateY(0);
+  }
+
+}
