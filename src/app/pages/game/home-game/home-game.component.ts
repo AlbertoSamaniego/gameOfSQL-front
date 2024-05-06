@@ -24,8 +24,6 @@ export class HomeGameComponent implements OnInit, OnDestroy {
     this.loadImage();
     await this.getUserByEmail();
     this.currentUser =  this.authService.getCurrentUser;
-    console.log(this.currentUser);
-
   }
 
   ngOnDestroy(): void {

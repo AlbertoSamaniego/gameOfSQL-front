@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, HostListener } from '@angular/core';
+import { Component, AfterViewInit, HostListener, ViewChild } from '@angular/core';
 import { GameConfigService } from '../../../shared/services/game-config.service';
 import * as L from 'leaflet';
 import { Router } from '@angular/router';
@@ -7,6 +7,10 @@ import { User } from '../../../shared/interfaces/user.interface';
 import { AuthService } from '../../../shared/services/auth-service.service';
 import { PointsService } from '../../../shared/services/points.service';
 import { Point } from '../../../shared/interfaces/point.inteface';
+import { GameConfig } from '../../../shared/interfaces/game-config.interface';
+import { AudioService } from '../../../shared/services/audio-service.service';
+import { ddl } from '../../../shared/constants/database';
+import { PointDetailComponent } from './point-detail/point-detail.component';
 
 @Component({
   selector: 'app-map',
@@ -15,12 +19,18 @@ import { Point } from '../../../shared/interfaces/point.inteface';
 })
 export class MapComponent implements AfterViewInit {
 
+  @ViewChild('pointDetail') pointDetailComponent: PointDetailComponent | undefined;
+
   private map!: L.Map;
   public currentUser: User = {} as User;
   private imageWidth!: number;
   private imageHeight!: number;
+  private gameConfig!: GameConfig;
   public modalActive: boolean = false;
+  private isFullScreen: boolean = false;
+  private isDayNight: boolean = false;
   public resGPT = '';
+  private intervalId: any;
   public points: Point[] = [];
 
   constructor(
@@ -29,44 +39,114 @@ export class MapComponent implements AfterViewInit {
     private gpt: chatGPTService,
     private authService: AuthService,
     private pointsOfInterestService: PointsService,
+    private audioService: AudioService,
   ) { }
 
-  ngAfterViewInit(): void {
-    console.log(this.configService.getGameConfig());
-    this.loadImageAndInitMap();
-    this.loadPointsOfInterest();
-    /* this.gpt.getChatResponse('Hello buddy').subscribe((res: any) => {
-      console.log('res-->', res);
+  async ngAfterViewInit() {
+    this.currentUser = this.authService.getCurrentUser;
+
+
+    this.gameConfig = this.configService.getGameConfig();
+    await this.loadImageAndInitMap();
+    setTimeout(async () => {
+      await this.loadPointsOfInterest();
+    }, 500);
+    this.loadGameConfig();
+    /* this.gpt.getChatResponse(`Describe la siguiente base de datos:\n${ddl}`).subscribe((res: any) => {
       this.resGPT = res.choices[0].message.content;
       console.log(this.resGPT);
     }); */
-    this.currentUser = this.authService.getCurrentUser;
+    setTimeout(async () => {
+      await this.loadIntroduccion();
+    }, 1000);
   }
 
-  loadPointsOfInterest() {
-    this.pointsOfInterestService.getPointsOfInterest().subscribe(points => {
+  async loadIntroduccion() {
+    this.pointDetailComponent!.currentUser = this.currentUser;
+    const pointId53 = this.points.find(point => point.id === "53");
+    if (pointId53) {
+      this.pointDetailComponent!.point = pointId53;
+    }
+  }
+
+  loadGameConfig(): void {
+    this.gameConfig = this.configService.getGameConfig();
+    this.isFullScreen = this.gameConfig.fullScreen === "true";
+    this.isDayNight = this.gameConfig.dayNight === "true";
+    this.audioService.setMusicVolume(this.gameConfig.musicVolume);
+  }
+
+  toggleFullScreen(): void {
+    if (this.isFullScreen) {
+      this.isFullScreen = false;
+      document.body.requestFullscreen();
+    } else if (document.fullscreenElement) {
+      this.isFullScreen = true;
+      document.exitFullscreen();
+    }
+  }
+
+
+  toggleDayNight(): void {
+    if (this.isDayNight) {
+      this.isDayNight = false;
+      let brightness = 1;
+      this.intervalId = setInterval(() => {
+        brightness = brightness === 1 ? 0.3 : 1;
+        document.getElementById('map-container')!.style.transition = 'filter 5s';
+        document.getElementById('map-container')!.style.filter = `brightness(${brightness})`;
+      }, 2000);
+    } else {
+      clearInterval(this.intervalId);
+      this.isDayNight = true;
+      document.getElementById('map-container')!.style.filter = 'brightness(1)';
+    }
+  }
+
+
+  async loadPointsOfInterest() {
+    let iconSize: [number, number] = [52, 72];
+    switch (this.gameConfig.pointSize) {
+      case 'small':
+        iconSize = [32, 52];
+        break;
+      case 'medium':
+        iconSize = [52, 72];
+        break;
+      case 'big':
+        iconSize = [72, 92];
+        break;
+      default:
+        break;
+    }
+    const customIcon = L.icon({
+      iconUrl: '../../../assets/game/map/point-icon.png',
+      iconSize: iconSize,
+    });
+    await this.pointsOfInterestService.getPointsOfInterest().subscribe(points => {
       points.forEach(point => {
+        this.points.push(point);
         if (point.coordinates) {
           const coordinates = point.coordinates.split(',').map(coord => parseFloat(coord.trim()));
-          const marker = L.marker(coordinates as L.LatLngExpression).addTo(this.map);
+          const marker = L.marker(coordinates as L.LatLngExpression, { icon: customIcon }).addTo(this.map);
           marker.bindPopup(`<b>${point.title}</b>`);
         }
       });
     });
   }
 
-  loadImageAndInitMap(): void {
+  async loadImageAndInitMap() {
     const imageUrl = '../../../assets/game/map/map-layer.jpg';
     const img = new Image();
-    img.onload = () => {
+    img.onload = async () => {
       this.imageWidth = img.width;
       this.imageHeight = img.height;
-      this.initMap();
+      await this.initMap();
     };
     img.src = imageUrl;
   }
 
-  initMap(): void {
+  async initMap() {
     this.map = L.map('map', {
       zoom: 0,
       crs: L.CRS.Simple,
@@ -93,6 +173,14 @@ export class MapComponent implements AfterViewInit {
         this.map.keyboard.disable();
         if (this.map.tap) this.map.tap.disable();
       }
+    } else if (event.key === 'f' || event.key === 'F') {
+      if (this.gameConfig.fullScreen === "true") {
+        this.toggleFullScreen();
+      }
+    } else if (event.key === 'd' || event.key === 'D') {
+      if(this.gameConfig.dayNight === "true") {
+        this.toggleDayNight();
+      }
     }
   }
 
@@ -111,21 +199,3 @@ export class MapComponent implements AfterViewInit {
     if (this.map.tap) this.map.tap.enable();
   }
 }
-
-//TODO
-/**
- * 1. Import the interest points and represent them on the map
- * 2. The chatbot received the sql of the database
- * 3. When the map component is initialized, the introduccion point is diplayed
- * 4. Only the first point is displayed
- * 5. When the user clicks on the point, the poput with the point's story is displayed (in parts)
- * 6. The user can click on the next button to see the next part of the story
- * 7. When the last part is displayed, the next popup will be the chatbot with the question
- * 8. The user can write the answer and send it
- * 9. The chatbot evaluates the answer and sends back the response
- * 10. The response is displayed in the chatbot popup
- * 11. Depending on the response, the next points are displayed and the user receives posible archievement
- * 12. Repeat from step 5
- * 13. When the last point is displayed, the final popup is displayed with the result of the story
- * 14. The user receives the premium shield
- */

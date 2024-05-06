@@ -61,3 +61,12 @@
     border: 2px solid #C38D5F;
   }
 }
+
+
+.dark-state {
+  filter: brightness(0.5);
+}
+
+.normal-state {
+  filter: brightness(1);
+}

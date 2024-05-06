@@ -27,6 +27,10 @@ export class AudioService {
     audio.play();
   }
 
+  setMusicVolume(volume: number) {
+    this.audioMusicaDeFondo.volume = volume / 100;
+  }
+
   reproducirMusicaDeFondo() {
     this.audioMusicaDeFondo.play();
   }

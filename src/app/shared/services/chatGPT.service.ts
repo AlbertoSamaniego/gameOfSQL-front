@@ -13,7 +13,7 @@ export class chatGPTService {
 
   constructor(private http: HttpClient ) { }
 
-  getChatResponse( prompt: string ): Observable<any> {
+  getChatResponse( prompt: string): Observable<any> {
     return this.http.post<any>(
       'https://api.openai.com/v1/chat/completions',
       {
