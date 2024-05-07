@@ -1,6 +1,6 @@
-<div class="container" id="container" (click)="onNextSegmentClick()" >
+<div #container class="container" id="container" (click)="onNextSegmentClick()">
   <div class="shield" id="shield"></div>
-  <div class="title text-center d-flex align-items-center justify-content-center h5">{{ point?.title }}</div>
+  <div class="title text-center d-flex align-items-center justify-content-center h5">{{ point.title }}</div>
   <div class="history">
     {{ segments[currentSegmentIndex] }}
     <div class="continue"></div>

@@ -1,13 +1,13 @@
-<div class="container">
-  <div class="shield"></div>
-  <div class="title text-center d-flex align-items-center justify-content-center">dsfsdfds</div>
+<div #container class="container" id="container">
+  <div #shield class="shield" id="shield"></div>
+  <div class="title text-center d-flex align-items-center justify-content-center">{{point.title}}</div>
   <div class="content d-flex justify-content-between">
     <div class="left d-flex flex-column ">
       <div class="question w-100 mb-2">
-        <p class="m-0 p-2">fsdfsdf</p>
+        <p class="m-0 p-2">{{point.question}}</p>
       </div>
       <div class="answer">
-        <textarea name="" id="" class="w-100" placeholder="Inserta el código SQL aquí..."></textarea>
+        <textarea #userQueryTextarea name="" id="userQuery" class="w-100" placeholder="Inserta el código SQL aquí..."></textarea>
       </div>
       <div class="buttons d-flex justify-content-between align-items-center mt-2">
         <div class="hints d-flex">
@@ -16,7 +16,7 @@
           <div class="hint-link hint-link-3"></div>
         </div>
         <div class="submit">
-          <button>¡LISTO!</button>
+          <button (click)="continueOrClose()">{{ isButtonClicked ? 'CONTINUAR' : '¡LISTO!' }}</button>
         </div>
       </div>
     </div>

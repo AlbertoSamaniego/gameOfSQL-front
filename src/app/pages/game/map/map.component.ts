@@ -2,15 +2,14 @@ import { Component, AfterViewInit, HostListener, ViewChild } from '@angular/core
 import { GameConfigService } from '../../../shared/services/game-config.service';
 import * as L from 'leaflet';
 import { Router } from '@angular/router';
-import { chatGPTService } from '../../../shared/services/chatGPT.service';
 import { User } from '../../../shared/interfaces/user.interface';
 import { AuthService } from '../../../shared/services/auth-service.service';
-import { PointsService } from '../../../shared/services/points.service';
 import { Point } from '../../../shared/interfaces/point.inteface';
 import { GameConfig } from '../../../shared/interfaces/game-config.interface';
 import { AudioService } from '../../../shared/services/audio-service.service';
-import { ddl } from '../../../shared/constants/database';
 import { PointDetailComponent } from './point-detail/point-detail.component';
+import { PointService } from '../../../shared/services/points-service.service';
+import { ChatbotComponent } from './chatbot/chatbot.component';
 
 @Component({
   selector: 'app-map',
@@ -20,6 +19,7 @@ import { PointDetailComponent } from './point-detail/point-detail.component';
 export class MapComponent implements AfterViewInit {
 
   @ViewChild('pointDetail') pointDetailComponent: PointDetailComponent | undefined;
+  @ViewChild('chatbot') chatbotComponent!: ChatbotComponent;
 
   private map!: L.Map;
   public currentUser: User = {} as User;
@@ -29,44 +29,39 @@ export class MapComponent implements AfterViewInit {
   public modalActive: boolean = false;
   private isFullScreen: boolean = false;
   private isDayNight: boolean = false;
+  public showChatbotComponent: boolean = false;
   public resGPT = '';
   private intervalId: any;
-  public points: Point[] = [];
+  public point: Point | null = {} as Point;
+  public point2: Point | null = {} as Point;
+  public selectedPoint: Point | null = {} as Point;
 
   constructor(
     private configService: GameConfigService,
     private router: Router,
-    private gpt: chatGPTService,
     private authService: AuthService,
-    private pointsOfInterestService: PointsService,
     private audioService: AudioService,
+    private pointService: PointService,
   ) { }
 
   async ngAfterViewInit() {
     this.currentUser = this.authService.getCurrentUser;
-
-
     this.gameConfig = this.configService.getGameConfig();
     await this.loadImageAndInitMap();
-    setTimeout(async () => {
-      await this.loadPointsOfInterest();
-    }, 500);
+    await this.loadIntroduccion();
+    this.point = await this.pointService.getPointById("54");
+    this.point2 = await this.pointService.getPointById("55");
     this.loadGameConfig();
-    /* this.gpt.getChatResponse(`Describe la siguiente base de datos:\n${ddl}`).subscribe((res: any) => {
-      this.resGPT = res.choices[0].message.content;
-      console.log(this.resGPT);
-    }); */
-    setTimeout(async () => {
-      await this.loadIntroduccion();
-    }, 1000);
+
+    if (this.point) {
+      this.loadPoints([this.point, this.point2!]);
+    }
   }
 
   async loadIntroduccion() {
     this.pointDetailComponent!.currentUser = this.currentUser;
-    const pointId53 = this.points.find(point => point.id === "53");
-    if (pointId53) {
-      this.pointDetailComponent!.point = pointId53;
-    }
+    await this.pointService.getPointById("53");
+    this.pointDetailComponent!.point = this.pointService.getCurrentPoint;
   }
 
   loadGameConfig(): void {
@@ -86,7 +81,6 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
-
   toggleDayNight(): void {
     if (this.isDayNight) {
       this.isDayNight = false;
@@ -103,8 +97,11 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
+  onPointDetailComponentHidden(): void {
+    this.showChatbotComponent = true;
+  }
 
-  async loadPointsOfInterest() {
+  async loadPoints(points: Point[]) {
     let iconSize: [number, number] = [52, 72];
     switch (this.gameConfig.pointSize) {
       case 'small':
@@ -123,15 +120,28 @@ export class MapComponent implements AfterViewInit {
       iconUrl: '../../../assets/game/map/point-icon.png',
       iconSize: iconSize,
     });
-    await this.pointsOfInterestService.getPointsOfInterest().subscribe(points => {
-      points.forEach(point => {
-        this.points.push(point);
-        if (point.coordinates) {
-          const coordinates = point.coordinates.split(',').map(coord => parseFloat(coord.trim()));
-          const marker = L.marker(coordinates as L.LatLngExpression, { icon: customIcon }).addTo(this.map);
-          marker.bindPopup(`<b>${point.title}</b>`);
-        }
-      });
+    points.forEach(point => {
+      if (point.coordinates !== false) {
+        const coordinates = point.coordinates.split(',').map(coord => parseFloat(coord.trim()));
+        const marker = L.marker(coordinates as L.LatLngExpression, { icon: customIcon }).addTo(this.map);
+        marker.bindPopup(`<b>${point.title}</b>`);
+
+        marker.on('mouseover', () => {
+          marker.openPopup();
+        });
+
+        marker.on('mouseout', () => {
+          marker.closePopup();
+        });
+
+        marker.on('click', () => {
+          if (this.pointDetailComponent) {
+            this.showChatbotComponent = false;
+            this.pointDetailComponent.showComponent(point);
+            this.selectedPoint = point;
+          }
+        });
+      }
     });
   }
 
@@ -173,12 +183,12 @@ export class MapComponent implements AfterViewInit {
         this.map.keyboard.disable();
         if (this.map.tap) this.map.tap.disable();
       }
-    } else if (event.key === 'f' || event.key === 'F') {
+    } else if ((event.ctrlKey || event.metaKey) && (event.key === 'f' || event.key === 'F')) {
       if (this.gameConfig.fullScreen === "true") {
         this.toggleFullScreen();
       }
-    } else if (event.key === 'd' || event.key === 'D') {
-      if(this.gameConfig.dayNight === "true") {
+    } else if ((event.ctrlKey || event.metaKey) && (event.key === 'd' || event.key === 'D')) {
+      if (this.gameConfig.dayNight === "true") {
         this.toggleDayNight();
       }
     }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Point } from '../../../../shared/interfaces/point.inteface';
 import { User } from '../../../../shared/interfaces/user.interface';
 import { endpoints } from '../../../../shared/constants/end-points';
@@ -9,41 +9,32 @@ import { endpoints } from '../../../../shared/constants/end-points';
   styleUrls: ['./point-detail.component.scss']
 })
 export class PointDetailComponent implements OnInit {
-  @Input() point: Point | undefined;
-  @Input() currentUser: User | undefined;
+  @Input() point: Point = {} as Point;
+  @Input() currentUser: User | undefined = {} as User;
+  @Output() hideComponentEvent: EventEmitter<void> = new EventEmitter<void>();
   segments: string[] = [];
   currentSegmentIndex: number = 0;
 
   constructor() { }
 
   ngOnInit(): void {
-    if (this.currentUser) {
+    setTimeout(() => {
       this.initComponent();
-    } else {
-      const currentUserInterval = setInterval(() => {
-        if (this.currentUser) {
-          clearInterval(currentUserInterval);
-          this.initComponent();
-        }
-      }, 100);
-    }
+    }, 100);
   }
 
   initComponent(): void {
-    console.log(this.currentUser);
     this.addShieldToDOM(this.getNameShieldImage());
     this.splitHistoryIntoSegments();
   }
 
   getNameShieldImage(): string {
-    console.log(this.currentUser?.url_shield);
     return this.currentUser?.url_shield?.replace('sites/default/files/2024-04/', '')?.replace('/', '') || '';
   }
 
   addShieldToDOM(shieldName: string): void {
     const shieldDiv = document.getElementById('shield');
     if (shieldDiv) {
-      console.log(`url('${endpoints.urlImageShield}${shieldName}')`);
       shieldDiv.style.backgroundImage = `url('${endpoints.urlImageShield}${shieldName}')`;
     }
   }
@@ -63,6 +54,9 @@ export class PointDetailComponent implements OnInit {
       this.currentSegmentIndex++;
     } else {
       this.hideComponent();
+      if(this.point.question !== false){
+        this.hideComponentEvent.emit();
+      }
     }
   }
 
@@ -70,6 +64,21 @@ export class PointDetailComponent implements OnInit {
     const pointDetail = document.getElementById('container');
     if (pointDetail) {
       pointDetail.style.display = 'none';
+    }
+  }
+
+  clearComponent(): void {
+    this.segments = [];
+    this.currentSegmentIndex = 0;
+  }
+
+  showComponent(point: Point): void {
+    this.clearComponent();
+    this.point = point;
+    this.initComponent();
+    const pointDetail = document.getElementById('container');
+    if (pointDetail) {
+      pointDetail.style.display = 'block';
     }
   }
 }

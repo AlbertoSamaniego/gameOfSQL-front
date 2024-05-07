@@ -11,4 +11,14 @@ export class PointsService {
   getPointsOfInterest(): Observable<Point[]> {
     return this.http.get<Point[]>(endpoints.pointsUrl);
   }
+
+  getFirstPoint(id: number): Observable<Point[]> {
+    return this.http.get<Point[]>(`${endpoints.pointsUrl}${id}`);
+  }
+
+  getDataPoint(id: number): Observable<Point[]> {
+    return this.http.get<Point[]>(`${endpoints.pointsUrl}${id}`);
+  }
+
+
 }
