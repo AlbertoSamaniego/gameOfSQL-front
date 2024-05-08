@@ -3,8 +3,9 @@ export interface Point {
   title: string;
   history: string;
   question: string | false;
-  er_image: string;
-  history_image: string;
+  /* er_image: string;
+  history_image: string; */
   coordinates: string | false;
   next_points: string[];
+  archievement: string | false;
 }

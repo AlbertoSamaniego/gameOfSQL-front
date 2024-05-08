@@ -1,16 +1,21 @@
 .archievement {
+  display: flex;
   position: fixed;
   bottom: 0;
   right: 0;
-  width: 450px;
+  width: fit-content;
   height: 130px;
   z-index: 999;
+  padding: 10px;
   border: 5px solid var(--accent-dark);
   background-color: var(--accent-light-light);
 
   .image{
     width: 130px;
     height: 100%;
-    background-color: blue;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
   }
 }
+

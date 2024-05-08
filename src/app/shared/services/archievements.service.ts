@@ -12,4 +12,8 @@ export class ArchievementService {
     return this.http.get<Archievement[]>(endpoints.archievementsUrl);
   }
 
+  getDataArchievement(id: number): Observable<Archievement[]> {
+    return this.http.get<Archievement[]>(`${endpoints.archievementsUrl}${id}`);
+  }
+
 }

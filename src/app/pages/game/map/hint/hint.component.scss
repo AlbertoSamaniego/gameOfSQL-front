@@ -8,8 +8,14 @@
   background-color: var(--accent-light-light);
 
   .image{
-    width: 130px;
+    width: 600px;
     height: 100%;
-    background-color: blue;
+    background-position: center;
+    background-size: cover;
+  }
+
+  p {
+    font-size: 11px;
   }
 }
+

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { PointsService } from './points.service';
 import { Point } from '../interfaces/point.inteface';
-import { endpoints } from '../constants/end-points';
 
 @Injectable({
   providedIn: 'root'

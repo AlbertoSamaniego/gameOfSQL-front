@@ -10,6 +10,9 @@ import { AudioService } from '../../../shared/services/audio-service.service';
 import { PointDetailComponent } from './point-detail/point-detail.component';
 import { PointService } from '../../../shared/services/points-service.service';
 import { ChatbotComponent } from './chatbot/chatbot.component';
+import { HintsService } from '../../../shared/services/hints.service';
+import { Hint } from '../../../shared/interfaces/hint.interface';
+import { UserService } from '../../../shared/services/user-service.service';
 
 @Component({
   selector: 'app-map',
@@ -30,11 +33,15 @@ export class MapComponent implements AfterViewInit {
   private isFullScreen: boolean = false;
   private isDayNight: boolean = false;
   public showChatbotComponent: boolean = false;
+  public showHintComponent: boolean = false;
+  public showArchievementComponent: boolean = false;
   public resGPT = '';
   private intervalId: any;
   public point: Point | null = {} as Point;
   public point2: Point | null = {} as Point;
   public selectedPoint: Point | null = {} as Point;
+  public selectedHint: Hint | null = {} as Hint;
+  public hintsClicked: number[] = [];
 
   constructor(
     private configService: GameConfigService,
@@ -42,6 +49,8 @@ export class MapComponent implements AfterViewInit {
     private authService: AuthService,
     private audioService: AudioService,
     private pointService: PointService,
+    private hintService: HintsService,
+    private userService: UserService
   ) { }
 
   async ngAfterViewInit() {
@@ -50,9 +59,8 @@ export class MapComponent implements AfterViewInit {
     await this.loadImageAndInitMap();
     await this.loadIntroduccion();
     this.point = await this.pointService.getPointById("54");
-    this.point2 = await this.pointService.getPointById("55");
+    this.point2 = await this.pointService.getPointById("56");
     this.loadGameConfig();
-
     if (this.point) {
       this.loadPoints([this.point, this.point2!]);
     }
@@ -99,6 +107,46 @@ export class MapComponent implements AfterViewInit {
 
   onPointDetailComponentHidden(): void {
     this.showChatbotComponent = true;
+  }
+
+  updateClickedHints(updatedHints: number[]): void {
+    this.hintsClicked = updatedHints;
+  }
+
+  showHint(index: number) {
+    this.hintService.getHints().subscribe((hints) => {
+      const hint = hints[index];
+      if (hint) {
+        this.selectedHint = hint;
+        this.showHintComponent = true;
+      }
+    });
+  }
+
+  hideHintComponent(): void {
+    this.showHintComponent = false;
+    this.selectedHint = null;
+  }
+
+
+  updateUserArchievement(): void {
+    if(this.selectedPoint?.archievement !== false){
+      if (Array.isArray(this.currentUser?.archievements_id) && this.selectedPoint?.archievement && !this.currentUser?.archievements_id?.includes(this.selectedPoint?.archievement)) {
+        this.currentUser?.archievements_id?.push(this.selectedPoint?.archievement);
+        this.showArchievementComponent = true;
+        this.userService.updateArchievements(this.currentUser.user_id, this.currentUser.archievements_id).subscribe({
+          next: (userData: User) => {
+            this.authService.setCurrentUser(userData);
+          },
+          error: (error: any) => {
+            console.log(error);
+          }
+        });
+      }
+    }
+    setTimeout(() => {
+      this.showArchievementComponent = false;
+    }, 5000);
   }
 
   async loadPoints(points: Point[]) {

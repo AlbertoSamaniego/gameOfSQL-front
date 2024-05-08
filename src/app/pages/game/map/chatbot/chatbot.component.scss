@@ -28,6 +28,7 @@
     margin: auto;
     top: -26px;
     background-color: var(--accent-light);
+    color: var(--primary-light-light);
   }
 
   .left {
@@ -35,6 +36,7 @@
 
     .question {
       background-color: var(--accent-light);
+      color: var(--primary-light-light);
       border: 2px solid var(--accent-dark);
     }
 
@@ -141,4 +143,9 @@
     -o-transform: translateY(0);
   }
 
+}
+
+.disabled {
+  pointer-events: none; /* Deshabilita la interacción del usuario */
+  opacity: 0.5; /* Puedes aplicar algún efecto visual para indicar que está deshabilitado */
 }

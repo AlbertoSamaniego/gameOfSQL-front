@@ -2,9 +2,9 @@
   <div class="map-frame">
     <div id="map"></div>
       <app-point-detail *ngIf="currentUser !== undefined" #pointDetail (hideComponentEvent)="onPointDetailComponentHidden()"></app-point-detail>
-      <app-chatbot *ngIf="showChatbotComponent && selectedPoint" [currentUser]="currentUser" [point]="selectedPoint"></app-chatbot>
-    <!--<app-hint></app-hint>
-    <app-archievement></app-archievement>-->
+      <app-chatbot *ngIf="showChatbotComponent && selectedPoint" [currentUser]="currentUser" [point]="selectedPoint" [hintsClicked]="hintsClicked" (showHintComponentEvent)="showHint($event)" (hintsClickedUpdated)="updateClickedHints($event)" (chatbotHidden)="hideHintComponent()" (archievementGained)="updateUserArchievement()"></app-chatbot>
+      <app-hint *ngIf="showHintComponent && selectedHint" [hint]="selectedHint"></app-hint>
+      <app-archievement *ngIf="showArchievementComponent && selectedPoint" [point]="selectedPoint"></app-archievement>
   </div>
 </div>
 

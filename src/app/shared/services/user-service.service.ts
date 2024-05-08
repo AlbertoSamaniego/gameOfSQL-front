@@ -50,6 +50,15 @@ export class UserService {
     return this.http.patch<User>(`${endpoints.updateUserUrl}/${id}`, newUser, { params });
   }
 
+  updateArchievements(id: string, archievements: string[]): Observable<User> {
+    const newUser = {
+      field_archievements_unlock: archievements ,
+      type: [{ target_id: 'registered_user' }],
+    };
+    const params = { _format: 'json' };
+    return this.http.patch<User>(`${endpoints.updateUserUrl}/${id}`, newUser, { params });
+  }
+
   deleteUser(id: string): Observable<User> {
     const params = { _format: 'json' };
     return this.http.delete<User>(`${endpoints.deleteUserUrl}/${id}`, { params });

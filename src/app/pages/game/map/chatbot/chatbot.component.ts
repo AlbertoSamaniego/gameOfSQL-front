@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Point } from '../../../../shared/interfaces/point.inteface';
 import { User } from '../../../../shared/interfaces/user.interface';
 import { endpoints } from '../../../../shared/constants/end-points';
@@ -14,15 +14,22 @@ export class ChatbotComponent implements OnInit {
 
   @Input() point: Point = {} as Point;
   @Input() currentUser: User | null = {} as User;
+  @Input() hintsClicked: number[] = [];
+  @Output() showHintComponentEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() hintsClickedUpdated: EventEmitter<number[]> = new EventEmitter<number[]>();
+  @Output() chatbotHidden: EventEmitter<void> = new EventEmitter<void>();
+  @Output() archievementGained: EventEmitter<boolean> = new EventEmitter<boolean>();
   @ViewChild('userQueryTextarea') userQueryTextarea!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('shield') shield!: ElementRef<HTMLDivElement>;
   @ViewChild('container') container!: ElementRef<HTMLDivElement>;
   private imgPopup!: HTMLElement | null;
   private popupImage!: HTMLImageElement | null;
-  isButtonClicked: boolean = false;
+  public isButtonClicked: boolean = false;
 
-
-  constructor(private elementRef: ElementRef, private chatgpt: chatGPTService) { }
+  constructor(
+    private elementRef: ElementRef,
+    private chatgpt: chatGPTService,
+  ) { }
 
   ngOnInit() {
     this.imgPopup = this.elementRef.nativeElement.querySelector('.img-popup');
@@ -30,14 +37,35 @@ export class ChatbotComponent implements OnInit {
     setTimeout(() => {
       this.addShieldToDOM(this.getNameShieldImage());
     }, 100);
-    console.log(this.point);
+    this.disableClickedHints(this.hintsClicked);
   }
 
   callChatGPT(): void {
     const sqlCode = this.userQueryTextarea.nativeElement.value;
     this.isButtonClicked = true;
-    this.chatgpt.getChatResponse(`Según esta base de datos:\n${ddl}\nEvalúa si esta bien o mal la siguiente consulta:\n${sqlCode}\n para obtener la siguiente información \n${this.point.question}\n.Si esta bien, da la enhorabuena e imprime el resultado de la consulta. Si no, explica el por qué está mal y su corrección`).subscribe((res: any) => {
-      this.userQueryTextarea.nativeElement.value = res.choices[0].message.content;
+    this.chatgpt.getChatResponse(`Según esta base de datos:\n${ddl}\nEvalúa si esta bien o mal la siguiente consulta:\n${sqlCode}\n para obtener la siguiente información: \n${this.point.question}\n.Si esta bien, siempre escribe: ¡ENHORABUENA!, y después imprime el resultado de la consulta. Si no, explica el por qué está mal y su corrección`).subscribe((res: any) => {
+      const respuesta = res.choices[0].message.content;
+      this.userQueryTextarea.nativeElement.value = respuesta;
+      if (respuesta.includes('¡ENHORABUENA!')) {
+        this.archievementGained.emit();
+      }
+    });
+  }
+
+  displayHint(numberHint: number): void {
+    if (!this.hintsClicked.includes(numberHint)) {
+      this.showHintComponentEvent.emit(numberHint);
+      this.hintsClicked.push(numberHint);
+      this.hintsClickedUpdated.emit(this.hintsClicked);
+    }
+  }
+
+  disableClickedHints(hintsClicked: number[]): void {
+    hintsClicked.forEach((hintClicked: number) => {
+      const hintElement = this.elementRef.nativeElement.querySelector(`.hint-link-${hintClicked + 1}`);
+      if (hintElement) {
+        hintElement.classList.add('disabled');
+      }
     });
   }
 
@@ -78,5 +106,6 @@ export class ChatbotComponent implements OnInit {
   hideComponent(): void {
     this.isButtonClicked = false;
     this.container.nativeElement.style.display = 'none';
+    this.chatbotHidden.emit();
   }
 }
