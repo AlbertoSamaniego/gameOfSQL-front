@@ -25,6 +25,7 @@ export class PointDetailComponent implements OnInit {
 
   initComponent(): void {
     this.addShieldToDOM(this.getNameShieldImage());
+    this.replaceHistoryString();
     this.splitHistoryIntoSegments();
   }
 
@@ -36,6 +37,14 @@ export class PointDetailComponent implements OnInit {
     const shieldDiv = document.getElementById('shield');
     if (shieldDiv) {
       shieldDiv.style.backgroundImage = `url('${endpoints.urlImageShield}${shieldName}')`;
+    }
+  }
+
+  replaceHistoryString(): void {
+    if (this.point && this.point.history) {
+      const replaceCharacterName = this.currentUser!.character_name + ' "' + this.currentUser!.character_nickname + '" ';
+      const replaceHouseName = this.currentUser!.house_name;
+      this.point.history = this.point.history.replace("Medger", replaceCharacterName).replace("Cerwyn", replaceHouseName);
     }
   }
 

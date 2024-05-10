@@ -12,7 +12,8 @@ export const endpoints = {
   deleteUserUrl: 'https://game-of-sql.ddev.site/node/',
   rebootUserUrl: 'https://game-of-sql.ddev.site/node/',
   pointsUrl: 'https://game-of-sql.ddev.site/api/points/',
+  pointsLevelUrl: 'https://game-of-sql.ddev.site/api/points/level/',
   hintsUrl: 'https://game-of-sql.ddev.site/api/hints/',
   urlImageHint: 'https://game-of-sql.ddev.site/themes/custom/game_of_sql/images/pista/hint.png',
-  
+
 };

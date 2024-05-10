@@ -12,8 +12,8 @@ export class PointsService {
     return this.http.get<Point[]>(endpoints.pointsUrl);
   }
 
-  getFirstPoint(id: number): Observable<Point[]> {
-    return this.http.get<Point[]>(`${endpoints.pointsUrl}${id}`);
+  getPointsByLevel(level: number): Observable<Point[]> {
+    return this.http.get<Point[]>(`${endpoints.pointsLevelUrl}${level}`);
   }
 
   getDataPoint(id: number): Observable<Point[]> {

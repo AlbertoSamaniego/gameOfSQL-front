@@ -1,11 +1,11 @@
 export interface Point {
   id: string;
+  level: string | false;
   title: string;
   history: string;
   question: string | false;
-  /* er_image: string;
-  history_image: string; */
-  coordinates: string | false;
-  next_points: string[];
   archievement: string | false;
+  failed_required_points: string[];
+  guessed_required_points: string[];
+  coordinates: string | false;
 }

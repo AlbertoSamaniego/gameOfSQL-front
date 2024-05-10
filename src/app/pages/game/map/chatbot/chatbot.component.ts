@@ -15,10 +15,13 @@ export class ChatbotComponent implements OnInit {
   @Input() point: Point = {} as Point;
   @Input() currentUser: User | null = {} as User;
   @Input() hintsClicked: number[] = [];
+  @Input() level: string = '';
   @Output() showHintComponentEvent: EventEmitter<any> = new EventEmitter<any>();
   @Output() hintsClickedUpdated: EventEmitter<number[]> = new EventEmitter<number[]>();
   @Output() chatbotHidden: EventEmitter<void> = new EventEmitter<void>();
   @Output() archievementGained: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() chatbotResponse: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() finalReached: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild('userQueryTextarea') userQueryTextarea!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('shield') shield!: ElementRef<HTMLDivElement>;
   @ViewChild('container') container!: ElementRef<HTMLDivElement>;
@@ -43,14 +46,31 @@ export class ChatbotComponent implements OnInit {
   callChatGPT(): void {
     const sqlCode = this.userQueryTextarea.nativeElement.value;
     this.isButtonClicked = true;
-    this.chatgpt.getChatResponse(`Según esta base de datos:\n${ddl}\nEvalúa si esta bien o mal la siguiente consulta:\n${sqlCode}\n para obtener la siguiente información: \n${this.point.question}\n.Si esta bien, siempre escribe: ¡ENHORABUENA!, y después imprime el resultado de la consulta. Si no, explica el por qué está mal y su corrección`).subscribe((res: any) => {
+
+    const prompt = `
+      Según la base de datos proporcionada, evalúa si la siguiente consulta SQL es correcta o incorrecta:
+      \nConsulta SQL:
+      \n${sqlCode}
+      \nPara obtener la siguiente información:
+      \n${this.point.question}.
+      \nSi la consulta es correcta, escribe: ¡ENHORABUENA!, imprime el resultado de la consulta y no escribas nada más.
+      \nSi la consulta es errónea, explica por qué está mal, proporciona su corrección y NUNCA ESCRIBAS ¡ENHORABUENA!.
+    `;
+
+    this.chatgpt.getChatResponse(prompt).subscribe((res: any) => {
       const respuesta = res.choices[0].message.content;
+      console.log(respuesta);
+
       this.userQueryTextarea.nativeElement.value = respuesta;
       if (respuesta.includes('¡ENHORABUENA!')) {
         this.archievementGained.emit();
+        this.chatbotResponse.emit(true);
+      } else {
+        this.chatbotResponse.emit(false);
       }
     });
   }
+
 
   displayHint(numberHint: number): void {
     if (!this.hintsClicked.includes(numberHint)) {
@@ -98,6 +118,9 @@ export class ChatbotComponent implements OnInit {
   continueOrClose(): void {
     if (this.isButtonClicked) {
       this.hideComponent();
+      if(this.level === '7'){
+        this.finalReached.emit();
+      }
     } else {
       this.callChatGPT();
     }
@@ -105,6 +128,7 @@ export class ChatbotComponent implements OnInit {
 
   hideComponent(): void {
     this.isButtonClicked = false;
+    this.userQueryTextarea.nativeElement.value = '';
     this.container.nativeElement.style.display = 'none';
     this.chatbotHidden.emit();
   }

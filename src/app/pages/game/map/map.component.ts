@@ -13,6 +13,7 @@ import { ChatbotComponent } from './chatbot/chatbot.component';
 import { HintsService } from '../../../shared/services/hints.service';
 import { Hint } from '../../../shared/interfaces/hint.interface';
 import { UserService } from '../../../shared/services/user-service.service';
+import { PointsService } from '../../../shared/services/points.service';
 
 @Component({
   selector: 'app-map',
@@ -38,10 +39,14 @@ export class MapComponent implements AfterViewInit {
   public resGPT = '';
   private intervalId: any;
   public point: Point | null = {} as Point;
-  public point2: Point | null = {} as Point;
   public selectedPoint: Point | null = {} as Point;
   public selectedHint: Hint | null = {} as Hint;
   public hintsClicked: number[] = [];
+  public endReached: boolean = false;
+  public level: string = '1';
+  public guessedIDPoints: string[] = [];
+  public failedIDPoints: string[] = [];
+
 
   constructor(
     private configService: GameConfigService,
@@ -49,6 +54,7 @@ export class MapComponent implements AfterViewInit {
     private authService: AuthService,
     private audioService: AudioService,
     private pointService: PointService,
+    private pointsService: PointsService,
     private hintService: HintsService,
     private userService: UserService
   ) { }
@@ -59,10 +65,9 @@ export class MapComponent implements AfterViewInit {
     await this.loadImageAndInitMap();
     await this.loadIntroduccion();
     this.point = await this.pointService.getPointById("54");
-    this.point2 = await this.pointService.getPointById("56");
     this.loadGameConfig();
     if (this.point) {
-      this.loadPoints([this.point, this.point2!]);
+      this.loadPoints([this.point]);
     }
   }
 
@@ -77,6 +82,52 @@ export class MapComponent implements AfterViewInit {
     this.isFullScreen = this.gameConfig.fullScreen === "true";
     this.isDayNight = this.gameConfig.dayNight === "true";
     this.audioService.setMusicVolume(this.gameConfig.musicVolume);
+  }
+
+  async handleChatbotResponse(result: boolean) {
+    let pointsToLoad: Point[] = [];
+    this.guessedIDPoints = [];
+    this.failedIDPoints = [];
+    if (result) {
+      this.guessedIDPoints.push(this.selectedPoint!.id.toString());
+    } else {
+      this.failedIDPoints.push(this.selectedPoint!.id.toString());
+    }
+    console.log(this.guessedIDPoints, this.failedIDPoints);
+
+    pointsToLoad = this.updateLevel(pointsToLoad);
+        setTimeout(() => {
+          const filteredPoints = this.filterPoints(pointsToLoad);
+          console.log(filteredPoints);
+
+          this.clearMap();
+          this.loadPoints(filteredPoints);
+        }, 500);
+
+  }
+
+  updateLevel(pointsToLoad: Point[]) {
+    this.level = (parseInt(this.level) + 1).toString();
+    this.pointsService.getPointsByLevel(parseInt(this.level)).subscribe((points) => {
+      pointsToLoad.push(...points);
+    });
+    return pointsToLoad;
+  }
+
+  filterPoints(points: Point[]): Point[] {
+    return points.filter(point => {
+      const failedMatch = this.failedIDPoints.every(id => 	point.failed_required_points.includes(id));
+      const guessedMatch = this.guessedIDPoints.every(id => 	point.guessed_required_points.includes(id));
+      return failedMatch && guessedMatch;
+    });
+  }
+
+  clearMap() {
+    this.map.eachLayer((layer) => {
+      if (layer instanceof L.Marker) {
+        this.map.removeLayer(layer);
+      }
+    });
   }
 
   toggleFullScreen(): void {
@@ -130,7 +181,7 @@ export class MapComponent implements AfterViewInit {
 
 
   updateUserArchievement(): void {
-    if(this.selectedPoint?.archievement !== false){
+    if (this.selectedPoint?.archievement !== false) {
       if (Array.isArray(this.currentUser?.archievements_id) && this.selectedPoint?.archievement && !this.currentUser?.archievements_id?.includes(this.selectedPoint?.archievement)) {
         this.currentUser?.archievements_id?.push(this.selectedPoint?.archievement);
         this.showArchievementComponent = true;
@@ -208,7 +259,7 @@ export class MapComponent implements AfterViewInit {
     this.map = L.map('map', {
       zoom: 0,
       crs: L.CRS.Simple,
-      minZoom: -2,
+      minZoom: -1,
       maxZoom: 1,
       zoomSnap: 0.1,
     });
