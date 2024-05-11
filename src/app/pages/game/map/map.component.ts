@@ -46,6 +46,7 @@ export class MapComponent implements AfterViewInit {
   public level: string = '1';
   public guessedIDPoints: string[] = [];
   public failedIDPoints: string[] = [];
+  public finalPoint: Point | null = {} as Point;
 
 
   constructor(
@@ -93,15 +94,15 @@ export class MapComponent implements AfterViewInit {
     } else {
       this.failedIDPoints.push(this.selectedPoint!.id.toString());
     }
-    console.log(this.guessedIDPoints, this.failedIDPoints);
-
     pointsToLoad = this.updateLevel(pointsToLoad);
         setTimeout(() => {
           const filteredPoints = this.filterPoints(pointsToLoad);
-          console.log(filteredPoints);
-
           this.clearMap();
           this.loadPoints(filteredPoints);
+          if(this.level === '7') {
+            console.log(filteredPoints);
+            this.finalPoint = filteredPoints[0];
+          }
         }, 500);
 
   }
@@ -179,7 +180,6 @@ export class MapComponent implements AfterViewInit {
     this.selectedHint = null;
   }
 
-
   updateUserArchievement(): void {
     if (this.selectedPoint?.archievement !== false) {
       if (Array.isArray(this.currentUser?.archievements_id) && this.selectedPoint?.archievement && !this.currentUser?.archievements_id?.includes(this.selectedPoint?.archievement)) {
@@ -197,7 +197,7 @@ export class MapComponent implements AfterViewInit {
     }
     setTimeout(() => {
       this.showArchievementComponent = false;
-    }, 5000);
+    }, 7000);
   }
 
   async loadPoints(points: Point[]) {
@@ -242,6 +242,10 @@ export class MapComponent implements AfterViewInit {
         });
       }
     });
+  }
+
+  showEnding() {
+    this.endReached = true;
   }
 
   async loadImageAndInitMap() {

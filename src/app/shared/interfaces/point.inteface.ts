@@ -8,4 +8,5 @@ export interface Point {
   failed_required_points: string[];
   guessed_required_points: string[];
   coordinates: string | false;
+  reward: string | false;
 }

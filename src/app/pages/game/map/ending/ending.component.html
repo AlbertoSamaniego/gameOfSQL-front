@@ -1,0 +1,15 @@
+<div class="container" id="container" (click)="onNextSegmentClick()">
+  <div #user_shield class="shield" id="shield"></div>
+  <div class="title text-center d-flex align-items-center justify-content-center h5">{{point.title}}</div>
+  <div class="history">
+    {{segments[currentSegmentIndex]}}
+    <div class="continue"></div>
+  </div>
+</div>
+
+<div id="reward-container" style="display: none; text-align: center;">
+  <div style="width: 150px; height: 150px; margin: auto; margin-top: 20px;">
+    <p>ENHORABUENA, TU PREMIO HA SIDO EL SIGUIENTE</p>
+    <div #reward_shield id="reward-shield"></div>
+  </div>
+</div>

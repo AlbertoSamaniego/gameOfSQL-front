@@ -1,0 +1,81 @@
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60em;
+  height: auto;
+  z-index: 999;
+  border: 5px solid var(--accent-dark);
+  background-color: var(--accent-light-light);
+  color: var(--primary-dark);
+
+  .shield {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    float: left;
+    left: -90px;
+    top: -70px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .title {
+    position: relative;
+    width: 300px;
+    height: 50px;
+    margin: auto;
+    top: -26px;
+    background-color: var(--accent-light);
+    color: var(--primary-light-light);
+  }
+
+  .history {
+    position: relative;
+    width: 780px;
+    height: 350px;
+    margin: auto;
+    padding: 20px;
+    margin-left: 130px;
+
+    .continue {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-image: url('../../../../../assets/game/map/mouse.png');
+      background-position: center;
+      background-size: cover;
+    }
+  }
+}
+
+#reward-container {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  z-index: 1000;
+  border-radius: 10px;
+  border: 5px solid var(--accent-dark);
+  background-color: var(--accent-light-light);
+  color: var(--primary-dark);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#reward-container p {
+  margin: 10px 0;
+}
+
+#reward-shield {
+  width: 150px;
+  height: 150px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

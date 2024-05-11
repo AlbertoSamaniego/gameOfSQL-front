@@ -3,7 +3,6 @@ import { Point } from '../../../../shared/interfaces/point.inteface';
 import { User } from '../../../../shared/interfaces/user.interface';
 import { endpoints } from '../../../../shared/constants/end-points';
 import { chatGPTService } from '../../../../shared/services/chatGPT.service';
-import { ddl } from '../../../../shared/constants/database';
 
 @Component({
   selector: 'app-chatbot',

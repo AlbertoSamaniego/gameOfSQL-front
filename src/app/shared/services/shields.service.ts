@@ -7,7 +7,7 @@ import { endpoints } from '../constants/end-points';
 @Injectable({providedIn: 'root'})
 export class ShieldsService {
   constructor( private http: HttpClient ) { }
-  //return non-premium shields and premium shields that user has whose id is in the array
+
   getShields(premiumShields: string[]): Observable<Shield[]> {
     return this.http.get<Shield[]>(endpoints.shieldsUrl).pipe(
       map((shields) => {
@@ -19,6 +19,10 @@ export class ShieldsService {
   }
 
   getShieldById(id: string): Observable<Shield> {
+    console.log(`${endpoints.shieldById}${id}`);
+    console.log(this.http.get<Shield>(`${endpoints.shieldById}${id}`));
+
+
     return this.http.get<Shield>(`${endpoints.shieldById}${id}`);
   }
 }

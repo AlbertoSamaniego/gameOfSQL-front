@@ -59,6 +59,15 @@ export class UserService {
     return this.http.patch<User>(`${endpoints.updateUserUrl}/${id}`, newUser, { params });
   }
 
+  updatePremiumShields(id: string, premiumShields: string[]): Observable<User> {
+    const newUser = {
+      field_premium_shields: premiumShields,
+      type: [{ target_id: 'registered_user' }],
+    };
+    const params = { _format: 'json' };
+    return this.http.patch<User>(`${endpoints.updateUserUrl}/${id}`, newUser, { params });
+  }
+
   deleteUser(id: string): Observable<User> {
     const params = { _format: 'json' };
     return this.http.delete<User>(`${endpoints.deleteUserUrl}/${id}`, { params });
@@ -120,8 +129,6 @@ export class UserService {
       "field_shield": [{ "target_id": `${user.url_shield}` }],
       "type": [{ "target_id": 'registered_user' }],
     };
-    console.log(newUser);
-
     const params = { _format: 'json' };
     return this.http.patch<User>(`${endpoints.updateUserUrl}/${user.user_id}`, newUser, { params });
   }

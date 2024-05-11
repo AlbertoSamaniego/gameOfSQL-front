@@ -7,6 +7,7 @@ import { PointDetailComponent } from './point-detail/point-detail.component';
 import { ChatbotComponent } from './chatbot/chatbot.component';
 import { ArchievementComponent } from './archievement/archievement.component';
 import { HintComponent } from './hint/hint.component';
+import { EndingComponent } from './ending/ending.component';
 
 
 
@@ -16,7 +17,8 @@ import { HintComponent } from './hint/hint.component';
     PointDetailComponent,
     ChatbotComponent,
     ArchievementComponent,
-    HintComponent
+    HintComponent,
+    EndingComponent
   ],
   imports: [
     CommonModule,
