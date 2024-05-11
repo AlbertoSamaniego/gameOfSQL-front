@@ -1,8 +1,8 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { endpoints } from '../../../../shared/constants/end-points';
 import { Point } from '../../../../shared/interfaces/point.inteface';
-import { ArchievementsService } from '../../../../shared/services/archievement-service.service';
 import { Archievement } from '../../../../shared/interfaces/archievement.interface';
+import { ArchievementsService } from '../../../../shared/services/archievement/archievement-service.service';
 
 @Component({
   selector: 'app-archievement',

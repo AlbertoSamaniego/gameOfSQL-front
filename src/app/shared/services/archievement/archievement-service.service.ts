@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ArchievementService } from './archievements.service';
 import { BehaviorSubject } from 'rxjs';
-import { Archievement } from '../interfaces/archievement.interface';
+import { Archievement } from '../../interfaces/archievement.interface';
 
 @Injectable({providedIn: 'root'})
 export class ArchievementsService {

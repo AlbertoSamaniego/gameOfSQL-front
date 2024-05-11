@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { GameConfigService } from '../../../../../shared/services/game-config.service';
 import { GameConfig } from '../../../../../shared/interfaces/game-config.interface';
+import { GameConfigService } from '../../../../../shared/services/game/game-config.service';
 
 @Component({
   selector: 'app-game-config',
@@ -47,10 +47,6 @@ export class GameConfigComponent implements OnInit {
       pointSize: formValues.pointSize!
     };
     this.gameConfigService.updateGameConfig(gameConfig);
-    setTimeout(() => {
-      console.log('Game config updated', this.gameConfigService.getGameConfig());
-
-    }, 1000);
   }
 
 

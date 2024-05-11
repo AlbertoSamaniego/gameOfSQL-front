@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GameConfig } from '../interfaces/game-config.interface';
+import { GameConfig } from '../../interfaces/game-config.interface';
 
 @Injectable({
   providedIn: 'root'

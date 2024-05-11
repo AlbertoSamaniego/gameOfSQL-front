@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ValidatorsService } from '../../shared/services/validators.service';
-import { UserService } from '../../shared/services/user-service.service';
+import { ValidatorsService } from '../../shared/services/user/validators.service';
+import { UserService } from '../../shared/services/user/user-service.service';
 import { User } from '../../shared/interfaces/user.interface';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -15,13 +15,11 @@ import { formMessages } from '../../shared/constants/error-messages';
 })
 export class LoginRegisterComponent {
 
-  //Rules validations for the form sign in
   public signInForm: FormGroup = this.fb.group({
     email: ['', [Validators.required]],
     password: ['', [Validators.required]],
   });
 
-  //Rules validations for the form sign up
   public signUpForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.pattern(emailPattern)]],
     password: ['', [Validators.required, Validators.pattern(passwordPattern)]],
@@ -30,7 +28,6 @@ export class LoginRegisterComponent {
     validators: [this.validatorsService.isFieldOneEquealFieldTwo('password', 'repeatPassword')]
   });
 
-  //Rules validations for the form password recovery
   public passwordRecoveryForm: FormGroup = this.fb.group({
     email: ['', [Validators.required]],
   });
@@ -78,7 +75,19 @@ export class LoginRegisterComponent {
         }
       });
     }
+    document.addEventListener('keydown', (event) => {
+      if (event.altKey && event.shiftKey && (event.key === 'a' || event.key === 'A')) {
+        const content = "url:https://game-of-sql.ddev.site/es/user/login\nuser: Gestor de contenido\ncontraseña: Gestor2024GOT";
+        const popupWindow = window.open('', '_blank', 'width=600,height=400');
+        if (popupWindow) {
+          popupWindow.document.write('<pre>' + content + '</pre>');
+        } else {
+          alert('La ventana emergente fue bloqueada por el navegador. Asegúrate de desbloquear las ventanas emergentes para este sitio.');
+        }
+      }
+    });
   }
+
 
   isValidField(field: string, form: FormGroup): boolean | null {
     return this.validatorsService.isValidField(field, form);
@@ -155,10 +164,8 @@ export class LoginRegisterComponent {
     this.isPasswordRecoveryFormSubmitted = true;
     await this.getUsers();
     if (this.isRegisteredUser(this.passwordRecoveryForm.value.email)) {
-      console.log('El usuario ya está registrado');
     } else {
-      console.log('El usuario no está registrado');
-      //TODO: Send an email to the user with the new password
+      //TODO: Enviar un email al correo del usuario con la nueva contraseña mediante el módulo SMTP de Drupal
     }
   }
 

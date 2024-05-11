@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../../../shared/services/auth-service.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { endpoints } from '../../../../../shared/constants/end-points';
 import { User } from '../../../../../shared/interfaces/user.interface';
 import { Shield } from '../../../../../shared/interfaces/shield.interface';
-import { ShieldsService } from '../../../../../shared/services/shields.service';
-import { endpoints } from '../../../../../shared/constants/end-points';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ValidatorsService } from '../../../../../shared/services/validators.service';
 import { formMessages } from '../../../../../shared/constants/error-messages';
-import { UserService } from '../../../../../shared/services/user-service.service';
+import { AuthService } from '../../../../../shared/services/user/auth-service.service';
+import { ShieldsService } from '../../../../../shared/services/shield/shields.service';
+import { ValidatorsService } from '../../../../../shared/services/user/validators.service';
+import { UserService } from '../../../../../shared/services/user/user-service.service';
 
 @Component({
   selector: 'app-game-profile',
@@ -39,10 +39,6 @@ export class GameProfileComponent implements OnInit {
     this.currentUser = this.authService.getCurrentUser;
     this.setCharacterFormValues(this.currentUser.character_name, this.currentUser.house_name, this.currentUser.character_nickname, this.currentUser.house_motto);
     this.initShields();
-    setTimeout(() => {
-      console.log(this.shields);
-
-    }, 1000);
   }
 
   setCharacterFormValues(name: string, house: string, nickname: string, motto: string) {
@@ -101,13 +97,11 @@ export class GameProfileComponent implements OnInit {
   }
 
   updateCharacter() {
-    //Update the user with the values of the form
     this.currentUser.character_name = this.characterForm.get('name')?.value;
     this.currentUser.house_name = this.characterForm.get('house')?.value;
     this.currentUser.character_nickname = this.characterForm.get('nickname')?.value;
     this.currentUser.house_motto = this.characterForm.get('motto')?.value;
     this.currentUser.url_shield = this.shields[this.indexShield].id.toString();
-    //Update the user in the database
     if (this.characterForm.invalid) {
       this.characterForm.markAllAsTouched();
       return;

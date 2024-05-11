@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Point } from '../interfaces/point.inteface';
+import { Point } from '../../interfaces/point.inteface';
 import { Observable } from 'rxjs';
-import { endpoints } from '../constants/end-points';
+import { endpoints } from '../../constants/end-points';
 
 @Injectable({providedIn: 'root'})
 export class PointsService {

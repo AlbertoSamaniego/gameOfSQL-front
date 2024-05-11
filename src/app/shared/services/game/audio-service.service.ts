@@ -14,7 +14,6 @@ export class AudioService {
     this.audioMusicaDeFondo.load();
     this.audioMusicaDeFondo.play();
     this.audioMusicaDeFondo.addEventListener('ended', () => {
-      // Reiniciar la reproducción cuando la música de fondo termine
       this.audioMusicaDeFondo.currentTime = 0;
       this.audioMusicaDeFondo.play();
     });

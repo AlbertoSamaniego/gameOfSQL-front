@@ -1,10 +1,6 @@
 
-// Import the core angular services.
 import { ChangeDetectionStrategy } from "@angular/core";
 import { Component } from "@angular/core";
-
-// ----------------------------------------------------------------------------------- //
-// ----------------------------------------------------------------------------------- //
 
 @Component({
 	selector: "snow-flake",
@@ -47,7 +43,6 @@ export class SnowFlakeComponent {
 	public verticalDelay: number;
 	public verticalDuration: number;
 
-	// I initialize the snow-flake component.
 	constructor() {
 
 		this.depth = 1;
@@ -62,11 +57,6 @@ export class SnowFlakeComponent {
 
 	}
 
-	// ---
-	// PUBLIC MEHTODS.
-	// ---
-
-	// I get called whenever the input bindings change.
 	public ngOnChanges() : void {
 
 		switch ( this.speed ) {
@@ -92,8 +82,6 @@ export class SnowFlakeComponent {
 			break;
 		}
 
-		// Choose a random offset for the animation so that we fill the screen with snow
-		// flakes rather than having them all start together at the top.
 		this.verticalDelay = ( Math.random() * -this.verticalDuration );
 		this.horizontalDelay = ( Math.random() * -this.horizontalDuration );
 

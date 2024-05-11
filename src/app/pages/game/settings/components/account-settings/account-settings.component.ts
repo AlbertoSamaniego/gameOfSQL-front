@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../../../../shared/interfaces/user.interface';
-import { AuthService } from '../../../../../shared/services/auth-service.service';
-import { UserService } from '../../../../../shared/services/user-service.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { emailPattern, passwordPattern } from '../../../../../shared/constants/patterns';
-import { ValidatorsService } from '../../../../../shared/services/validators.service';
-import { formMessages } from '../../../../../shared/constants/error-messages';
 import { Router } from '@angular/router';
-import { GameConfigService } from '../../../../../shared/services/game-config.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { formMessages } from '../../../../../shared/constants/error-messages';
+import { User } from '../../../../../shared/interfaces/user.interface';
+import { emailPattern, passwordPattern } from '../../../../../shared/constants/patterns';
+import { UserService } from '../../../../../shared/services/user/user-service.service';
+import { ValidatorsService } from '../../../../../shared/services/user/validators.service';
+import { AuthService } from '../../../../../shared/services/user/auth-service.service';
+import { GameConfigService } from '../../../../../shared/services/game/game-config.service';
 
 @Component({
   selector: 'app-account-settings',

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { Shield } from '../interfaces/shield.interface';
+import { Shield } from '../../interfaces/shield.interface';
 import { HttpClient } from '@angular/common/http';
-import { endpoints } from '../constants/end-points';
+import { endpoints } from '../../constants/end-points';
 
 @Injectable({providedIn: 'root'})
 export class ShieldsService {
@@ -19,10 +19,6 @@ export class ShieldsService {
   }
 
   getShieldById(id: string): Observable<Shield> {
-    console.log(`${endpoints.shieldById}${id}`);
-    console.log(this.http.get<Shield>(`${endpoints.shieldById}${id}`));
-
-
     return this.http.get<Shield>(`${endpoints.shieldById}${id}`);
   }
 }

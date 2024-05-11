@@ -1,14 +1,12 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { Point } from '../../../../shared/interfaces/point.inteface';
 import { User } from '../../../../shared/interfaces/user.interface';
-import { endpoints } from '../../../../shared/constants/end-points';
-import { Router } from '@angular/router';
-import { UserService } from '../../../../shared/services/user-service.service';
-import { AuthService } from '../../../../shared/services/auth-service.service';
-import { ShieldsService } from '../../../../shared/services/shields.service';
-import { Observable, catchError, map, of } from 'rxjs';
-import { ShieldService } from '../../../../shared/services/shield-service.service';
 import { Shield } from '../../../../shared/interfaces/shield.interface';
+import { endpoints } from '../../../../shared/constants/end-points';
+import { UserService } from '../../../../shared/services/user/user-service.service';
+import { AuthService } from '../../../../shared/services/user/auth-service.service';
+import { ShieldService } from '../../../../shared/services/shield/shield-service.service';
 
 @Component({
   selector: 'app-ending',
@@ -56,10 +54,8 @@ export class EndingComponent implements OnInit{
   async getShieldNameByShieldId() {
     let shieldName = '';
     if (this.point.reward) {
-      console.log(this.point.reward);
       await this.shieldService.getShieldById(this.point.reward);
       this.rewardShield = this.shieldService.getShield;
-      console.log(this.rewardShield);
       shieldName = this.rewardShield.image.split("/").pop()!;
   }
   return shieldName;

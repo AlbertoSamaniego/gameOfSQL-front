@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Shield } from '../interfaces/shield.interface';
+import { Shield } from '../../interfaces/shield.interface';
 import { ShieldsService } from './shields.service';
 
 @Injectable({providedIn: 'root'})

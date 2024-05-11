@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
 import { Point } from '../../../../shared/interfaces/point.inteface';
 import { User } from '../../../../shared/interfaces/user.interface';
 import { endpoints } from '../../../../shared/constants/end-points';
-import { chatGPTService } from '../../../../shared/services/chatGPT.service';
+import { chatGPTService } from '../../../../shared/services/game/chatGPT.service';
 
 @Component({
   selector: 'app-chatbot',
@@ -58,8 +58,6 @@ export class ChatbotComponent implements OnInit {
 
     this.chatgpt.getChatResponse(prompt).subscribe((res: any) => {
       const respuesta = res.choices[0].message.content;
-      console.log(respuesta);
-
       this.userQueryTextarea.nativeElement.value = respuesta;
       if (respuesta.includes('¡ENHORABUENA!')) {
         this.archievementGained.emit();

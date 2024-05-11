@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit, Renderer2, ElementRef } from '@angular/core';
-import { AudioService } from '../../../shared/services/audio-service.service';
 import { informationUml  } from '../../../shared/constants/information-uml';
 import { informationEr } from '../../../shared/constants/information-er';
+import { AudioService } from '../../../shared/services/game/audio-service.service';
 
 @Component({
   selector: 'app-information',

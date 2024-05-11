@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Archievement } from '../../../../../shared/interfaces/archievement.interface';
-import { User } from '../../../../../shared/interfaces/user.interface';
-import { ArchievementService } from '../../../../../shared/services/archievements.service';
-import { AuthService } from '../../../../../shared/services/auth-service.service';
 import { endpoints } from '../../../../../shared/constants/end-points';
+import { User } from '../../../../../shared/interfaces/user.interface';
+import { ArchievementService } from '../../../../../shared/services/archievement/archievements.service';
+import { AuthService } from '../../../../../shared/services/user/auth-service.service';
 
 @Component({
   selector: 'app-user-archievements',
@@ -20,13 +20,6 @@ export class UserArchievementsComponent implements OnInit{
   ngOnInit() {
     this.currentUser = this.authService.getCurrentUser;
     this.getArchievements();
-
-    /* setTimeout(() => {
-      console.log(this.currentUser.archievements_id);
-      console.log(this.archievements);
-
-    }, 1000); */
-
   }
 
   representArchievements() {

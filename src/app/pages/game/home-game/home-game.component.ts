@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { AudioService } from '../../../shared/services/audio-service.service';
-import { User } from '../../../shared/interfaces/user.interface';
-import { AuthService } from '../../../shared/services/auth-service.service';
 import { endpoints } from '../../../shared/constants/end-points';
+import { User } from '../../../shared/interfaces/user.interface';
+import { AudioService } from '../../../shared/services/game/audio-service.service';
+import { AuthService } from '../../../shared/services/user/auth-service.service';
 
 @Component({
   selector: 'app-home-game',
@@ -60,11 +60,9 @@ export class HomeGameComponent implements OnInit, OnDestroy {
         if (user) {
           this.currentUser = user;
           this.addShieldToDOM(this.getNameShieldImage());
-        } else {
-          console.log('No se encontró ningún usuario para el correo electrónico proporcionado.');
         }
       } catch (error) {
-        console.error('Error al actualizar el usuario:', error);
+        console.error(error);
       }
     }
   }

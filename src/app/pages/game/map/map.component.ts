@@ -1,19 +1,21 @@
 import { Component, AfterViewInit, HostListener, ViewChild } from '@angular/core';
-import { GameConfigService } from '../../../shared/services/game-config.service';
-import * as L from 'leaflet';
 import { Router } from '@angular/router';
 import { User } from '../../../shared/interfaces/user.interface';
-import { AuthService } from '../../../shared/services/auth-service.service';
 import { Point } from '../../../shared/interfaces/point.inteface';
 import { GameConfig } from '../../../shared/interfaces/game-config.interface';
-import { AudioService } from '../../../shared/services/audio-service.service';
-import { PointDetailComponent } from './point-detail/point-detail.component';
-import { PointService } from '../../../shared/services/points-service.service';
-import { ChatbotComponent } from './chatbot/chatbot.component';
-import { HintsService } from '../../../shared/services/hints.service';
 import { Hint } from '../../../shared/interfaces/hint.interface';
-import { UserService } from '../../../shared/services/user-service.service';
-import { PointsService } from '../../../shared/services/points.service';
+import * as L from 'leaflet';
+
+import { ChatbotComponent } from './chatbot/chatbot.component';
+import { PointDetailComponent } from './point-detail/point-detail.component';
+
+import { AuthService } from '../../../shared/services/user/auth-service.service';
+import { GameConfigService } from '../../../shared/services/game/game-config.service';
+import { AudioService } from '../../../shared/services/game/audio-service.service';
+import { PointService } from '../../../shared/services/point/points-service.service';
+import { HintsService } from '../../../shared/services/game/hints.service';
+import { UserService } from '../../../shared/services/user/user-service.service';
+import { PointsService } from '../../../shared/services/point/points.service';
 
 @Component({
   selector: 'app-map',
@@ -100,7 +102,6 @@ export class MapComponent implements AfterViewInit {
           this.clearMap();
           this.loadPoints(filteredPoints);
           if(this.level === '7') {
-            console.log(filteredPoints);
             this.finalPoint = filteredPoints[0];
           }
         }, 500);
