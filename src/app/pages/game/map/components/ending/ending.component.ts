@@ -1,12 +1,12 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Point } from '../../../../shared/interfaces/point.inteface';
-import { User } from '../../../../shared/interfaces/user.interface';
-import { Shield } from '../../../../shared/interfaces/shield.interface';
-import { endpoints } from '../../../../shared/constants/end-points';
-import { UserService } from '../../../../shared/services/user/user-service.service';
-import { AuthService } from '../../../../shared/services/user/auth-service.service';
-import { ShieldService } from '../../../../shared/services/shield/shield-service.service';
+import { Point } from '../../../../../shared/interfaces/point.inteface';
+import { User } from '../../../../../shared/interfaces/user.interface';
+import { Shield } from '../../../../../shared/interfaces/shield.interface';
+import { endpoints } from '../../../../../shared/constants/end-points';
+import { UserService } from '../../../../../shared/services/user/user-service.service';
+import { AuthService } from '../../../../../shared/services/user/auth-service.service';
+import { ShieldService } from '../../../../../shared/services/shield/shield-service.service';
 
 @Component({
   selector: 'app-ending',

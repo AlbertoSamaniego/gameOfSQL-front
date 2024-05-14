@@ -1,8 +1,8 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Point } from '../../../../shared/interfaces/point.inteface';
-import { User } from '../../../../shared/interfaces/user.interface';
-import { endpoints } from '../../../../shared/constants/end-points';
-import { chatGPTService } from '../../../../shared/services/game/chatGPT.service';
+import { Point } from '../../../../../shared/interfaces/point.inteface';
+import { User } from '../../../../../shared/interfaces/user.interface';
+import { endpoints } from '../../../../../shared/constants/end-points';
+import { chatGPTService } from '../../../../../shared/services/game/chatGPT.service';
 
 @Component({
   selector: 'app-chatbot',

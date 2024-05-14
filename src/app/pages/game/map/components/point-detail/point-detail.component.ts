@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Point } from '../../../../shared/interfaces/point.inteface';
-import { User } from '../../../../shared/interfaces/user.interface';
-import { endpoints } from '../../../../shared/constants/end-points';
+import { Point } from '../../../../../shared/interfaces/point.inteface';
+import { User } from '../../../../../shared/interfaces/user.interface';
+import { endpoints } from '../../../../../shared/constants/end-points';
 
 @Component({
   selector: 'app-point-detail',

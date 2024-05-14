@@ -6,8 +6,8 @@ import { GameConfig } from '../../../shared/interfaces/game-config.interface';
 import { Hint } from '../../../shared/interfaces/hint.interface';
 import * as L from 'leaflet';
 
-import { ChatbotComponent } from './chatbot/chatbot.component';
-import { PointDetailComponent } from './point-detail/point-detail.component';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
+import { PointDetailComponent } from './components/point-detail/point-detail.component';
 
 import { AuthService } from '../../../shared/services/user/auth-service.service';
 import { GameConfigService } from '../../../shared/services/game/game-config.service';

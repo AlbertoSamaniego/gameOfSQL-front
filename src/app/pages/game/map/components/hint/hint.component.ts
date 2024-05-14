@@ -1,6 +1,6 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { Hint } from '../../../../shared/interfaces/hint.interface';
-import { endpoints } from '../../../../shared/constants/end-points';
+import { Hint } from '../../../../../shared/interfaces/hint.interface';
+import { endpoints } from '../../../../../shared/constants/end-points';
 
 @Component({
   selector: 'app-hint',

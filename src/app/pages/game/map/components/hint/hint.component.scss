@@ -17,5 +17,19 @@
   p {
     font-size: 11px;
   }
+
+  @media screen and (max-width: 768px) {
+    right: 0;
+    top: 0;
+    width: 370px;
+
+    .image {
+      height: 100%;
+    }
+
+    p {
+      font-size: 10px;
+    }
+  }
 }
 
