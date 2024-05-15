@@ -8,6 +8,9 @@ import { GameConfigService } from '../../../../../shared/services/game/game-conf
   templateUrl: './game-config.component.html',
   styleUrl: './game-config.component.scss'
 })
+/**
+ * Componente que representa la página de configuración del juego.
+ */
 export class GameConfigComponent implements OnInit {
 
   public configGameForm = this.fb.group({
@@ -22,11 +25,24 @@ export class GameConfigComponent implements OnInit {
   constructor(private fb: FormBuilder, private gameConfigService: GameConfigService) {}
 
 
+  /**
+   * Inicializa el componente.
+   * Recupera la configuración del juego desde gameConfigService y establece los valores del formulario en consecuencia.
+   */
   ngOnInit() {
     this.currentConfig = this.gameConfigService.getGameConfig();
     this.setCharacterFormValues(this.currentConfig.dayNight, this.currentConfig.fullScreen, this.currentConfig.musicVolume, this.currentConfig.soundEffect, this.currentConfig.pointSize);
   }
 
+  /**
+   * Establece los valores del formulario para la configuración de caracteres.
+   *
+   * @param dayNight: el modo día/noche seleccionado.
+   * @param fullScreen: el modo de pantalla completa seleccionado.
+   * @param musicVolume: el volumen de la música seleccionada.
+   * @param soundEffect: el nivel del efecto de sonido seleccionado.
+   * @param pointSize: el tamaño en puntos seleccionado.
+   */
   setCharacterFormValues(dayNight: string, fullScreen: string, musicVolume: number, soundEffect: number, pointSize: string) {
     this.configGameForm.patchValue({
       dayNight: dayNight,
@@ -37,6 +53,9 @@ export class GameConfigComponent implements OnInit {
     });
   }
 
+  /**
+   * Actualiza la configuración del juego.
+   */
   updateGameConfig(): void {
     const formValues = this.configGameForm.value;
     const gameConfig: GameConfig = {
@@ -48,8 +67,6 @@ export class GameConfigComponent implements OnInit {
     };
     this.gameConfigService.updateGameConfig(gameConfig);
   }
-
-
-  }
+}
 
 

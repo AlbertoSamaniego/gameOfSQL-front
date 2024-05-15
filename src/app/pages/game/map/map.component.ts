@@ -17,6 +17,10 @@ import { HintsService } from '../../../shared/services/game/hints.service';
 import { UserService } from '../../../shared/services/user/user-service.service';
 import { PointsService } from '../../../shared/services/point/points.service';
 
+/**
+ * Representa la clase MapComponent.
+ * Este componente es responsable de mostrar el mapa del juego y manejar las interacciones del usuario.
+ */
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -62,6 +66,12 @@ export class MapComponent implements AfterViewInit {
     private userService: UserService
   ) { }
 
+  /**
+   * Inicializa el componente después de que Angular haya inicializado las vistas del componente.
+   * Carga la imagen y el mapa, y carga la introducción del juego.
+   * Establece el usuario actual para el componente de detalle de punto y recupera el punto con el ID especificado.
+   * Actualiza la propiedad de punto del componente de detalle de punto con el punto recuperado.
+   */
   async ngAfterViewInit() {
     this.currentUser = this.authService.getCurrentUser;
     this.gameConfig = this.configService.getGameConfig();
@@ -74,12 +84,20 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Carga la introducción del juego.
+   * Establece el usuario actual para el componente de detalle de punto y recupera el punto con el ID especificado.
+   * Actualiza la propiedad de punto del componente de detalle de punto con el punto recuperado.
+   */
   async loadIntroduccion() {
     this.pointDetailComponent!.currentUser = this.currentUser;
     await this.pointService.getPointById("53");
     this.pointDetailComponent!.point = this.pointService.getCurrentPoint;
   }
 
+  /**
+   * Carga la configuración del juego.
+   */
   loadGameConfig(): void {
     this.gameConfig = this.configService.getGameConfig();
     this.isFullScreen = this.gameConfig.fullScreen === "true";
@@ -87,6 +105,11 @@ export class MapComponent implements AfterViewInit {
     this.audioService.setMusicVolume(this.gameConfig.musicVolume);
   }
 
+  /**
+   * Maneja la respuesta del chatbot.
+   * Actualiza los puntos a cargar y los puntos a mostrar en el mapa.
+   * @param result - El resultado de la respuesta del chatbot.
+   */
   async handleChatbotResponse(result: boolean) {
     let pointsToLoad: Point[] = [];
     this.guessedIDPoints = [];
@@ -108,6 +131,11 @@ export class MapComponent implements AfterViewInit {
 
   }
 
+  /**
+   * Actualiza el nivel del juego y los puntos a cargar.
+   * @param pointsToLoad - Un array de puntos a cargar.
+   * @returns Un array de puntos a cargar actualizado.
+   */
   updateLevel(pointsToLoad: Point[]) {
     this.level = (parseInt(this.level) + 1).toString();
     this.pointsService.getPointsByLevel(parseInt(this.level)).subscribe((points) => {
@@ -116,6 +144,11 @@ export class MapComponent implements AfterViewInit {
     return pointsToLoad;
   }
 
+  /**
+   * Filtra los puntos a mostrar en el mapa.
+   * @param points - Un array de puntos a filtrar.
+   * @returns Un array de puntos filtrados.
+   */
   filterPoints(points: Point[]): Point[] {
     return points.filter(point => {
       const failedMatch = this.failedIDPoints.every(id => 	point.failed_required_points.includes(id));
@@ -124,6 +157,9 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
+  /**
+   * Limpia el mapa de marcadores.
+   */
   clearMap() {
     this.map.eachLayer((layer) => {
       if (layer instanceof L.Marker) {
@@ -132,6 +168,9 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
+  /**
+   * Cambia el tamaño de la pantalla a pantalla completa o viceversa.
+   */
   toggleFullScreen(): void {
     if (this.isFullScreen) {
       this.isFullScreen = false;
@@ -142,6 +181,9 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Cambia entre el modo día y el modo noche.
+   */
   toggleDayNight(): void {
     if (this.isDayNight) {
       this.isDayNight = false;
@@ -158,14 +200,26 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Muestra el componente de chatbot.
+   * @param point - El punto seleccionado.
+   */
   onPointDetailComponentHidden(): void {
     this.showChatbotComponent = true;
   }
 
+  /**
+   * Actualiza los puntos de pista que se han hecho clic.
+   * @param updatedHints - Un array de índices de pistas que se han hecho clic.
+   */
   updateClickedHints(updatedHints: number[]): void {
     this.hintsClicked = updatedHints;
   }
 
+  /**
+   * Muestra la pista seleccionada.
+   * @param index - El índice de la pista seleccionada.
+   */
   showHint(index: number) {
     this.hintService.getHints().subscribe((hints) => {
       const hint = hints[index];
@@ -176,14 +230,25 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
+  /**
+   * Oculta el componente de pista.
+   */
   hideHintComponent(): void {
     this.showHintComponent = false;
     this.selectedHint = null;
   }
 
+  /**
+   * Actualiza el logro del usuario según el punto seleccionado.
+   * Si el punto seleccionado tiene un logro y aún no está incluido en los logros del usuario,
+   * agrega el logro a los logros del usuario y actualiza los datos del usuario.
+   * Después de la actualización, establece un tiempo de espera para ocultar el componente de logros después de 7 segundos.
+   */
   updateUserArchievement(): void {
     if (this.selectedPoint?.archievement !== false) {
-      if (Array.isArray(this.currentUser?.archievements_id) && this.selectedPoint?.archievement && !this.currentUser?.archievements_id?.includes(this.selectedPoint?.archievement)) {
+      if (Array.isArray(this.currentUser?.archievements_id) &&
+       this.selectedPoint?.archievement &&
+        !this.currentUser?.archievements_id?.includes(this.selectedPoint?.archievement)) {
         this.currentUser?.archievements_id?.push(this.selectedPoint?.archievement);
         this.showArchievementComponent = true;
         this.userService.updateArchievements(this.currentUser.user_id, this.currentUser.archievements_id).subscribe({
@@ -201,6 +266,11 @@ export class MapComponent implements AfterViewInit {
     }, 7000);
   }
 
+  /**
+   * Carga los puntos en el mapa.
+   * @param points - Un array de puntos a cargar.
+   * @returns Un array de puntos cargados.
+   */
   async loadPoints(points: Point[]) {
     let iconSize: [number, number] = [52, 72];
     switch (this.gameConfig.pointSize) {
@@ -245,10 +315,19 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
+  /**
+   * Muestra la pantalla final del juego.
+   */
   showEnding() {
     this.endReached = true;
   }
 
+  /**
+   * Carga la imagen del mapa y luego inicializa el mapa.
+   * La imagen se carga primero para obtener el ancho y el alto de la imagen.
+   * Luego, el mapa se inicializa con la imagen cargada.
+   * Esto se hace para que el mapa se ajuste correctamente a la imagen.
+   */
   async loadImageAndInitMap() {
     const imageUrl = '../../../assets/game/map/map-layer.jpg';
     const img = new Image();
@@ -260,6 +339,11 @@ export class MapComponent implements AfterViewInit {
     img.src = imageUrl;
   }
 
+  /**
+   * Inicializa el mapa con la imagen del mapa cargada.
+   * El mapa se inicializa con la imagen del mapa cargada y se establecen los límites del mapa.
+   * El mapa se ajusta a los límites de la imagen.
+   */
   async initMap() {
     this.map = L.map('map', {
       zoom: 0,
@@ -275,6 +359,13 @@ export class MapComponent implements AfterViewInit {
   }
 
   @HostListener('document:keydown', ['$event'])
+  /**
+   * Maneja los eventos del teclado.
+   * Si el usuario presiona la tecla Escape, deshabilita las interacciones del mapa.
+   * Si el usuario presiona Ctrl + F, cambia al modo de pantalla completa.
+   * Si el usuario presiona Ctrl + D, cambia entre el modo día y el modo noche.
+   * @param event - El evento del teclado.
+   */
   handleKeyboardEvent(event: KeyboardEvent) {
     if (event.key === 'Escape') {
       this.modalActive = true;
@@ -298,10 +389,17 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Navega al inicio del juego.
+   */
   confirmExit() {
     this.router.navigateByUrl('/game/home-game');
   }
 
+  /**
+   * Cancela la navegación al inicio del juego.
+   * Habilita las interacciones del mapa.
+   */
   cancelExit() {
     this.modalActive = false;
     this.map.dragging.enable();

@@ -9,6 +9,10 @@ import { chatGPTService } from '../../../../../shared/services/game/chatGPT.serv
   templateUrl: './chatbot.component.html',
   styleUrl: './chatbot.component.scss'
 })
+
+/**
+ * Componente que muestra la vantana donde el usuario inserta la consulta SQL.
+ */
 export class ChatbotComponent implements OnInit {
 
   @Input() point: Point = {} as Point;
@@ -33,6 +37,9 @@ export class ChatbotComponent implements OnInit {
     private chatgpt: chatGPTService,
   ) { }
 
+  /**
+   * Inicializa el componente.
+   */
   ngOnInit() {
     this.imgPopup = this.elementRef.nativeElement.querySelector('.img-popup');
     this.popupImage = this.elementRef.nativeElement.querySelector('.img-popup img');
@@ -42,6 +49,11 @@ export class ChatbotComponent implements OnInit {
     this.disableClickedHints(this.hintsClicked);
   }
 
+  /**
+   * Llama a la API de ChatGPT para obtener la respuesta del chatbot.
+   * @returns la respuesta del chatbot.
+   * @emits chatbotResponse
+   */
   callChatGPT(): void {
     const sqlCode = this.userQueryTextarea.nativeElement.value;
     this.isButtonClicked = true;
@@ -69,6 +81,10 @@ export class ChatbotComponent implements OnInit {
   }
 
 
+  /**
+   * Muestra la pista correspondiente.
+   * @param numberHint - El número de pista a mostrar.
+   */
   displayHint(numberHint: number): void {
     if (!this.hintsClicked.includes(numberHint)) {
       this.showHintComponentEvent.emit(numberHint);
@@ -77,6 +93,10 @@ export class ChatbotComponent implements OnInit {
     }
   }
 
+  /**
+   * Deshabilita las pistas que se han mostrado.
+   * @param hintsClicked - Las pistas que se han mostrado.
+   */
   disableClickedHints(hintsClicked: number[]): void {
     hintsClicked.forEach((hintClicked: number) => {
       const hintElement = this.elementRef.nativeElement.querySelector(`.hint-link-${hintClicked + 1}`);
@@ -86,14 +106,25 @@ export class ChatbotComponent implements OnInit {
     });
   }
 
+  /**
+   * Obtiene el nombre de la imagen del escudo.
+   * @returns el nombre de la imagen del escudo.
+   */
   getNameShieldImage(): string {
     return this.currentUser?.url_shield?.replace('sites/default/files/2024-04/', '')?.replace('/', '') || '';
   }
 
+  /**
+   * Agrega el escudo al DOM.
+   * @param shieldName - El nombre del escudo.
+   */
   addShieldToDOM(shieldName: string): void {
     this.shield.nativeElement.style.backgroundImage = `url('${endpoints.urlImageShield}${shieldName}')`;
   }
 
+  /**
+   * Muestra la imagen del esquema Entidad-Relacion de la base de datos.
+   */
   displayImageEr() {
     if (this.imgPopup && this.popupImage) {
       this.popupImage.src = '../../../../../assets/game/info/er.jpg';
@@ -101,6 +132,9 @@ export class ChatbotComponent implements OnInit {
     }
   }
 
+  /**
+   * Muestra la imagen del diagrama relacional de la base de datos.
+   */
   closePopup() {
     if (this.imgPopup && this.popupImage) {
       this.imgPopup.classList.remove('opened');
@@ -108,10 +142,17 @@ export class ChatbotComponent implements OnInit {
     }
   }
 
+  /**
+   * Detiene la propagación del evento.
+   * @param event - El evento a detener.
+   */
   stopPropagation(event: Event) {
     event.stopPropagation();
   }
 
+  /**
+   * Continúa o cierra el componente.
+   */
   continueOrClose(): void {
     if (this.isButtonClicked) {
       this.hideComponent();
@@ -123,6 +164,9 @@ export class ChatbotComponent implements OnInit {
     }
   }
 
+  /**
+   * Oculta el componente.
+   */
   hideComponent(): void {
     this.isButtonClicked = false;
     this.userQueryTextarea.nativeElement.value = '';

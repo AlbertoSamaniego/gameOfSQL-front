@@ -13,14 +13,26 @@ export class ShieldService {
     this.currentShieldSubject = new BehaviorSubject<Shield | null>(null);
   }
 
+  /**
+   * Consigue el escudo actual.
+   */
   get getShield() {
     return this.currentShield;
   }
 
+  /**
+   * Establece el escudo actual.
+   * @param shield - El escudo que se establecerá como escudo actual.
+   */
   public setCurrentArchievement(shield: Shield | null): void {
     this.currentShieldSubject.next(shield);
   }
 
+  /**
+   * Consigue un escudo por su ID.
+   * @param id - El ID del escudo a recuperar.
+   * @returns Una promesa que se resuelve con el escudo, o nula si no se encuentra.
+   */
   getShieldById(id: string):  Promise<Shield | null> {
     return new Promise<Shield | null>((resolve, reject) => {
       this.shieldService.getShieldById(id).subscribe({

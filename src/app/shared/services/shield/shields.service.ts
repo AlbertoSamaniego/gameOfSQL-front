@@ -8,6 +8,11 @@ import { endpoints } from '../../constants/end-points';
 export class ShieldsService {
   constructor( private http: HttpClient ) { }
 
+  /**
+   * Recupera los escudos según la matriz de escudos premium.
+   * @param premiumShields - Conjunto de identificaciones de escudo premium
+   * @returns Observable de matriz de escudo
+   */
   getShields(premiumShields: string[]): Observable<Shield[]> {
     return this.http.get<Shield[]>(endpoints.shieldsUrl).pipe(
       map((shields) => {
@@ -18,6 +23,11 @@ export class ShieldsService {
     );
   }
 
+  /**
+   * Recupera un escudo por tu id.
+   * @param id - id del escudo
+   * @returns Observable de escudo
+   */
   getShieldById(id: string): Observable<Shield> {
     return this.http.get<Shield>(`${endpoints.shieldById}${id}`);
   }

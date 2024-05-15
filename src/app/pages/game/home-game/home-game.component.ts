@@ -4,6 +4,9 @@ import { User } from '../../../shared/interfaces/user.interface';
 import { AudioService } from '../../../shared/services/game/audio-service.service';
 import { AuthService } from '../../../shared/services/user/auth-service.service';
 
+/**
+ * Componente para la página de inicio del juego.
+ */
 @Component({
   selector: 'app-home-game',
   templateUrl: './home-game.component.html',
@@ -20,28 +23,43 @@ export class HomeGameComponent implements OnInit, OnDestroy {
     private authService: AuthService,
   ) { }
 
-   async ngOnInit() {
+  /**
+   * Inicializa el componente.
+   */
+  async ngOnInit() {
     this.loadImage();
     await this.getUserByEmail();
     this.currentUser =  this.authService.getCurrentUser;
   }
 
+  /**
+   * Limpia el componente antes de que sea destruido.
+   */
   ngOnDestroy(): void {
     if (this.imgElement && this.imgElement.parentNode === document.body) {
       document.body.removeChild(this.imgElement);
     }
   }
 
+  /**
+   * Maneja el evento de clic para el botón de cerrar sesión.
+   */
   OnClickCloseSession() {
     this.audioService.detenerMusicaDeFondo();
     localStorage.clear();
     this.authService.setCurrentUser(null);
   }
 
+  /**
+   * Maneja el evento de clic para el botón de reproducción.
+   */
   OnClickPlay() {
     this.audioService.reproducirAudio('click-sound');
   }
 
+  /**
+   * Carga la imagen de fondo de la página.
+   */
   loadImage() {
     this.imgElement = this.renderer.createElement('img');
     this.renderer.setAttribute(this.imgElement, 'src', '../../../../assets/game/fondo-main-menu.jpeg');
@@ -51,6 +69,9 @@ export class HomeGameComponent implements OnInit, OnDestroy {
     this.audioService.reproducirMusicaDeFondo();
   }
 
+  /**
+   * Recupera al usuario por correo electrónico del servicio de autenticación.
+   */
   async getUserByEmail() {
     const userEmail = localStorage.getItem('user')?.toString();
 
@@ -67,10 +88,18 @@ export class HomeGameComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Recupera el nombre de la imagen de escudo del usuario actual.
+   * @returns El nombre de la imagen del escudo.
+   */
   getNameShieldImage(): string {
     return this.currentUser.url_shield?.replace('sites/default/files/2024-04/', '')?.replace('/', '') || '';
   }
 
+  /**
+   * Agrega la imagen de escudo del usuario al DOM.
+   * @param shieldName: el nombre de la imagen del escudo.
+   */
   addShieldToDOM(shieldName: string) {
     const shieldDiv = document.getElementById('user-shield');
     if(shieldDiv){

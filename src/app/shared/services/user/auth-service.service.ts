@@ -14,14 +14,27 @@ export class AuthService {
     this.currentUserSubject = new BehaviorSubject<User | null>(null);
   }
 
+  /**
+   * Obtener el usuario actual.
+   * @returns El usuario actual.
+   */
   get getCurrentUser() {
     return this.user;
   }
 
+  /**
+   * Establecer el usuario actual.
+   * @param user - El usuario a establecer como el usuario actual.
+   */
   public setCurrentUser(user: User | null): void {
     this.currentUserSubject.next(user);
   }
 
+  /**
+   * Consigue un usuario por correo electrónico.
+   * @param email: el correo electrónico del usuario a recuperar.
+   * @returns Una promesa que se resuelve con el usuario si se encuentra, o nula si no se encuentra.
+   */
   public async getUserByEmail(email: string): Promise<User | null> {
     return new Promise<User | null>((resolve, reject) => {
       this.userService.getDataRegisteredUser(email).subscribe({

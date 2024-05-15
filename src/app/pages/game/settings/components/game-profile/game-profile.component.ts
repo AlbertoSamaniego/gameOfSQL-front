@@ -14,6 +14,10 @@ import { UserService } from '../../../../../shared/services/user/user-service.se
   templateUrl: './game-profile.component.html',
   styleUrls: ['./game-profile.component.scss']
 })
+
+/**
+ * Representa el componente del perfil del juego.
+ */
 export class GameProfileComponent implements OnInit {
 
   public currentUser: User = {} as User;
@@ -35,12 +39,22 @@ export class GameProfileComponent implements OnInit {
     private userService: UserService
   ) { }
 
+  /**
+   * Inicializa el componente.
+   */
   ngOnInit() {
     this.currentUser = this.authService.getCurrentUser;
     this.setCharacterFormValues(this.currentUser.character_name, this.currentUser.house_name, this.currentUser.character_nickname, this.currentUser.house_motto);
     this.initShields();
   }
 
+  /**
+   * Establece los valores de la forma del carácter.
+   * @param name: el nombre del personaje.
+   * @param house: el nombre de la casa.
+   * @param apodo: el apodo del personaje.
+   * @param motto: El lema de la casa.
+   */
   setCharacterFormValues(name: string, house: string, nickname: string, motto: string) {
     this.characterForm.patchValue({
       name: name,
@@ -50,6 +64,9 @@ export class GameProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * Inicializa los escudos.
+   */
   initShields() {
     this.shieldService.getShields(this.currentUser.premium_shields).subscribe((shields) => {
       this.shields = shields;
@@ -61,6 +78,10 @@ export class GameProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * Agrega el escudo actual al DOM.
+   * @param urlShields: la lista de URL de protección.
+   */
   addCurrentShieldToDOM(urlShields: string[]) {
     const shieldElement = document.getElementById('user-shield') as HTMLInputElement;
     if (shieldElement) {
@@ -69,18 +90,27 @@ export class GameProfileComponent implements OnInit {
     }
   }
 
+  /**
+   * Muestra el escudo anterior.
+   */
   showPreviousShield() {
     if (this.shields.length === 0) return;
     this.indexShield = (this.indexShield - 1 + this.shields.length) % this.shields.length;
     this.updateShieldImage();
   }
 
+  /**
+   * Muestra el siguiente escudo.
+   */
   showNextShield() {
     if (this.shields.length === 0) return;
     this.indexShield = (this.indexShield + 1) % this.shields.length;
     this.updateShieldImage();
   }
 
+  /**
+   * Actualiza la imagen del escudo.
+   */
   updateShieldImage() {
     const shieldElement = document.getElementById('user-shield') as HTMLInputElement;
     if (shieldElement) {
@@ -88,14 +118,26 @@ export class GameProfileComponent implements OnInit {
     }
   }
 
+  /**
+   * Obtiene la imagen del escudo del usuario.
+   * @returns La imagen del escudo del usuario.
+   */
   getUserShieldImage(): string {
     return this.currentUser.url_shield?.replace('sites/default/files/2024-04/', '')?.replace('/', '') || '';
   }
 
+  /**
+   * Filtra el nombre de la imagen del escudo.
+   * @param fullUrl: la URL completa.
+   * @returns El nombre de la imagen del escudo.
+   */
   filterNameShieldImage(fullUrl: string): string {
     return fullUrl.replace('sites/default/files/2024-04/', '')?.replace('/', '') || '';
   }
 
+  /**
+   * Actualiza el personaje.
+   */
   updateCharacter() {
     this.currentUser.character_name = this.characterForm.get('name')?.value;
     this.currentUser.house_name = this.characterForm.get('house')?.value;
@@ -114,13 +156,24 @@ export class GameProfileComponent implements OnInit {
         console.log(error);
       }
     });
-
   }
 
+  /**
+   * Verifica si un campo es válido.
+   * @param field: el campo.
+   * @param form: el formulario.
+   * @returns Verdadero si el campo es válido, de lo contrario, falso.
+   */
   isValidField(field: string, form: FormGroup): boolean | null {
     return this.validatorsService.isValidField(field, form);
   }
 
+  /**
+   * Obtiene el error de un campo.
+   * @param field: el campo.
+   * @param form: el formulario.
+   * @returns El mensaje de error del campo.
+   */
   getFieldError(field: string, form: FormGroup): string | null {
     const fieldMessage = formMessages.find((message) => message.name === field);
     if (!fieldMessage) return null;

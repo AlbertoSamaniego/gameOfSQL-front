@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+/**
+ * Servicio para gestionar la reproducción de audio en el juego.
+ */
 export class AudioService {
 
   private audioMusicaDeFondo: HTMLAudioElement;
@@ -19,6 +22,10 @@ export class AudioService {
     });
   }
 
+  /**
+   * Reproduce el archivo de audio especificado.
+   * @param archivo - El nombre del archivo de audio que se reproducirá (sin la extensión del archivo).
+   */
   reproducirAudio(archivo: string) {
     const audio = new Audio();
     audio.src = `../../assets/sound-effects/${archivo}.mp3`;
@@ -26,14 +33,24 @@ export class AudioService {
     audio.play();
   }
 
+  /**
+   * Establece el volumen de la música de fondo.
+   * @param volume - El nivel de volumen a configurar (entre 0 y 100).
+   */
   setMusicVolume(volume: number) {
     this.audioMusicaDeFondo.volume = volume / 100;
   }
 
+  /**
+   * Comienza a reproducir la música de fondo.
+   */
   reproducirMusicaDeFondo() {
     this.audioMusicaDeFondo.play();
   }
 
+  /**
+   * Deja de reproducir la música de fondo.
+   */
   detenerMusicaDeFondo() {
     this.audioMusicaDeFondo.pause();
   }

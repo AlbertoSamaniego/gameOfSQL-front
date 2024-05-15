@@ -1,7 +1,7 @@
 .container {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 60%;
   transform: translate(-50%, -50%);
   width: 60em;
   height: auto;
@@ -47,7 +47,7 @@
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background-image: url('../../../../../assets/game/map/mouse.png');
+      background-image: url('../../../../../../assets/game/map/mouse.png');
       background-position: center;
       background-size: cover;
     }
@@ -85,7 +85,7 @@
 #reward-container {
   position: absolute;
   top: 50%;
-  left: 20%;
+  left: 10%;
   transform: translate(-50%, -50%);
   padding: 20px;
   z-index: 1000;

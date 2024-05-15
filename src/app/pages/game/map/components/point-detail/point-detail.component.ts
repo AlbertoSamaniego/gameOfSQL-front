@@ -8,6 +8,10 @@ import { endpoints } from '../../../../../shared/constants/end-points';
   templateUrl: './point-detail.component.html',
   styleUrls: ['./point-detail.component.scss']
 })
+
+/**
+ * Componente que muestra los detalles de un punto en el mapa.
+ */
 export class PointDetailComponent implements OnInit {
   @Input() point: Point = {} as Point;
   @Input() currentUser: User | undefined = {} as User;
@@ -17,22 +21,36 @@ export class PointDetailComponent implements OnInit {
 
   constructor() { }
 
+/**
+ * Inicializa el componente.
+ */
   ngOnInit(): void {
     setTimeout(() => {
       this.initComponent();
     }, 100);
   }
 
+  /**
+   * Inicializa el componente.
+   */
   initComponent(): void {
     this.addShieldToDOM(this.getNameShieldImage());
     this.replaceHistoryString();
     this.splitHistoryIntoSegments();
   }
 
+  /**
+   * Obtiene el nombre de la imagen del escudo del usuario.
+   * @returns el nombre de la imagen del escudo del usuario.
+   */
   getNameShieldImage(): string {
     return this.currentUser?.url_shield?.replace('sites/default/files/2024-04/', '')?.replace('/', '') || '';
   }
 
+  /**
+   * Añade el escudo del usuario al DOM.
+   * @param shieldName nombre del escudo.
+   */
   addShieldToDOM(shieldName: string): void {
     const shieldDiv = document.getElementById('shield');
     if (shieldDiv) {
@@ -40,6 +58,9 @@ export class PointDetailComponent implements OnInit {
     }
   }
 
+  /**
+   * Reemplaza el nombre del personaje y la casa en la historia.
+   */
   replaceHistoryString(): void {
     if (this.point && this.point.history) {
       const replaceCharacterName = this.currentUser!.character_name + ' "' + this.currentUser!.character_nickname + '" ';
@@ -48,6 +69,9 @@ export class PointDetailComponent implements OnInit {
     }
   }
 
+  /**
+   * Divide la historia en segmentos.
+   */
   splitHistoryIntoSegments(): void {
     if (this.point && this.point.history) {
       const words = this.point.history.split(' ');
@@ -58,6 +82,9 @@ export class PointDetailComponent implements OnInit {
     }
   }
 
+  /**
+   * Oculta el componente.
+   */
   onNextSegmentClick(): void {
     if (this.currentSegmentIndex < this.segments.length - 1) {
       this.currentSegmentIndex++;
@@ -69,6 +96,9 @@ export class PointDetailComponent implements OnInit {
     }
   }
 
+  /**
+   * Oculta el componente.
+   */
   hideComponent(): void {
     const pointDetail = document.getElementById('container');
     if (pointDetail) {
@@ -76,11 +106,18 @@ export class PointDetailComponent implements OnInit {
     }
   }
 
+  /**
+   * Limpia el componente.
+   */
   clearComponent(): void {
     this.segments = [];
     this.currentSegmentIndex = 0;
   }
 
+  /**
+   * Muestra el componente.
+   * @param point - El punto a mostrar.
+   */
   showComponent(point: Point): void {
     this.clearComponent();
     this.point = point;

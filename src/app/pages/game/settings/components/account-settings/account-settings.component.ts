@@ -9,13 +9,15 @@ import { ValidatorsService } from '../../../../../shared/services/user/validator
 import { AuthService } from '../../../../../shared/services/user/auth-service.service';
 import { GameConfigService } from '../../../../../shared/services/game/game-config.service';
 
+/**
+ * Componente que representa la página de configuración de la cuenta.
+ */
 @Component({
   selector: 'app-account-settings',
   templateUrl: './account-settings.component.html',
   styleUrl: './account-settings.component.scss'
 })
-export class AccountSettingsComponent implements OnInit{
-
+export class AccountSettingsComponent implements OnInit {
   public currentUser: User = {} as User;
   public users: User[] = [];
   public errorMessage: string = '';
@@ -36,6 +38,7 @@ export class AccountSettingsComponent implements OnInit{
   public deleteAccountForm: FormGroup = new FormGroup({});
   public rebootAccountForm: FormGroup = new FormGroup({});
 
+
   constructor(
     private authService: AuthService,
     private userService: UserService,
@@ -46,10 +49,17 @@ export class AccountSettingsComponent implements OnInit{
     private gameConfigService: GameConfigService
   ) { }
 
+  /**
+   * Inicializa el componente.
+   */
   ngOnInit() {
     this.currentUser = this.authService.getCurrentUser;
   }
 
+  /**
+   * Muestra el formulario con el ID especificado.
+   * @param idForm: el ID del formulario que se mostrará.
+   */
   displayForm(idForm: string): void {
     const form = document.getElementById(idForm);
     if (form && form.classList.contains("d-none")) {
@@ -61,6 +71,10 @@ export class AccountSettingsComponent implements OnInit{
     }
   }
 
+  /**
+   * Recupera la lista de usuarios de forma asincrónica.
+   * @returns Una promesa que se resuelve cuando se recupera la lista de usuarios.
+   */
   async getUsers(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.registeredUsersService.getUsers().subscribe({
@@ -75,17 +89,26 @@ export class AccountSettingsComponent implements OnInit{
     });
   }
 
+  /**
+   * Comprueba si el correo electrónico especificado es un usuario registrado.
+   * @param email: el correo electrónico a comprobar.
+   * @returns Verdadero si el correo electrónico es un usuario registrado, falso en caso contrario.
+   */
   isRegisteredUser(email: string): boolean {
     return this.users.some(user => user.email === email);
   }
 
+  /**
+   * Cambia el correo electrónico del usuario actual.
+   * @param newEmail: el nuevo correo electrónico.
+   */
   async changeEmail(newEmail: string) {
     this.isChangeEmailFormSubmitted = true;
-    if(!this.changeEmailForm.invalid){
+    if (!this.changeEmailForm.invalid) {
       await this.getUsers();
       if (this.isRegisteredUser(newEmail)) {
         this.errorMessage = 'El usuario ya está registrado. Ingrese otras credenciales';
-      }else{
+      } else {
         this.currentUser.email = newEmail;
         this.userService.updateEmail(newEmail, this.currentUser.user_id).subscribe({
           next: (userData: User) => {
@@ -100,9 +123,13 @@ export class AccountSettingsComponent implements OnInit{
     }
   }
 
+  /**
+   * Cambia la contraseña del usuario actual.
+   * @param newPassword: la nueva contraseña.
+   */
   changePassword(newPassword: string): void {
     this.isChangePasswordFormSubmitted = true;
-    if(!this.changePasswordForm.invalid){
+    if (!this.changePasswordForm.invalid) {
       this.currentUser.password = newPassword;
       this.userService.updatePassword(newPassword, this.currentUser.user_id).subscribe({
         next: (userData: User) => {
@@ -116,35 +143,53 @@ export class AccountSettingsComponent implements OnInit{
     }
   }
 
+  /**
+   * Elimina la cuenta de usuario actual.
+   */
   deleteAccount() {
-      this.userService.deleteUser(this.currentUser.user_id).subscribe({
-        next: (userData: User) => {
-          this.authService.setCurrentUser(userData);
-        },
-        error: (error: any) => {
-          console.log(error);
-        }
-      });
-      localStorage.clear();
-      this.router.navigate(['/home']);
+    this.userService.deleteUser(this.currentUser.user_id).subscribe({
+      next: (userData: User) => {
+        this.authService.setCurrentUser(userData);
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
+    localStorage.clear();
+    this.router.navigate(['/home']);
   }
 
+  /**
+   * Reinicia la cuenta de usuario actual.
+   */
   rebootAccount() {
-      this.userService.rebootUser(this.currentUser.user_id).subscribe({
-        next: (userData: User) => {
-          this.authService.setCurrentUser(userData);
-        },
-        error: (error: any) => {
-          console.log(error);
-        }
-      });
-      this.gameConfigService.rebootGameConfig();
+    this.userService.rebootUser(this.currentUser.user_id).subscribe({
+      next: (userData: User) => {
+        this.authService.setCurrentUser(userData);
+      },
+      error: (error: any) => {
+        console.log(error);
+      }
+    });
+    this.gameConfigService.rebootGameConfig();
   }
 
+  /**
+   * Comprueba si un campo de un formulario es válido.
+   * @param field: el campo a comprobar.
+   * @param form: el formulario a verificar.
+   * @returns Verdadero si el campo es válido, falso en caso contrario.
+   */
   isValidField(field: string, form: FormGroup): boolean | null {
     return this.validatorsService.isValidField(field, form);
   }
 
+  /**
+   * Obtiene el mensaje de error de un campo de un formulario.
+   * @param field: el campo para el que se obtiene el mensaje de error.
+   * @param form: el formulario del que se obtiene el mensaje de error.
+   * @returns El mensaje de error para el campo, o nulo si no hay ningún error.
+   */
   getFieldError(field: string, form: FormGroup): string | null {
     const fieldMessage = formMessages.find((message) => message.name === field);
     if (!fieldMessage) return null;

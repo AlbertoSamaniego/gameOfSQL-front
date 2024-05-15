@@ -6,7 +6,7 @@ import { Component } from "@angular/core";
 	selector: "snow-flake",
 	inputs: [ "depth", "speed" ],
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	styleUrls: [ "styles/snow-flake.component.scss" ],
+	styleUrls: [ "../../pages/home/styles/snow-flake.component.scss" ],
 	template:
 	`
 		<div

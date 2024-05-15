@@ -13,6 +13,10 @@ import { ShieldService } from '../../../../../shared/services/shield/shield-serv
   templateUrl: './ending.component.html',
   styleUrl: './ending.component.scss'
 })
+
+/**
+ * Componente que muestra el final del juego.
+ */
 export class EndingComponent implements OnInit{
 
   @Input() point: Point = {} as Point;
@@ -30,12 +34,19 @@ export class EndingComponent implements OnInit{
     private shieldService: ShieldService
    ) { }
 
+   /**
+    * Inicializa el componente.
+    */
   ngOnInit() {
     setTimeout(() => {
       this.initComponent();
     }, 100);
   }
 
+  /**
+   * Inicializa el componente.
+   * @returns el nombre del escudo del usuario.
+   */
   async initComponent() {
     this.addUserShieldToDOM(this.getUserNameShieldImage());
     this.replaceHistoryString();
@@ -47,10 +58,18 @@ export class EndingComponent implements OnInit{
     }
   }
 
+  /**
+   * Obtiene el nombre del escudo del usuario.
+   * @returns el nombre del escudo del usuario.
+   */
   getUserNameShieldImage(): string {
     return this.currentUser?.url_shield?.replace('sites/default/files/2024-04/', '')?.replace('/', '') || '';
   }
 
+  /**
+   * Obtiene el nombre del escudo.
+   * @returns el nombre del escudo.
+   */
   async getShieldNameByShieldId() {
     let shieldName = '';
     if (this.point.reward) {
@@ -62,11 +81,17 @@ export class EndingComponent implements OnInit{
 }
 
 
-
+ /**
+  * Agrega el escudo al DOM.
+  * @param shieldName - El nombre del escudo.
+  */
   addUserShieldToDOM(shieldName: string): void {
     this.user_shield.nativeElement.style.backgroundImage = `url('${endpoints.urlImageShield}${shieldName}')`;
   }
 
+  /**
+   * Muestra la recompensa.
+   */
   showReward(): void {
     const rewardContainer = document.getElementById('reward-container');
     if (rewardContainer) {
@@ -74,12 +99,21 @@ export class EndingComponent implements OnInit{
     }
   }
 
+  /**
+   * Agrega la recompensa al DOM.
+   * @param shieldName - El nombre del escudo.
+   */
   addRewardShieldToDOM(shieldName: string): void {
     this.reward_shield.nativeElement.style.backgroundImage = `url('${endpoints.urlImageShield}${shieldName}')`;
   }
 
+  /**
+   * Actualiza el escudo de la recompensa.
+   */
   async updateRewardShield() {
-    if (Array.isArray(this.currentUser?.premium_shields) && this.point.reward && !this.currentUser?.premium_shields?.includes(this.point.reward)) {
+    if (Array.isArray(this.currentUser?.premium_shields) &&
+     this.point.reward &&
+      !this.currentUser?.premium_shields?.includes(this.point.reward)) {
       this.currentUser?.premium_shields?.push(this.point.reward);
       this.userService.updatePremiumShields(this.currentUser.user_id, this.currentUser.premium_shields).subscribe({
         next: (userData: User) => {
@@ -92,6 +126,9 @@ export class EndingComponent implements OnInit{
     }
   }
 
+  /**
+   * Reemplaza la cadena de la historia.
+   */
   replaceHistoryString(): void {
     if (this.point && this.point.history) {
       const replaceCharacterName = this.currentUser!.character_name + ' "' + this.currentUser!.character_nickname + '" ';
@@ -100,6 +137,9 @@ export class EndingComponent implements OnInit{
     }
   }
 
+  /**
+   * Divide la historia en segmentos.
+   */
   splitHistoryIntoSegments(): void {
     if (this.point && this.point.history) {
       const words = this.point.history.split(' ');
@@ -110,6 +150,9 @@ export class EndingComponent implements OnInit{
     }
   }
 
+  /**
+   * Navega al siguiente segmento.
+   */
   onNextSegmentClick(): void {
     if (this.currentSegmentIndex < this.segments.length - 1) {
       this.currentSegmentIndex++;
