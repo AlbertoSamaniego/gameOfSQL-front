@@ -192,7 +192,7 @@ export class MapComponent implements AfterViewInit {
         brightness = brightness === 1 ? 0.3 : 1;
         document.getElementById('map-container')!.style.transition = 'filter 5s';
         document.getElementById('map-container')!.style.filter = `brightness(${brightness})`;
-      }, 2000);
+      }, 20000);
     } else {
       clearInterval(this.intervalId);
       this.isDayNight = true;

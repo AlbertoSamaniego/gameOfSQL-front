@@ -3,6 +3,7 @@ import { Point } from '../../../../../shared/interfaces/point.inteface';
 import { User } from '../../../../../shared/interfaces/user.interface';
 import { endpoints } from '../../../../../shared/constants/end-points';
 import { chatGPTService } from '../../../../../shared/services/game/chatGPT.service';
+import { ddl } from '../../../../../shared/constants/database';
 
 @Component({
   selector: 'app-chatbot',
@@ -59,14 +60,11 @@ export class ChatbotComponent implements OnInit {
     this.isButtonClicked = true;
 
     const prompt = `
-      Según la base de datos proporcionada, evalúa si la siguiente consulta SQL es correcta o incorrecta:
-      \nConsulta SQL:
-      \n${sqlCode}
-      \nPara obtener la siguiente información:
-      \n${this.point.question}.
-      \nSi la consulta es correcta, escribe: ¡ENHORABUENA!, imprime el resultado de la consulta y no escribas nada más.
-      \nSi la consulta es errónea, explica por qué está mal, proporciona su corrección y NUNCA ESCRIBAS ¡ENHORABUENA!.
-    `;
+    Según esta base de datos:\n${ddl}\nEvalúa si esta bien o mal la siguiente consulta:\n${sqlCode}\n para obtener la siguiente información \n${this.point.question}\n.
+    Si la consulta es correcta, escribe: ¡ENHORABUENA!, imprime el resultado de la consulta y no escribas nada más.
+    \nSi la consulta es errónea, explica por qué está mal, proporciona su corrección y NUNCA ESCRIBAS ¡ENHORABUENA!.
+`;
+
 
     this.chatgpt.getChatResponse(prompt).subscribe((res: any) => {
       const respuesta = res.choices[0].message.content;
@@ -156,7 +154,7 @@ export class ChatbotComponent implements OnInit {
   continueOrClose(): void {
     if (this.isButtonClicked) {
       this.hideComponent();
-      if(this.level === '7'){
+      if (this.level === '7') {
         this.finalReached.emit();
       }
     } else {

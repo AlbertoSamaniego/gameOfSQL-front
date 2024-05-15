@@ -27,7 +27,7 @@ export class PointDetailComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.initComponent();
-    }, 100);
+    }, 200);
   }
 
   /**
