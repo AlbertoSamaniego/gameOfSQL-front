@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Point } from '../../../../../shared/interfaces/point.inteface';
 import { User } from '../../../../../shared/interfaces/user.interface';
 import { endpoints } from '../../../../../shared/constants/end-points';
@@ -26,16 +26,19 @@ export class ChatbotComponent implements OnInit {
   @Output() archievementGained: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() chatbotResponse: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() finalReached: EventEmitter<void> = new EventEmitter<void>();
+  @Output() showComponentEvent: EventEmitter<void> = new EventEmitter<void>();
   @ViewChild('userQueryTextarea') userQueryTextarea!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('shield') shield!: ElementRef<HTMLDivElement>;
   @ViewChild('container') container!: ElementRef<HTMLDivElement>;
   private imgPopup!: HTMLElement | null;
   private popupImage!: HTMLImageElement | null;
   public isButtonClicked: boolean = false;
+  public isLoadingResponse: boolean = false;
 
   constructor(
     private elementRef: ElementRef,
     private chatgpt: chatGPTService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   /**
@@ -58,6 +61,7 @@ export class ChatbotComponent implements OnInit {
   callChatGPT(): void {
     const sqlCode = this.userQueryTextarea.nativeElement.value;
     this.isButtonClicked = true;
+    this.isLoadingResponse = true;
 
     const prompt = `
     Según esta base de datos:\n${ddl}\nEvalúa si esta bien o mal la siguiente consulta:\n${sqlCode}\n para obtener la siguiente información \n${this.point.question}\n.
@@ -69,6 +73,14 @@ export class ChatbotComponent implements OnInit {
     this.chatgpt.getChatResponse(prompt).subscribe((res: any) => {
       const respuesta = res.choices[0].message.content;
       this.userQueryTextarea.nativeElement.value = respuesta;
+
+      this.cdr.detectChanges();
+
+      setTimeout(() => {
+        this.isLoadingResponse = false;
+        this.cdr.detectChanges();
+      }, 0);
+
       if (respuesta.includes('¡ENHORABUENA!')) {
         this.archievementGained.emit();
         this.chatbotResponse.emit(true);
@@ -170,5 +182,10 @@ export class ChatbotComponent implements OnInit {
     this.userQueryTextarea.nativeElement.value = '';
     this.container.nativeElement.style.display = 'none';
     this.chatbotHidden.emit();
+  }
+
+  showComponent(): void {
+    this.container.nativeElement.style.display = 'block';
+    this.showComponentEvent.emit(); // Emitir evento cuando se muestra el componente
   }
 }

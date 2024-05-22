@@ -39,6 +39,10 @@
   border: 2px solid var(--accent-dark);
   background-color: var(--accent-light);
   color: var(--primary-dark);
+
+  p {
+    color: var(--primary-light-light);
+  }
 }
 
 .modal-buttons {

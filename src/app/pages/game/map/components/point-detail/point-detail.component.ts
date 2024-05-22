@@ -16,6 +16,7 @@ export class PointDetailComponent implements OnInit {
   @Input() point: Point = {} as Point;
   @Input() currentUser: User | undefined = {} as User;
   @Output() hideComponentEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() showComponentEvent: EventEmitter<void> = new EventEmitter<void>();
   segments: string[] = [];
   currentSegmentIndex: number = 0;
 
@@ -126,5 +127,6 @@ export class PointDetailComponent implements OnInit {
     if (pointDetail) {
       pointDetail.style.display = 'block';
     }
+    this.showComponentEvent.emit();
   }
 }

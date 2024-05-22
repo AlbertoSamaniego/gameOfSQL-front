@@ -53,6 +53,8 @@ export class MapComponent implements AfterViewInit {
   public guessedIDPoints: string[] = [];
   public failedIDPoints: string[] = [];
   public finalPoint: Point | null = {} as Point;
+  private markers: L.Marker[] = [];
+  private loadedPoints: Point[] = [];
 
 
   constructor(
@@ -290,30 +292,20 @@ export class MapComponent implements AfterViewInit {
       iconUrl: '../../../assets/game/map/point-icon.png',
       iconSize: iconSize,
     });
+    this.loadedPoints = points;
     points.forEach(point => {
       if (point.coordinates !== false) {
         const coordinates = point.coordinates.split(',').map(coord => parseFloat(coord.trim()));
         const marker = L.marker(coordinates as L.LatLngExpression, { icon: customIcon }).addTo(this.map);
         marker.bindPopup(`<b>${point.title}</b>`);
 
-        marker.on('mouseover', () => {
-          marker.openPopup();
-        });
+        this.addMarkerEvents(marker, point);
 
-        marker.on('mouseout', () => {
-          marker.closePopup();
-        });
-
-        marker.on('click', () => {
-          if (this.pointDetailComponent) {
-            this.showChatbotComponent = false;
-            this.pointDetailComponent.showComponent(point);
-            this.selectedPoint = point;
-          }
-        });
+        this.markers.push(marker);
       }
     });
   }
+
 
   /**
    * Muestra la pantalla final del juego.
@@ -358,6 +350,24 @@ export class MapComponent implements AfterViewInit {
     this.map.fitBounds(bounds);
   }
 
+  private addMarkerEvents(marker: L.Marker, point: Point) {
+    marker.on('mouseover', () => {
+      marker.openPopup();
+    });
+
+    marker.on('mouseout', () => {
+      marker.closePopup();
+    });
+
+    marker.on('click', () => {
+      if (this.pointDetailComponent) {
+        this.showChatbotComponent = false;
+        this.pointDetailComponent.showComponent(point);
+        this.selectedPoint = point;
+      }
+    });
+  }
+
   @HostListener('document:keydown', ['$event'])
   /**
    * Maneja los eventos del teclado.
@@ -366,28 +376,35 @@ export class MapComponent implements AfterViewInit {
    * Si el usuario presiona Ctrl + D, cambia entre el modo día y el modo noche.
    * @param event - El evento del teclado.
    */
-  handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      this.modalActive = true;
-      if (this.modalActive) {
-        this.map.dragging.disable();
-        this.map.touchZoom.disable();
-        this.map.doubleClickZoom.disable();
-        this.map.scrollWheelZoom.disable();
-        this.map.boxZoom.disable();
-        this.map.keyboard.disable();
-        if (this.map.tap) this.map.tap.disable();
-      }
-    } else if ((event.ctrlKey || event.metaKey) && (event.key === 'f' || event.key === 'F')) {
-      if (this.gameConfig.fullScreen === "true") {
-        this.toggleFullScreen();
-      }
-    } else if ((event.ctrlKey || event.metaKey) && (event.key === 'd' || event.key === 'D')) {
-      if (this.gameConfig.dayNight === "true") {
-        this.toggleDayNight();
-      }
+  @HostListener('document:keydown', ['$event'])
+handleKeyboardEvent(event: KeyboardEvent) {
+  if (event.key === 'Escape') {
+    this.modalActive = true;
+    if (this.modalActive) {
+      this.map.dragging.disable();
+      this.map.touchZoom.disable();
+      this.map.doubleClickZoom.disable();
+      this.map.scrollWheelZoom.disable();
+      this.map.boxZoom.disable();
+      this.map.keyboard.disable();
+      if (this.map.tap) this.map.tap.disable();
+
+      this.markers.forEach(marker => {
+        marker.off('click');
+        marker.off('mouseover');
+        marker.off('mouseout');
+      });
+    }
+  } else if ((event.ctrlKey || event.metaKey) && (event.key === 'p' || event.key === 'P')) {
+    if (this.gameConfig.fullScreen === "true") {
+      this.toggleFullScreen();
+    }
+  } else if ((event.ctrlKey || event.metaKey) && (event.key === 'd' || event.key === 'D')) {
+    if (this.gameConfig.dayNight === "true") {
+      this.toggleDayNight();
     }
   }
+}
 
   /**
    * Navega al inicio del juego.
@@ -409,5 +426,21 @@ export class MapComponent implements AfterViewInit {
     this.map.boxZoom.enable();
     this.map.keyboard.enable();
     if (this.map.tap) this.map.tap.enable();
+
+    this.markers.forEach(marker => {
+      const markerLatLng = marker.getLatLng();
+      const point = this.loadedPoints.find(p => {
+        if (typeof p.coordinates === 'string') {
+          const coordinates = p.coordinates.split(',').map(coord => parseFloat(coord.trim()));
+          return markerLatLng.lat === coordinates[0] && markerLatLng.lng === coordinates[1];
+        }
+        return false;
+      });
+      if (point) {
+        this.addMarkerEvents(marker, point);
+      }
+    });
   }
+
+
 }

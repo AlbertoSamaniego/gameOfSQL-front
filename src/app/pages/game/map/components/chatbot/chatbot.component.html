@@ -11,12 +11,12 @@
       </div>
       <div class="buttons d-flex justify-content-between align-items-center mt-2">
         <div class="hints d-flex">
-          <div class="hint-link hint-link-1" (click)="displayHint(0)" [class.disabled]="hintsClicked.includes(0)"></div>
-          <div class="hint-link hint-link-2" (click)="displayHint(1)" [class.disabled]="hintsClicked.includes(1)"></div>
-          <div class="hint-link hint-link-3" (click)="displayHint(2)" [class.disabled]="hintsClicked.includes(2)"></div>
+          <div class="hint-link hint-link-1" (click)="displayHint(0)" [class.disabled]="hintsClicked.includes(0)"><span class="tooltiptext tooltiptext1">Cláusula JOIN</span></div>
+          <div class="hint-link hint-link-2" (click)="displayHint(1)" [class.disabled]="hintsClicked.includes(1)"><span class="tooltiptext tooltiptext2">Funciones de agregación</span></div>
+          <div class="hint-link hint-link-3" (click)="displayHint(2)" [class.disabled]="hintsClicked.includes(2)"><span class="tooltiptext tooltiptext3">Función LIKE</span></div>
         </div>
         <div class="submit">
-          <button (click)="continueOrClose()">{{ isButtonClicked ? 'CONTINUAR' : '¡LISTO!' }}</button>
+          <button (click)="continueOrClose()" [class.disabled]="isLoadingResponse">{{ isButtonClicked ? 'CONTINUAR' : '¡LISTO!' }}</button>
         </div>
       </div>
     </div>
